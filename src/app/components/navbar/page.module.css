@@ -1,0 +1,25 @@
+.navbar{
+    max-width: 1150px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+.gradienttext {
+    font-size: 27px;
+    font-weight: 600; /* Semi-bold */
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to right, #E7D700, #4F6F52);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+.navItems{
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    color: #4F6F52;
+}
+.navItemDiv:hover{
+    background-color: #4F6F52;
+    border-radius: 5px;
+}
+.navItemDiv:hover p{
+    color: white
+}

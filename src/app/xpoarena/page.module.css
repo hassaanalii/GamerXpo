@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+.parentdiv{
+    background-color: #F9F9F9;
+}
+.gradienttext {
+    font-size: 22px;
+    font-weight: 600; /* Semi-bold */
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to right, #E7D700 2%, #4F6F52 20%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.maindiv{
+    max-width: 1150px;
+    min-height: 92vh;
+    margin: 0 auto;
+    background-color: #F9F9F9;
+}
+
+.maintext{
+    font-size: 50px;
+    font-weight: 600;
+
+}
+
+.desctext{
+    font-size: 15px;
+    color: #535353;
+    
+
+}
+.but{
+    background-color: #4F6F52;
+    color:white;
+    width:100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+
+.but2{
+    cursor: pointer;
+    background-color: #F9F9F9;
+    color:#4F6F52;
+    border: 1px solid #4F6F52;
+    width:100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
