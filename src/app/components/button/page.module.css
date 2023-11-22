@@ -1,0 +1,10 @@
+.reservebutton{
+    width: 100%;
+    text-align: center;
+    background-color: #4F6F52;
+    border-radius: 5px;
+    padding: 10px 0;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+}
