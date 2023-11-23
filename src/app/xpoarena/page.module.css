@@ -64,7 +64,7 @@
 
 .booths{
     max-width: 1150px;
-    min-height: 200vh;
+    min-height: 160vh;
     margin: 0 auto;
     flex-wrap: wrap;
 }

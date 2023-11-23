@@ -54,11 +54,10 @@ export default async function XpoArena(){
                   <input class="w-full text-sm rounded-full py-2 pl-2 pr-4 bg-white focus:outline-none" type="search" placeholder="Search by Name" />
                 </div>
                 <Button text="Best Seller" classname="bestseller" />
-                <Button text="See All" classname="element-with-half-border" />
               </div>
           </div>
           <div className={` ${styles.mybooth} mt-10 flex justify-between `}>
-            {data.map((item, index)=>(
+            {data.slice(0,6).map((item, index)=>(
               <div key={index} className={` ${styles.boothdiv} `} >
                <div className={styles.imageContainer}>
                   <div className={styles.imageWrapper}>
@@ -84,7 +83,11 @@ export default async function XpoArena(){
             ))}
           </div>
         </div>
+        <div className='h-16 flex flex-center justify-center'>
+          <Button text="See All" classname="seeall" />
+        </div>
       </div>
+      
     </div>
   )
 }
