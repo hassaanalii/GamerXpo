@@ -9,8 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-const Reserve = () => {
-   
+const Reserve = () => {   
     const [selectedImage, setSelectedImage] = useState(null)
     const [boothName, setBoothName] = useState('');
     const [boothDescription, setBoothDescription] = useState('');
@@ -43,19 +42,23 @@ const Reserve = () => {
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
-                    theme: "light",
+                    theme: "dark",
                     });
 
-                    
-
             } else {
-                toast.error('Failed to submit form. Please try again later.');
-
+                toast.error('We encountered an unexpected issue while processing your request. Please try again later.', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    });
             }
         } catch (error) {
-            console.error('Error submitting form:', error);
             toast.error('Failed to submit form. Please try again later.');
-
         }
     };
     

@@ -8,3 +8,31 @@
     font-size: 13px;
     font-weight: 500;
 }
+.bestseller{
+    border:1px solid #D2D0D0;
+    width:100px;
+    height:100%;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #E8E7E7;
+}
+
+.element-with-half-border {
+    position: relative; /* Make sure this is relative so the pseudo-element is positioned correctly */
+    height: 100%;
+    font-size: 14px;
+    /* Other styles for your element */
+  }
+  
+  .element-with-half-border::after {
+    content: '';
+    position: absolute;
+    left: 10%; /* Adjust this value to control where the border starts */
+    bottom: 0;
+    width: 80%; /* Half the width of the element */
+
+    border-bottom: 2px solid #4F6F52;
+  }
+  

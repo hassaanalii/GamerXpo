@@ -55,3 +55,53 @@
     justify-content: center;
     border-radius: 20px;
 }
+.hr {
+    border-bottom:1px rgb(123, 123, 123);
+    display:block;
+    width:50%;
+    text-align: center;
+}
+
+.booths{
+    max-width: 1150px;
+    min-height: 200vh;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+.boothdiv{
+    border-radius: 10px;
+    background-color: white;
+    width: 300px; /* Fixed width */
+    height: 500px; /* Fixed height */
+    flex-shrink: 0; /* Prevent the card from shrinking */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    overflow: hidden;
+    gap:5px
+}
+.imageContainer {
+    height: 400px; /* Fixed height for the image container */
+    width: 100%; /* Image container takes the full width of the card */
+    display: flex; /* Use flexbox to center the image */
+    align-items: center; /* Center the image vertically */
+    justify-content: center; /* Center the image horizontally */
+    overflow: hidden; /* Hide overflow */
+    background-color: white; /* Assuming the padding area should be white */
+    border-radius: 10px; /* Match the border radius with the parent if needed */
+  }
+  
+  /* Adjust your Image component within the container */
+  .imageWrapper {
+    
+    width: calc(100% - 40px); /* Subtract double the padding amount */
+    height: calc(100% - 40px); /* Subtract double the padding amount */
+    margin: 20px; /* Add margin to act as padding */
+  }
+  .image{
+    border:5px;
+  }
+
+.mybooth{
+    flex-wrap: wrap;
+    gap: 30px;
+}
