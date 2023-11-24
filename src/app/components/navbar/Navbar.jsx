@@ -16,21 +16,21 @@ const Navbar = () => {
             </Link>
         </div>
         <div className='flex items-center gap-10'>
-          <Link href="/xpoarena">
+          <Link href="/xpoarena/booths">
             <div className={`${styles.navItemDiv} p-2`}>
               <p className={styles.navItems}>Explore</p>
             </div>
           </Link>
-          <Link href="/xpoarena">
+          <Link href="/xpoarena/reserve">
             <div className={`${styles.navItemDiv} p-2`}>
               <p className={styles.navItems}>Reserve</p>
             </div>
           </Link>
-          <Link href="/xpoarena">
+          {/* <Link href="/xpoarena">
             <div className={`${styles.navItemDiv} p-2`}>
               <p className={styles.navItems}>Manage</p>
             </div>
-          </Link>
+          </Link> */}
         </div>
     </div>
     </div>

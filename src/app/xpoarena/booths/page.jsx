@@ -1,52 +1,27 @@
 import React from 'react'
 import styles from './page.module.css'
+import Button from '../../components/button/Button'
 import Image from 'next/image'
-import Button from '../components/button/Button'
-import Link from 'next/link'
+
+
 
 async function getData() {
-  const res = await fetch('http://127.0.0.1:8000/api/booth/', { next: { revalidate: 0 } })
-  //wait (Await) till the promise of fetch is resolved
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    const res = await fetch('http://127.0.0.1:8000/api/booth/', { next: { revalidate: 0 } })
+    //wait (Await) till the promise of fetch is resolved
+    if (!res.ok) {
+      throw new Error('Failed to fetch data')
+    }
+   
+    return res.json()
   }
- 
-  return res.json()
-}
-export default async function XpoArena(){
-  const data = await getData()
-  return (
-    <div className={styles.parentdiv}>
-      <div className={` ${styles.maindiv} flex`}>
-        <div className='w-1/2 flex'>
-          <div className='flex flex-col gap-3 mt-32'>
-            <p className={styles.gradienttext}>Game MarketPlace</p>
-            <p className={styles.maintext}>Reserve, Showcase, and Monetize Your Games</p>
-            <p className={styles.desctext}>Connect with gamers and industry peers in our dynamic marketplace. Secure a virtual booth for your developer team and make your mark in the gaming world.</p>
-            <div className='flex gap-4 mt-3'>
-              <Link href="/xpoarena/booths">
-                <div className={styles.but}>
-                  <p>Explore</p>
-                </div>
-              </Link>
-              <Link href="/xpoarena/reserve">
-                <div className={styles.but2}>
-                  <p>Reserve</p>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className='w-1/2 flex items-center justify-end'>
-          <Image src="/animation.svg" width={320} height={260} />
-        </div>
-      </div>
-      <div className="flex align-center justify-center mt-10">
-        <hr className={styles.hr} />
-      </div>
-      <div className='mt-10'>
-        <div className={styles.booths}>
-          <div className='flex flex-row align-center justify-between pt-6'> 
+
+export default async function Booths() {
+    const data = await getData()
+
+    return (
+        <div className={styles.parentdiv}>
+            <div className={styles.booths}>
+          <div className={` ${styles.innerbooth} flex flex-row align-center justify-between pt-6 `}> 
               <div className="flex justify-center items-center">
                 <p className='text-lg font-semibold'>Game Booths</p>
               </div>
@@ -61,7 +36,7 @@ export default async function XpoArena(){
               </div>
           </div>
           <div className={` ${styles.mybooth} mt-10 flex justify-between `}>
-            {data.slice(0,6).map((item, index)=>(
+            {data.map((item, index)=>(
               <div key={index} className={` ${styles.boothdiv} `} >
                <div className={styles.imageContainer}>
                   <div className={styles.imageWrapper}>
@@ -86,15 +61,11 @@ export default async function XpoArena(){
               </div>
             ))}
           </div>
+          <div className='pt-16 pb-16'>
+            
+          </div>
         </div>
-        <div className='h-16 flex flex-center justify-center'>
-          <Button text="See All" classname="seeall" />
         </div>
-      </div>
-      
-    </div>
   )
 }
-
-
 
