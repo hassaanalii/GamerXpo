@@ -1,0 +1,8 @@
+.maindiv{
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.parentdiv{
+    min-height: 92vh;
+    background-color: #F9F9F9;
+}

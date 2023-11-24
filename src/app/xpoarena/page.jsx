@@ -3,6 +3,8 @@ import styles from './page.module.css'
 import Image from 'next/image'
 import Button from '../components/button/Button'
 import Link from 'next/link'
+import SearchBar from '../components/searchbar/SearchBar'
+import Navbar from '../components/navbar/Navbar'
 
 async function getData() {
   const res = await fetch('http://127.0.0.1:8000/api/booth/', { next: { revalidate: 0 } })
@@ -15,7 +17,10 @@ async function getData() {
 }
 export default async function XpoArena(){
   const data = await getData()
+
   return (
+    <>
+    <Navbar />
     <div className={styles.parentdiv}>
       <div className={` ${styles.maindiv} flex`}>
         <div className='w-1/2 flex'>
@@ -51,17 +56,13 @@ export default async function XpoArena(){
                 <p className='text-lg font-semibold'>Game Booths</p>
               </div>
               <div className="flex align-center justify-center gap-6">
-                <div class="flex items-center rounded-full bg-white shadow-md"> 
-                  <svg class="w-5 h-5 ml-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10a4 4 0 11-2 3.464m2-3.464v-4m0 4H6" />
-                  </svg>
-                  <input class="w-full text-sm rounded-full py-2 pl-2 pr-4 bg-white focus:outline-none" type="search" placeholder="Search by Name" />
-                </div>
+                <SearchBar />
                 <Button text="Best Seller" classname="bestseller" />
               </div>
           </div>
           <div className={` ${styles.mybooth} mt-10 flex justify-between `}>
             {data.slice(0,6).map((item, index)=>(
+              <Link href={`/xpoarena/booths/${item.name}`}>
               <div key={index} className={` ${styles.boothdiv} `} >
                <div className={styles.imageContainer}>
                   <div className={styles.imageWrapper}>
@@ -84,15 +85,19 @@ export default async function XpoArena(){
                   <h1 className='text-[10px] text-center'>Total Games</h1>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
-        <div className='h-16 flex flex-center justify-center'>
-          <Button text="See All" classname="seeall" />
-        </div>
+        <Link href="/xpoarena/booths">
+          <div className='h-16 flex flex-center justify-center'>
+            <Button text="See All" classname="seeall" />
+          </div>
+        </Link>
       </div>
       
     </div>
+    </>
   )
 }
 

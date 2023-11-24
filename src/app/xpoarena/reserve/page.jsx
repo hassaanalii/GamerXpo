@@ -6,6 +6,7 @@ import UploadButton from '@/app/components/uploadbutton/UploadButton'
 import Button from '@/app/components/button/Button'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from '@/app/components/navbar/Navbar'
 
 
 
@@ -63,6 +64,8 @@ const Reserve = () => {
     };
     
     return (
+    <>   
+    <Navbar /> 
     <div class="grid grid-cols-[3fr_2fr] divide-x">
         <div className={styles.innerdiv}>
             <Image src="/reserve.jpg" layout="fill"
@@ -97,6 +100,7 @@ const Reserve = () => {
         </div>
         
     </div>
+    </>
   )
 }
 

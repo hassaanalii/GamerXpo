@@ -2,6 +2,9 @@ import React from 'react'
 import styles from './page.module.css'
 import Button from '../../components/button/Button'
 import Image from 'next/image'
+import Link from 'next/link'
+import Navbar from '@/app/components/navbar/Navbar'
+
 
 
 
@@ -19,6 +22,8 @@ export default async function Booths() {
     const data = await getData()
 
     return (
+      <>
+      <Navbar />
         <div className={styles.parentdiv}>
             <div className={styles.booths}>
           <div className={` ${styles.innerbooth} flex flex-row align-center justify-between pt-6 `}> 
@@ -26,17 +31,13 @@ export default async function Booths() {
                 <p className='text-lg font-semibold'>Game Booths</p>
               </div>
               <div className="flex align-center justify-center gap-6">
-                <div class="flex items-center rounded-full bg-white shadow-md"> 
-                  <svg class="w-5 h-5 ml-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10a4 4 0 11-2 3.464m2-3.464v-4m0 4H6" />
-                  </svg>
-                  <input class="w-full text-sm rounded-full py-2 pl-2 pr-4 bg-white focus:outline-none" type="search" placeholder="Search by Name" />
-                </div>
+                
                 <Button text="Best Seller" classname="bestseller" />
               </div>
           </div>
           <div className={` ${styles.mybooth} mt-10 flex justify-between `}>
             {data.map((item, index)=>(
+            <Link href={`/xpoarena/booths/${item.name}`}>
               <div key={index} className={` ${styles.boothdiv} `} >
                <div className={styles.imageContainer}>
                   <div className={styles.imageWrapper}>
@@ -59,13 +60,15 @@ export default async function Booths() {
                   <h1 className='text-[10px] text-center'>Total Games</h1>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
           <div className='pt-16 pb-16'>
-            
+            Pagination here
           </div>
         </div>
         </div>
+    </>
   )
 }
 

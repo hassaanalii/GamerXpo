@@ -26,11 +26,6 @@ const Navbar = () => {
               <p className={styles.navItems}>Reserve</p>
             </div>
           </Link>
-          {/* <Link href="/xpoarena">
-            <div className={`${styles.navItemDiv} p-2`}>
-              <p className={styles.navItems}>Manage</p>
-            </div>
-          </Link> */}
         </div>
     </div>
     </div>
