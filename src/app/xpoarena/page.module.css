@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
 .parentdiv{
     background-color: #F9F9F9;
+    margin-top: 55px;
 }
 .gradienttext {
     font-size: 22px;

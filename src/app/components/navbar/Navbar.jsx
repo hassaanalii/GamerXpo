@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const Navbar = () => {
   return (
-    <div className='shadow-sm'>
+    <div className={` ${styles.top} shadow-sm`}>
     <div className={`${styles.navbar} h-16 my-0 mx-auto flex items-center justify-between`}>
         <div className='flex gap-3'>
             <div className='flex items-center'>

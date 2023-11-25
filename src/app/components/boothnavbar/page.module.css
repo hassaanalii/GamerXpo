@@ -1,6 +1,15 @@
 .navbar{
     max-width: 1100px;
 }
+.top{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    
+}
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
 .gradienttext {
     font-size: 27px;

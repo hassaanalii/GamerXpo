@@ -1,8 +1,23 @@
 .maindiv{
     max-width: 1100px;
     margin: 0 auto;
+    padding-top: 40px;
 }
 .parentdiv{
-    min-height: 92vh;
+    min-height: 200vh;
     background-color: #F9F9F9;
+}
+.developers{
+    margin-top: 80px;
+    width: 100%;
+
+}
+.innerdev{
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.info{
+    background-color: white;
+    border-radius: 5px;
 }

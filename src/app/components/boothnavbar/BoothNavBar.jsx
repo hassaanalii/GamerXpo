@@ -7,7 +7,7 @@ import SearchBar from '../searchbar/SearchBar'
 
 const BoothNavBar = () => {
   return (
-    <div className='shadow-sm'>
+    <div className={` ${styles.top} shadow-sm`}>
         <div>
             <Image className={styles.settings} src="/setting-lines.png" width={22} height={22} />
         </div>
@@ -25,15 +25,20 @@ const BoothNavBar = () => {
             
         </div>
         <div className='flex items-center gap-10'>
-          <SearchBar />  
+  
           <Link href="/xpoarena/booths">
             <div className={`${styles.navItemDiv} p-2`}>
-              <p className={styles.navItems}>Explore</p>
+              <p className={styles.navItems}>Games</p>
             </div>
           </Link>
           <Link href="/xpoarena/manage">
             <div className={`${styles.navItemDiv} p-2`}>
               <p className={styles.navItems}>Manage</p>
+            </div>
+          </Link>
+          <Link href="/xpoarena/manage">
+            <div className={`${styles.navItemDiv} p-2`}>
+              <p className={styles.navItems}>About Us</p>
             </div>
           </Link>
         </div>

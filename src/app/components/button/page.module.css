@@ -24,4 +24,11 @@
   .seeall{
     border-bottom: 2px solid #4F6F52;
   }
-  
+  .exploregames{
+    background-color: #4F6F52;
+    padding: 13px;
+    color:white;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 5px;
+  }

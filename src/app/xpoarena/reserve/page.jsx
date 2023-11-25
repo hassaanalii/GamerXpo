@@ -66,7 +66,7 @@ const Reserve = () => {
     return (
     <>   
     <Navbar /> 
-    <div class="grid grid-cols-[3fr_2fr] divide-x">
+    <div class={` ${styles.top} grid grid-cols-[3fr_2fr] divide-x`}>
         <div className={styles.innerdiv}>
             <Image src="/reserve.jpg" layout="fill"
               objectFit="cover"/>

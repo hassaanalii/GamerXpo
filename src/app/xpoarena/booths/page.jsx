@@ -26,16 +26,15 @@ export default async function Booths() {
       <Navbar />
         <div className={styles.parentdiv}>
             <div className={styles.booths}>
-          <div className={` ${styles.innerbooth} flex flex-row align-center justify-between pt-6 `}> 
+          <div className={` ${styles.innerbooth} flex flex-row align-center justify-between pt-7 `}> 
               <div className="flex justify-center items-center">
                 <p className='text-lg font-semibold'>Game Booths</p>
               </div>
               <div className="flex align-center justify-center gap-6">
-                
                 <Button text="Best Seller" classname="bestseller" />
               </div>
           </div>
-          <div className={` ${styles.mybooth} mt-10 flex justify-between `}>
+          <div className={` ${styles.mybooth} mt-5 flex justify-between `}>
             {data.map((item, index)=>(
             <Link href={`/xpoarena/booths/${item.name}`}>
               <div key={index} className={` ${styles.boothdiv} `} >
