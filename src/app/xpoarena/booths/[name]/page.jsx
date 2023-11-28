@@ -33,7 +33,7 @@ const page = ({params}) => {
 
   return (
     <>
-      <BoothNavBar />
+      <BoothNavBar showIcon={true} />
       <div className={styles.parentdiv}>
         <div className={styles.maindiv}>
           <div className='grid grid-cols-2 gap-x pt-28'>

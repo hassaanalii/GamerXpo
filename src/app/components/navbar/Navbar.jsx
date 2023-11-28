@@ -3,6 +3,8 @@ import styles from './page.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
 
+
+
 const Navbar = () => {
   return (
     <div className={` ${styles.top} shadow-sm`}>
