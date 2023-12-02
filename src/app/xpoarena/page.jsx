@@ -62,7 +62,7 @@ export default async function XpoArena(){
           </div>
           <div className={` ${styles.mybooth} mt-10 flex justify-between `}>
             {data.slice(0,6).map((item, index)=>(
-              <Link href={`/xpoarena/booths/${item.name}`}>
+              <Link href={`/xpoarena/booths/${item.id}`}>
               <div key={index} className={` ${styles.boothdiv} `} >
                <div className={styles.imageContainer}>
                   <div className={styles.imageWrapper}>

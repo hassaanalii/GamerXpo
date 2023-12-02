@@ -32,7 +32,7 @@ const page = () => {
 
   const fetchData = async (name) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/booth/?name=${name}`);
+      const response = await fetch(`http://127.0.0.1:8000/api/booth/?id=${name}`);
       if (response.ok) {
         const data = await response.json();
         setBoothInfo(data);
@@ -78,7 +78,7 @@ const page = () => {
                 theme: "dark",
                 });
               setTimeout(() => {
-                  router.push(`/xpoarena/booths/${boothName}`);
+                  router.push(`/xpoarena/booths/${boothId}`);
               }, 1000);
             
 

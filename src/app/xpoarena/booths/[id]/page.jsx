@@ -12,14 +12,14 @@ import Footer from '@/app/components/footer/Footer';
 const page = ({params}) => {
   const [boothInfo, setBoothInfo] = useState([])
   useEffect(() => {
-    if (params && params.name) {
-      fetchData(params.name);
+    if (params && params.id) {
+      fetchData(params.id);
     }
   }, []);
 
-  const fetchData = async (name) => {
+  const fetchData = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/booth/?name=${name}`);
+      const response = await fetch(`http://127.0.0.1:8000/api/booth/?id=${id}`);
       if (response.ok) {
         const data = await response.json();
         setBoothInfo(data);

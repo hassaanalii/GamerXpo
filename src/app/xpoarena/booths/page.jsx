@@ -16,7 +16,7 @@ async function getData() {
     }
    
     return res.json()
-  }
+}
 
 export default async function Booths() {
     const data = await getData()
@@ -36,7 +36,8 @@ export default async function Booths() {
           </div>
           <div className={` ${styles.mybooth} mt-5 flex justify-between `}>
             {data.map((item, index)=>(
-            <Link href={`/xpoarena/booths/${item.name}`}>
+            
+            <Link href={`/xpoarena/booths/${item.id}`}>
               <div key={index} className={` ${styles.boothdiv} `} >
                <div className={styles.imageContainer}>
                   <div className={styles.imageWrapper}>
