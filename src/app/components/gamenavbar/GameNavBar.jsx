@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image'
 import React from 'react'
 import styles from './page.module.css'
@@ -6,7 +7,7 @@ import SearchBar from '../searchbar/SearchBar'
 import { usePathname } from 'next/navigation'
 
 
-const BoothNavBar = (props) => {
+const GameNavBar = (props) => {
   const pathname = usePathname()
   return (
     <div className={` ${styles.top} shadow-sm`}>
@@ -27,13 +28,10 @@ const BoothNavBar = (props) => {
             </div>
             
         </div>
+        <SearchBar />
         <div className='flex items-center gap-10'>
   
-          <Link href={`${pathname}/games`}>
-            <div className={`${styles.navItemDiv} p-2`}>
-              <p className={styles.navItems}>Games</p>
-            </div>
-          </Link>
+          
           <Link href={`${pathname}/manage`}>
             <div className={`${styles.navItemDiv} p-2`}>
               <p className={styles.navItems}>Manage</p>
@@ -44,10 +42,15 @@ const BoothNavBar = (props) => {
               <p className={styles.navItems}>About Us</p>
             </div>
           </Link>
+          <Link href={`${pathname}`}>
+            <div className={`${styles.navItemDiv} p-2`}>
+              <p className={styles.navItems}>Favourites</p>
+            </div>
+          </Link>
         </div>
     </div>
     </div>
   )
 }
 
-export default BoothNavBar
+export default GameNavBar

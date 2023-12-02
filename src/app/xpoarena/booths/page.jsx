@@ -5,9 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/app/components/navbar/Navbar'
 
-
-
-
 async function getData() {
     const res = await fetch('http://127.0.0.1:8000/api/booth/', { next: { revalidate: 0 } })
     //wait (Await) till the promise of fetch is resolved
