@@ -5,6 +5,7 @@
 }
 .parentdiv{
     background-color: #F9F9F9;
+    min-height: 100vh;
 }
 .developers{
     margin-top: 80px;

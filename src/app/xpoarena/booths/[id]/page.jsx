@@ -1,4 +1,5 @@
 'use client'
+import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
 import BoothNavBar from '@/app/components/boothnavbar/BoothNavBar';
 import styles from "./page.module.css"
 import Image from 'next/image'
@@ -6,73 +7,105 @@ import Link from 'next/link'
 import Button from '@/app/components/button/Button';
 import Footer from '@/app/components/footer/Footer';
 import { usePathname } from 'next/navigation';
+import { useState, useEffect} from 'react';
 
 
-async function getData(id) {
-  const res = await fetch(`http://127.0.0.1:8000/api/games/?id=${id}`,  { next: { revalidate: 0 } })
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
-  }
- 
-  return res.json()
-}
-
-async function fetchData(id){
-  const res = await fetch(`http://127.0.0.1:8000/api/booth/?id=${id}`,  { next: { revalidate: 0 } })
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
-  }
-  return res.json()
-}
-
-export default async function page ({params}) {
+const page = ({params}) => {
+  const [boothData, setBoothData] = useState(null);
+  const [boothError, setBoothError] = useState(null);
+  const [gameData, setGameData] = useState(null);
+  const [gameError, setGameError] = useState(null);
+  const [expanded, setExpanded] = useState(true)
   const pathname = usePathname()
-  const boothInfo = await fetchData(params.id);
-  const gameData = await getData(params.id)
+
+  useEffect(() => {
+    const fetchBoothData = async (id) => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/booth/?id=${id}`,  { next: { revalidate: 0 } })
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setBoothData(result);
+      } catch (error) {
+        setBoothError(error.message);
+      }
+    };
+
+    const fetchGameData = async (id) => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/games/?id=${id}`,  { next: { revalidate: 0 } })
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setGameData(result);
+      } catch (error) {
+        setGameError(error.message);
+      }
+    };
+
+    fetchBoothData(params.id);
+    fetchGameData(params.id);
+  }, []);
+
+  if (gameError || boothError) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!gameData || !boothData) {
+    return <div>Loading...</div>;
+  }
+
   
   return (
     <>
       <BoothNavBar showIcon={true} />
-      <div className={styles.parentdiv}>
-        <div className={styles.maindiv}>
-          <div className='grid grid-cols-2 gap-x pt-28'>
-            <div className='flex flex-col gap-5 pt-20'>
-              <div className='flex flex-col'>
-                <p className='text-[45px] font-bold'>
-                  Welcome to
-                </p>
-                <p className='text-[45px] font-bold'>
-                  {`${boothInfo.name}!`}
-                </p>
-              </div>
-              <div className='flex flex-col gap-8'>
-                <p>{boothInfo.description}</p>
-                <Link href="/xpoarena">
-                  <Button text="Explore Games" classname="exploregames" />
-                </Link>
+      <div className={` ${styles.parentdiv} container grid grid-cols-6`}>
+        <div className="first col-span-1">
+        
+        </div>
+        <div className="middle col-span-4">
+          <div className={styles.maindiv}>
+            <div className='grid grid-cols-2 gap-x pt-28'>
+              <div className='flex flex-col gap-5 pt-20'>
+                <div className='flex flex-col'>
+                  <p className='text-[45px] font-bold'>
+                    Welcome to
+                  </p>
+                  <p className='text-[45px] font-bold'>
+                    {`${boothData.name}!`}
+                  </p>
+                </div>
+                <div className='flex flex-col gap-8'>
+                  <p>{boothData.description}</p>
+                  <Link href="/xpoarena">
+                    <Button text="Explore Games" classname="exploregames" />
+                  </Link>
 
+                </div>
               </div>
-            </div>
-            <div className='flex align-center justify-end'>
-              {boothInfo.image && (
-                <Image
-                  className="rounded-md"
-                  src={`http://127.0.0.1:8000/${boothInfo.image}`}
-                  width={300}
-                  height={300}
-                  alt="Booth Image"
-                />
-              )}
-              {!boothInfo.image && <p>No image available</p>}
+              <div className='flex align-center justify-end'>
+                {boothData.image && (
+                  <Image
+                    className="rounded-md"
+                    src={`http://127.0.0.1:8000/${boothData.image}`}
+                    width={300}
+                    height={300}
+                    alt="Booth Image"
+                  />
+                )}
+                {!boothData.image && <p>No image available</p>}
+              </div>
             </div>
           </div>
         </div>
-        <hr className='mt-10 w-1/2 text-center ml-auto mr-auto'/>
+        <div className='last col-span-1'></div>
       </div>
       <div className={`${styles.maingame} container grid grid-cols-6 pb-16`}>
       <div className="first col-span-1"></div>
       <div className="middle col-span-4 flex flex-col">
-        <div className='mt-16 gap-5 flex flex-col'>
+        <div className='gap-5 flex flex-col'>
           <div>
             <p className='text-xl font-bold'>Popular Games</p>
           </div>
@@ -116,3 +149,4 @@ export default async function page ({params}) {
   )
 }
 
+export default page
