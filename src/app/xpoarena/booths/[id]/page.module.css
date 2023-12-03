@@ -1,10 +1,9 @@
 .maindiv{
     max-width: 1100px;
     margin: 0 auto;
-    padding-top: 40px;
+    padding-top: 40px
 }
 .parentdiv{
-    min-height: 200vh;
     background-color: #F9F9F9;
 }
 .developers{
@@ -20,4 +19,8 @@
 .info{
     background-color: white;
     border-radius: 5px;
+}
+.maingame{
+    background-color: #F9F9F9;
+
 }

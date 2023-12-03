@@ -13,7 +13,7 @@ const GameNavBar = (props) => {
     <div className={` ${styles.top} shadow-sm`}>
         {props.showIcon &&
         <div>
-            <Image className={styles.settings} src="/setting-lines.png" width={22} height={22} />
+            <Image className={styles.settings} src="/settings.png" width={22} height={22} />
         </div>}
     <div className={`${styles.navbar} h-16 my-0 mx-auto flex items-center justify-between`}>
         <div className='flex gap-10'>

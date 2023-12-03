@@ -12,7 +12,6 @@ async function getData(title){
 }
 export default async function Game({params}){
     const data = await getData(params.title)
-    console.log(data)
     return (
         <div>{params.title}</div>
     )

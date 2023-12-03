@@ -12,7 +12,7 @@ const BoothNavBar = (props) => {
     <div className={` ${styles.top} shadow-sm`}>
         {props.showIcon &&
         <div>
-            <Image className={styles.settings} src="/setting-lines.png" width={22} height={22} />
+            <Image className={styles.settings} src="/settings.png" width={22} height={22} />
         </div>}
     <div className={`${styles.navbar} h-16 my-0 mx-auto flex items-center justify-between`}>
         <div className='flex gap-10'>
@@ -39,12 +39,12 @@ const BoothNavBar = (props) => {
               <p className={styles.navItems}>Manage</p>
             </div>
           </Link>
-          <Link href="/xpoarena/manage">
+          <Link href={`${pathname}/aboutus`}>
             <div className={`${styles.navItemDiv} p-2`}>
               <p className={styles.navItems}>About Us</p>
             </div>
           </Link>
-        </div>
+        </div>  
     </div>
     </div>
   )

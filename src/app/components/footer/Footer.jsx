@@ -2,13 +2,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import styles from "./page.module.css"
-const Footer = () => {
+const Footer = (props) => {
   return (
     <footer class={` ${styles.footer} text-white py-8`}>
         <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center px-4">
             <div class="flex items-center mb-4 lg:mb-0">
-                <Image className="h-8 w-auto mr-2" src="/mainlogo.png" width={500} height={300}/>
-                <h2 class="text-xl font-bold">XpoArena</h2>
+                {props.name=="10 Pearls" ? ( <> <h2 class="text-xl font-bold">10 Pearls</h2> </>) :  ( <> <Image className="h-8 w-auto mr-2" src="/mainlogo.png" width={500} height={300}/>
+                <h2 class="text-xl font-bold">XpoArena</h2> </>) }
+               
             </div>
 
             <div class="flex flex-col lg:flex-row items-center"> 
@@ -30,7 +31,9 @@ const Footer = () => {
         </div>
 
         <div class="container mx-auto mt-4 text-center">
-            <p class="text-gray-500 text-sm">© 2023 XpoArena. All Rights Reserved.</p>
+            {props.name === '10 Pearls' ? (<p class="text-gray-500 text-sm">© 2023 10Pearls. All Rights Reserved.</p>
+            ) : (<p class="text-gray-500 text-sm">© 2023 XpoArena. All Rights Reserved.</p>
+            ) }
         </div>
     </footer>
 
