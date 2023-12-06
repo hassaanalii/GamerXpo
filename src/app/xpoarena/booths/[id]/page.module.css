@@ -25,3 +25,117 @@
     background-color: #F9F9F9;
 
 }
+.sidebar{
+    width: 100%;
+    border: 2px solid black;
+    height: 100%;
+    background-color: white;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+.sidebar_top{
+    
+    display: flex;
+    align-content: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    gap: 1rem;
+    font-weight: bold;
+    border-bottom: 1px solid rgb(179, 175, 175);
+}
+
+.sidebar_img{
+    width:3.4rem;
+    height: 3.5rem;
+    object-fit: contain;
+    border-radius: 1rem;
+}
+
+.sidebar_list{
+    list-style: none;
+
+}
+.sidebar_link{
+    display: inline-block;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: black;
+    padding: 0.8rem 1rem;
+    display: flex;
+    background-color: rgb(87, 77, 77);
+    margin-bottom: 1rem;
+    border-radius: 0.8rem;
+    align-items: center;
+
+}
+.sidebar_link span{
+    margin-left: 0.6rem;
+}
+.link_icon{
+    display: inline-block;
+}
+
+.logo_name{
+    font-size: 20px;
+}
+
+.btn{
+    position: absolute;
+    top: 4.9rem; /* Adjust this to align with the XpoArena name */
+    left: 240px; /* Adjust this to move the button to the right of the sidebar */
+    border: none;
+    background-color: #fff;
+    width: 1.5rem;
+    height: 1.5rem;
+    border:1px solid #e5e7eb;
+    border-radius:50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9999; 
+    transition: left 0.3s ease, top 0.3s ease; /* Smooth transition for left and top properties */
+    /* Ensure the button is above other elements */
+}
+
+.collapsed {
+    width: 50px;
+
+    
+}
+.collapsed .link_name{
+    display: none;
+}
+
+.collapsed .logo_name {
+    display: none;
+}
+/* CSS */
+.btnCollapsed {
+    left: 40px; /* New left position when sidebar is collapsed */
+    top: 3.80rem; }
+
+    .sidebar_link::after {
+        content: attr(title); /* This will use the title attribute of the link as content */
+        visibility: hidden;
+        opacity: 0;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -60px; /* Use half of the width (120px / 2) to center the tooltip */
+        transition: opacity 0.3s ease-in-out;
+    }
+    
+    /* Show the tooltip text on hover */
+    .sidebar_link:hover::after {
+        visibility: visible;
+        opacity: 1;
+    }

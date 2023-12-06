@@ -15,6 +15,11 @@ const page = ({params, children}) => {
   const [boothError, setBoothError] = useState(null);
   const [gameData, setGameData] = useState(null);
   const [gameError, setGameError] = useState(null);
+  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(false);
+
+  const toggleSideBarCollapsedHandler = () =>{
+    setIsCollapsedSidebar(!isCollapsedSidebar);
+  }
   
   const pathname = usePathname()
 
@@ -60,9 +65,40 @@ const page = ({params, children}) => {
   
   return (
     <>
-      <BoothNavBar showIcon={true} />
+      
       <div className={` ${styles.parentdiv} container grid grid-cols-6`}>
         <div className="first col-span-1">
+       
+        <button className={`${styles.btn} ${isCollapsedSidebar ? styles.btnCollapsed : ''}`} onClick={toggleSideBarCollapsedHandler}>
+            <Image src="/back.png" width={22} height={22}/>
+        </button>
+    
+
+          <aside className={isCollapsedSidebar ? styles.collapsed : styles.sidebar}>
+            <div className={styles.sidebar_top}>
+              <Image src="/mainlogo.png" width={30} height={30} className={styles.sidebar_img} />
+              <p className={styles.logo_name}>XpoArena</p>
+            </div>
+            <ul className={styles.sidebar_list}>
+              <li className={styles.sidebar_item}>
+              <Link href={`${pathname}/games`} className={styles.sidebar_link} title="Games">
+                <Image src="/games.png" width={23} height={23} className={styles.link_icon}/>
+                <span className={styles.link_name}>Games</span>
+            </Link>
+
+
+                <Link href={`${pathname}/manage`} className={styles.sidebar_link}>
+                  <Image src="/editing.png" width={23} height={23} className={styles.link_icon}/>
+                  <span className={styles.link_name}>Manage</span>
+                </Link>
+                <Link href={`${pathname}/aboutus`} className={styles.sidebar_link}>
+                  <Image src="/editing.png" width={23} height={23} className={styles.link_icon}/>
+                  <span className={styles.link_name}>About Us</span>
+                </Link>
+
+              </li>
+            </ul>
+          </aside>
         </div>
         <div className="middle col-span-4">
           <div className={styles.maindiv}>
