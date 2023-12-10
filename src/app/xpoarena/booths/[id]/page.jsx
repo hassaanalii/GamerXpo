@@ -8,14 +8,13 @@ import Button from '@/app/components/button/Button';
 import Footer from '@/app/components/footer/Footer';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect} from 'react';
-const SidebarContext = createContext()
 
 const page = ({params, children}) => {
   const [boothData, setBoothData] = useState(null);
   const [boothError, setBoothError] = useState(null);
   const [gameData, setGameData] = useState(null);
   const [gameError, setGameError] = useState(null);
-  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(false);
+  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(true);
 
   const toggleSideBarCollapsedHandler = () =>{
     setIsCollapsedSidebar(!isCollapsedSidebar);
@@ -81,13 +80,14 @@ const page = ({params, children}) => {
             </div>
             <ul className={styles.sidebar_list}>
               <li className={styles.sidebar_item}>
-              <Link href={`${pathname}/games`} className={styles.sidebar_link} title="Games">
-                <Image src="/games.png" width={23} height={23} className={styles.link_icon}/>
-                <span className={styles.link_name}>Games</span>
-            </Link>
+                <Link href={`${pathname}/games`} className={styles.sidebar_link} title="Games">
+                  <Image src="/games.png" width={23} height={23} className={styles.link_icon}/>
+                  <span className={styles.link_name}>Games</span>
+              </Link>
+              </li>
+    
 
-
-                <Link href={`${pathname}/manage`} className={styles.sidebar_link}>
+                <Link href={`${pathname}/manage`} className={styles.sidebar_link} >
                   <Image src="/editing.png" width={23} height={23} className={styles.link_icon}/>
                   <span className={styles.link_name}>Manage</span>
                 </Link>
@@ -96,7 +96,7 @@ const page = ({params, children}) => {
                   <span className={styles.link_name}>About Us</span>
                 </Link>
 
-              </li>
+              
             </ul>
           </aside>
         </div>

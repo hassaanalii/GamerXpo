@@ -53,6 +53,7 @@
 }
 
 .sidebar_list{
+    margin-top: 40px;
     list-style: none;
 
 }
@@ -100,8 +101,9 @@
 }
 
 .collapsed {
-    width: 50px;
-
+    width: 100px;
+    padding: 20px;
+    
     
 }
 .collapsed .link_name{
@@ -111,12 +113,31 @@
 .collapsed .logo_name {
     display: none;
 }
+.collapsed .btn{
+    position: absolute;
+    top: 4.9rem; /* Adjust this to align with the XpoArena name */
+    left: 340px; /* Adjust this to move the button to the right of the sidebar */
+    border: none;
+    background-color: #fff;
+    width: 1.5rem;
+    height: 1.5rem;
+    border:1px solid #e5e7eb;
+    border-radius:50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9999; 
+    transition: left 0.3s ease, top 0.3s ease; /* Smooth transition for left and top properties */
+    /* Ensure the button is above other elements */
+}
 /* CSS */
 .btnCollapsed {
-    left: 40px; /* New left position when sidebar is collapsed */
-    top: 3.80rem; }
+    left: 65px; /* Adjust this value to where you want the arrow to be when collapsed */
+    top: 5rem;}
 
     .sidebar_link::after {
+        
         content: attr(title); /* This will use the title attribute of the link as content */
         visibility: hidden;
         opacity: 0;
