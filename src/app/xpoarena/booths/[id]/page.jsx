@@ -103,8 +103,8 @@ const page = ({params, children}) => {
 
   
   return (
-    <>
-      
+    
+      <div style={{backgroundColor: backgroundColor}} >
       <div className={` ${styles.parentdiv} container grid grid-cols-6`} style={{backgroundColor: backgroundColor}}>
         <div className="first col-span-1">
        
@@ -235,7 +235,10 @@ const page = ({params, children}) => {
       <div className="last col-span-1">Last Div (20%)</div>
     </div>
       <Footer />
-    </>
+    </div>
+    
+    
+    
   )
 }
 
