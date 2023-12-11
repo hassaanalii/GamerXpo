@@ -18,6 +18,7 @@ const page = ({params, children}) => {
   const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(false);
   const [isDropDownShown, setIsDropDownShown] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState('#F9F9F9'); 
+  const [selectedTheme, setSelectedTheme] = useState("")
 
   const colorList = [
     "#606c38",
@@ -44,6 +45,9 @@ const page = ({params, children}) => {
   const toggleSideBarCollapsedHandler = () =>{
     setIsCollapsedSidebar(!isCollapsedSidebar);
   }
+  const handleThemeChange = (event) => {
+    setSelectedTheme(event.target.value);
+  };
   const handleClick = () =>{
     setIsCollapsedSidebar(!isCollapsedSidebar)
   }
@@ -149,6 +153,42 @@ const page = ({params, children}) => {
                   </div>
                 </div>
               </li>
+              <li>
+                <div className={styles.themeSelector}>
+                  <p>Select a Theme:</p>
+                  <form>
+                    <label>
+                      <input type="radio" value="Adrenaline Rush" name="theme" onChange={handleThemeChange} checked={selectedTheme === 'Adrenaline Rush'} />
+                      Adrenaline Rush
+                    </label>
+                    <label>
+                      <input type="radio" value="Explorer's Realm" name="theme" onChange={handleThemeChange} checked={selectedTheme === "Explorer's Realm"} />
+                      Explorer's Realm
+                    </label>
+                    <label>
+                      <input type="radio" value="Mind Bender" name="theme" onChange={handleThemeChange} checked={selectedTheme === 'Mind Bender'} />
+                      Mind Bender
+                    </label>
+                    <label>
+                      <input type="radio" value="Champion's Field" name="theme" onChange={handleThemeChange} checked={selectedTheme === "Champion's Field"} />
+                      Champion's Field
+                    </label>
+                    <label>
+                      <input type="radio" value="Haunting Grounds" name="theme" onChange={handleThemeChange} checked={selectedTheme === 'Haunting Grounds'} />
+                      Haunting Grounds
+                    </label>
+                    <label>
+                      <input type="radio" value="Arcade Classics" name="theme" onChange={handleThemeChange} checked={selectedTheme === 'Arcade Classics'} />
+                      Arcade Classics
+                    </label>
+                    <label>
+                      <input type="radio" value="Bullet Storm" name="theme" onChange={handleThemeChange} checked={selectedTheme === 'Bullet Storm'} />
+                      Bullet Storm
+                    </label>
+                  </form>
+                </div>
+              </li>
+
 
               
             </ul>
@@ -156,36 +196,25 @@ const page = ({params, children}) => {
         </div>
         <div className="middle col-span-4">
           <div className={styles.maindiv}>
-            <div className='grid grid-cols-2 gap-x pt-28'>
-              <div className='flex flex-col gap-5 pt-20'>
-                <div className='flex flex-col'>
-                  <p className='text-[45px] font-bold'>
+            <div className='w-1/2 pt-28'>
+              <div className='flex flex-col gap-5 pt-16'>
+                <div className='flex flex-col items-center'>
+                  <p className='text-[52px] font-bold'>
                     Welcome to
                   </p>
-                  <p className='text-[45px] font-bold'>
+                  <p className='text-[72px] font-bold'>
                     {`${boothData.name}!`}
                   </p>
                 </div>
-                <div className='flex flex-col gap-8'>
-                  <p>{boothData.description}</p>
+                <div className='flex flex-col items-center gap-8'>
+                  <p className="text-center">{boothData.description}</p>
                   <Link href="/xpoarena">
                     <Button text="Explore Games" classname="exploregames" />
                   </Link>
 
                 </div>
               </div>
-              <div className='flex align-center justify-end'>
-                {boothData.image && (
-                  <Image
-                    className="rounded-md"
-                    src={`http://127.0.0.1:8000/${boothData.image}`}
-                    width={300}
-                    height={300}
-                    alt="Booth Image"
-                  />
-                )}
-                {!boothData.image && <p>No image available</p>}
-              </div>
+             
             </div>
           </div>
         </div>
@@ -232,7 +261,7 @@ const page = ({params, children}) => {
 
         </div>
       </div>
-      <div className="last col-span-1">Last Div (20%)</div>
+      <div className="last col-span-1"></div>
     </div>
       <Footer />
     </div>

@@ -1,7 +1,10 @@
 .maindiv{
     max-width: 1100px;
     margin: 0 auto;
-    padding-top: 40px
+    padding-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .parentdiv{
 
