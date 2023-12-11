@@ -4,7 +4,7 @@
     padding-top: 40px
 }
 .parentdiv{
-    background-color: #F9F9F9;
+
     min-height: 100vh;
 }
 .developers{
@@ -102,10 +102,9 @@
 
 .collapsed {
     width: 100px;
-    padding: 20px;
-    
-    
+    padding: 20px;  
 }
+
 .collapsed .link_name{
     display: none;
 }
@@ -113,6 +112,7 @@
 .collapsed .logo_name {
     display: none;
 }
+
 .collapsed .btn{
     position: absolute;
     top: 4.9rem; /* Adjust this to align with the XpoArena name */
@@ -134,29 +134,29 @@
 /* CSS */
 .btnCollapsed {
     left: 65px; /* Adjust this value to where you want the arrow to be when collapsed */
-    top: 5rem;}
+    top: 5rem;
+}
+.sidebar_link{
+    display: flex;
+    flex-direction: row;
+}
 
-    .sidebar_link::after {
-        
-        content: attr(title); /* This will use the title attribute of the link as content */
-        visibility: hidden;
-        opacity: 0;
-        width: 120px;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px 0;
-        position: absolute;
-        z-index: 1;
-        bottom: 100%;
-        left: 50%;
-        margin-left: -60px; /* Use half of the width (120px / 2) to center the tooltip */
-        transition: opacity 0.3s ease-in-out;
-    }
+.collapsed .downArrow{
+    display: none;
+}
+.downArrow{
+    margin-left: 70px;
+}
+.collapsed .colors{
+    display: none;
+}
+.colors{
+    padding:15px;
+    border: 2px solid black;
+}
+.colorList{
     
-    /* Show the tooltip text on hover */
-    .sidebar_link:hover::after {
-        visibility: visible;
-        opacity: 1;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+    gap:0.6rem;
+}

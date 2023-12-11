@@ -8,18 +8,58 @@ import Button from '@/app/components/button/Button';
 import Footer from '@/app/components/footer/Footer';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect} from 'react';
+import ColorItem from "@/app/components/coloritem/ColorItem";
 
 const page = ({params, children}) => {
   const [boothData, setBoothData] = useState(null);
   const [boothError, setBoothError] = useState(null);
   const [gameData, setGameData] = useState(null);
   const [gameError, setGameError] = useState(null);
-  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(true);
+  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(false);
+  const [isDropDownShown, setIsDropDownShown] = useState(false);
+  const [backgroundColor, setBackgroundColor] = useState('#F9F9F9'); 
+
+  const colorList = [
+    "#606c38",
+    "#fefae0",
+    "#dda15e",
+    "#cdb4db",
+    "#ffc8dd",
+    "#a2d2ff",
+    "#ffb703",
+    "#780000",
+    "#dad7cd",
+    "#3a5a40",
+    "#d5bdaf",
+    "#003049",
+    "#264653",
+    "#d6ccc2",
+    "#ffd6ff",
+    "#bc4749",
+    "#6c757d",
+    "#ffffff",
+    "#000000",
+  ]
 
   const toggleSideBarCollapsedHandler = () =>{
     setIsCollapsedSidebar(!isCollapsedSidebar);
   }
-  
+  const handleClick = () =>{
+    setIsCollapsedSidebar(!isCollapsedSidebar)
+  }
+  const handleDropDown = () =>{
+    setIsDropDownShown(!isDropDownShown)
+  }
+  const decisionFunction = () =>{
+    if (isCollapsedSidebar){
+      handleClick();
+    }
+    else{
+      handleDropDown();
+    }
+
+
+  }  
   const pathname = usePathname()
 
   useEffect(() => {
@@ -65,7 +105,7 @@ const page = ({params, children}) => {
   return (
     <>
       
-      <div className={` ${styles.parentdiv} container grid grid-cols-6`}>
+      <div className={` ${styles.parentdiv} container grid grid-cols-6`} style={{backgroundColor: backgroundColor}}>
         <div className="first col-span-1">
        
         <button className={`${styles.btn} ${isCollapsedSidebar ? styles.btnCollapsed : ''}`} onClick={toggleSideBarCollapsedHandler}>
@@ -85,16 +125,30 @@ const page = ({params, children}) => {
                   <span className={styles.link_name}>Games</span>
               </Link>
               </li>
-    
-
+              <li>
                 <Link href={`${pathname}/manage`} className={styles.sidebar_link} >
                   <Image src="/editing.png" width={23} height={23} className={styles.link_icon}/>
                   <span className={styles.link_name}>Manage</span>
                 </Link>
+              </li>
+              <li>
                 <Link href={`${pathname}/aboutus`} className={styles.sidebar_link}>
                   <Image src="/editing.png" width={23} height={23} className={styles.link_icon}/>
                   <span className={styles.link_name}>About Us</span>
                 </Link>
+              </li>
+              <li>
+                <Link href="" className={styles.sidebar_link} title="Background Color" onClick={decisionFunction}>
+                  <Image src="/editing.png" width={23} height={23} className={styles.link_icon}/>
+                  <span className={styles.link_name}>About Us</span>
+                  <Image src="/downarrow.png" width={14} height={14} className={styles.downArrow}/>
+                </Link>
+                <div className={`${styles.colors} ${isDropDownShown ? 'max-h-screen' : 'hidden'} overflow-hidden transition-max-height duration-300 ease-in-out`}>
+                  <div className={styles.colorList}>
+                      {colorList.map((color, index) => <ColorItem color={color} onColorClick={()=> setBackgroundColor(color)}/>)}
+                  </div>
+                </div>
+              </li>
 
               
             </ul>

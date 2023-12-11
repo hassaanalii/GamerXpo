@@ -1,0 +1,8 @@
+.ColorItem{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: var(--bg-color);
+    border: 1px solid rgb(134, 131, 131)
+
+}
