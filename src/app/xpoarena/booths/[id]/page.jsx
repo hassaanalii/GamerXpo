@@ -15,6 +15,8 @@ const page = ({params, children}) => {
   const [boothError, setBoothError] = useState(null);
   const [gameData, setGameData] = useState(null);
   const [gameError, setGameError] = useState(null);
+  const [themeData, setThemeData] = useState(null);
+  const [themeError, setThemeError] = useState(null);
   const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(false);
   const [isDropDownShown, setIsDropDownShown] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState('#F9F9F9'); 
@@ -47,7 +49,21 @@ const page = ({params, children}) => {
   }
   const handleThemeChange = (event) => {
     setSelectedTheme(event.target.value);
+    fetchThemeDetails(event.target.value);
   };
+
+  const fetchThemeDetails = async(name) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/theme/?name=${name}`)
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      setThemeData(result);
+    } catch (error) {
+      setThemeError(error.message);
+    }
+  }
   const handleClick = () =>{
     setIsCollapsedSidebar(!isCollapsedSidebar)
   }
@@ -104,6 +120,7 @@ const page = ({params, children}) => {
   if (!gameData || !boothData) {
     return <div>Loading...</div>;
   }
+  console.
 
   
   return (
