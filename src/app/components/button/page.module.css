@@ -32,3 +32,17 @@
     font-weight: 500;
     border-radius: 5px;
   }
+  .myboothbutton{
+    padding: 10px;
+    width: 150px;
+    height: 50px;
+    background-color: black;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+  }
+  .myboothbutton:hover{
+    background-color: white;
+    color:black;
+    border: 2px solid black
+  }

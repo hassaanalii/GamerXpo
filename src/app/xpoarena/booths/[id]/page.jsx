@@ -10,6 +10,8 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect} from 'react';
 import ColorItem from "@/app/components/coloritem/ColorItem";
 import Head from 'next/head';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const page = ({params, children}) => {
   const [boothData, setBoothData] = useState(null);
@@ -18,10 +20,14 @@ const page = ({params, children}) => {
   const [gameError, setGameError] = useState(null);
   const [themeData, setThemeData] = useState(null);
   const [themeError, setThemeError] = useState(null);
-  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(true);
+  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(false);
   const [isDropDownShown, setIsDropDownShown] = useState(false);
+  const [isDropDownShownForFont, setIsDropDownShownForFont] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState('#F9F9F9'); 
+  const [fontColor, setFontColor] = useState('#000000');
   const [selectedTheme, setSelectedTheme] = useState("")
+
+
 
   const colorList = [
     "#606c38",
@@ -71,6 +77,9 @@ const page = ({params, children}) => {
   const handleDropDown = () =>{
     setIsDropDownShown(!isDropDownShown)
   }
+  const handleDropDownForFont = () =>{
+    setIsDropDownShownForFont(!isDropDownShownForFont)
+  }
   const decisionFunction = () =>{
     if (isCollapsedSidebar){
       handleClick();
@@ -78,9 +87,62 @@ const page = ({params, children}) => {
     else{
       handleDropDown();
     }
-
-
   }  
+
+  const decisionFunctionForFont = () =>{
+    if (isCollapsedSidebar){
+      handleClick();
+    }
+    else{
+      handleDropDownForFont();
+    }
+  } 
+  console.log(backgroundColor)
+  console.log(fontColor)
+  const postBoothCustomizations = async () => {
+    const formData = new FormData();
+    formData.append('booth', params.id);
+    formData.append('theme', themeData.id);
+    formData.append('background_color', backgroundColor);
+    formData.append('font_color', fontColor);
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/customizedbooth/', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (response.ok) {
+            toast.success('Customizations Added Successfully', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
+
+        } else {
+            const errorResult = await response.json();
+            console.error('Error from server:', errorResult);
+            toast.error('We encountered an unexpected issue while processing your request. Please try again later.', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
+        }
+    } catch (error) {
+        toast.error('Failed to submit form. Please try again later.');
+    }
+  };
+
   const pathname = usePathname()
 
   useEffect(() => {
@@ -118,8 +180,6 @@ const page = ({params, children}) => {
       link.rel = 'stylesheet';
       
       document.head.appendChild(link);
-
-      // Optional: Remove the link when the component unmounts or theme changes
       return () => {
         document.head.removeChild(link);
       };
@@ -140,14 +200,12 @@ const page = ({params, children}) => {
   return (
     <>
       <div>
+
       <div className={` ${styles.parentdiv} container grid grid-cols-6`}>
         <div className="first col-span-1">
-       
         <button className={`${styles.btn} ${isCollapsedSidebar ? styles.btnCollapsed : ''}`} onClick={toggleSideBarCollapsedHandler}>
             <Image src="/back.png" width={22} height={22}/>
         </button>
-    
-
           <aside className={isCollapsedSidebar ? styles.collapsed : styles.sidebar}>
             <div className={styles.sidebar_top}>
               <Image src="/mainlogo.png" width={30} height={30} className={styles.sidebar_img} />
@@ -175,12 +233,24 @@ const page = ({params, children}) => {
               <li>
                 <Link href="" className={styles.sidebar_link} title="Background Color" onClick={decisionFunction}>
                   <Image src="/editing.png" width={23} height={23} className={styles.link_icon}/>
-                  <span className={styles.link_name}>About Us</span>
+                  <span className={styles.link_name}>Background Color</span>
                   <Image src="/downarrow.png" width={14} height={14} className={styles.downArrow}/>
                 </Link>
                 <div className={`${styles.colors} ${isDropDownShown ? 'max-h-screen' : 'hidden'} overflow-hidden transition-max-height duration-300 ease-in-out`}>
                   <div className={styles.colorList}>
                       {colorList.map((color, index) => <ColorItem color={color} onColorClick={()=> setBackgroundColor(color)}/>)}
+                  </div>
+                </div>
+              </li>
+              <li>
+                <Link href="" className={styles.sidebar_link} title="Font Color" onClick={decisionFunctionForFont}>
+                  <Image src="/editing.png" width={23} height={23} className={styles.link_icon}/>
+                  <span className={styles.link_name}>Font Color</span>
+                  <Image src="/downarrow.png" width={14} height={14} className={styles.downArrow}/>
+                </Link>
+                <div className={`${styles.colors} ${isDropDownShownForFont ? 'max-h-screen' : 'hidden'} overflow-hidden transition-max-height duration-300 ease-in-out`}>
+                  <div className={styles.colorList}>
+                      {colorList.map((color, index) => <ColorItem color={color} onColorClick={()=> setFontColor(color)}/>)}
                   </div>
                 </div>
               </li>
@@ -219,6 +289,13 @@ const page = ({params, children}) => {
                   </form>
                 </div>
               </li>
+              <li>
+                <div className="flex flex-row gap-2">
+                  <button onClick={postBoothCustomizations}>Save</button>
+                  <button>Reset</button>
+                </div>
+                
+              </li>
 
 
               
@@ -236,18 +313,17 @@ const page = ({params, children}) => {
                 
                 />
             )}
-            <div className='w-1/2 pt-28'>
-              <div className='flex flex-col gap-5 pt-16'>
-                <div className='flex flex-col items-center'>
-                 
-                  <p className='text-[72px] font-bold' style={{ fontFamily: themeData?.font_name || 'defaultFontFamily', color: themeData?.font_color || '#000000'}}>
+            <div className='w-full pt-28'>
+              <div className='flex flex-col'>
+                <div className='flex flex-col '>
+                  <p className='text-[110px] font-bold' style={{ fontFamily: themeData?.font_name || 'defaultFontFamily', color: fontColor || '#000000'}}>
                     {boothData?.name}!
                   </p>
                 </div>
-                <div className='flex flex-col items-center gap-8'>
+                <div className='flex flex-col'>
                   
                   <Link href="/xpoarena">
-                    <Button text="Explore Games" classname="exploregames" />
+                    <Button text="Explore Games" classname="myboothbutton" />
                   </Link>
 
                 </div>
@@ -260,17 +336,17 @@ const page = ({params, children}) => {
       </div>
       <div className={`${styles.maingame} container grid grid-cols-6 pb-16`} style={{backgroundColor: backgroundColor}}>
       <div className="first col-span-1"></div>
-      <div className="middle col-span-4 flex flex-col">
+      <div className="middle col-span-4 flex flex-col mt-16">
         <div className='gap-5 flex flex-col'>
           <div>
-            <p className='text-xl font-bold'>Popular Games</p>
+            <p className='text-3xl font-bold' style={{color: backgroundColor === '#FFFFFF' ? '#000000' : backgroundColor === '#000000' ? '#FFFFFF' : 'initial' }}>Popular Games</p>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-4 mt-5 gap-4">
             {gameData.map((game, index) => (
               <Link href={`${pathname}/${game.title}`}>
                 <div
                   key={game.id}
-                  className="flex flex-col overflow-hidden border border-gray-200 rounded-lg hover:shadow-lg hover:border-black transform hover:scale-105 transition duration-300 cursor-pointer"
+                  className="flex flex-col bg-white overflow-hidden border border-gray-200 rounded-lg hover:shadow-lg hover:border-black transform hover:scale-105 transition duration-300 cursor-pointer"
                 >
                   <Image
                     src={game.image_url}
@@ -279,7 +355,7 @@ const page = ({params, children}) => {
                     height={90}
                     layout="responsive"
                     objectFit="cover"
-                    className="rounded-t-lg" // Top rounded corners for the image
+                    className="rounded-t-lg"
                   />
                   <div className="p-5 flex flex-col gap-4">
                     <div>

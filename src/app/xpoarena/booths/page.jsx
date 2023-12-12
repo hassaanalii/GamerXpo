@@ -42,9 +42,9 @@ export default async function Booths() {
                       src={`http://127.0.0.1:8000${item.image}`} 
                       alt={item.name} 
                       className={styles.image}
-                      width={360} /* Adjust the width to maintain the aspect ratio */
-                      height={240} /* Adjust the height to maintain the aspect ratio */
-                      objectFit='cover' /* Will cover the area of the div, may crop the image */
+                      width={360} 
+                      height={240}
+                      objectFit='cover' 
                     />
                   </div>
                 </div>
