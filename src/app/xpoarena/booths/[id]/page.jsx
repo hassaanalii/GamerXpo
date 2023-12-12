@@ -9,6 +9,7 @@ import Footer from '@/app/components/footer/Footer';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect} from 'react';
 import ColorItem from "@/app/components/coloritem/ColorItem";
+import Head from 'next/head';
 
 const page = ({params, children}) => {
   const [boothData, setBoothData] = useState(null);
@@ -111,7 +112,19 @@ const page = ({params, children}) => {
 
     fetchBoothData(params.id);
     fetchGameData(params.id);
-  }, []);
+    if (themeData?.font_name) {
+      const link = document.createElement('link');
+      link.href = `https://fonts.googleapis.com/css?family=${themeData.font_name.replace(/\s+/g, '+')}:wght@400;700&display=swap`;
+      link.rel = 'stylesheet';
+      
+      document.head.appendChild(link);
+
+      // Optional: Remove the link when the component unmounts or theme changes
+      return () => {
+        document.head.removeChild(link);
+      };
+    }
+  }, [themeData]);
 
   if (gameError || boothError) {
     return <div>Error: {error}</div>;
@@ -120,10 +133,12 @@ const page = ({params, children}) => {
   if (!gameData || !boothData) {
     return <div>Loading...</div>;
   }
-  console.log(themeData)
+  {themeData &&
+    console.log(themeData.font_name) 
+  }
 
   return (
-    
+    <>
       <div>
       <div className={` ${styles.parentdiv} container grid grid-cols-6`}>
         <div className="first col-span-1">
@@ -225,8 +240,8 @@ const page = ({params, children}) => {
               <div className='flex flex-col gap-5 pt-16'>
                 <div className='flex flex-col items-center'>
                  
-                  <p className='text-[72px] font-bold'>
-                    {`${boothData.name}!`}
+                  <p className='text-[72px] font-bold' style={{ fontFamily: themeData?.font_name || 'defaultFontFamily', color: themeData?.font_color || '#000000'}}>
+                    {boothData?.name}!
                   </p>
                 </div>
                 <div className='flex flex-col items-center gap-8'>
@@ -288,10 +303,9 @@ const page = ({params, children}) => {
     </div>
       <Footer />
     </div>
-    
-    
-    
+    </>
   )
+  
 }
 
 export default page
