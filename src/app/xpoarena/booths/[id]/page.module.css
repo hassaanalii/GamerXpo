@@ -1,10 +1,12 @@
 .maindiv{
-    max-width: 1100px;
-    margin: 0 auto;
-    padding-top: 40px;
-    display: flex;
+    
+    width: 100%;
+    margin-top: 100px;
+    margin-left: 200px;
+    
+    /* display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
 }
 .parentdiv{
 
@@ -160,3 +162,16 @@
     grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
     gap:0.6rem;
 }
+
+.backgroundVideo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100; /* Ensure it's in the background */
+    background-size: cover;
+  }
+  

@@ -17,7 +17,7 @@ const page = ({params, children}) => {
   const [gameError, setGameError] = useState(null);
   const [themeData, setThemeData] = useState(null);
   const [themeError, setThemeError] = useState(null);
-  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(false);
+  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(true);
   const [isDropDownShown, setIsDropDownShown] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState('#F9F9F9'); 
   const [selectedTheme, setSelectedTheme] = useState("")
@@ -120,13 +120,12 @@ const page = ({params, children}) => {
   if (!gameData || !boothData) {
     return <div>Loading...</div>;
   }
-  console.
+  console.log(themeData)
 
-  
   return (
     
-      <div style={{backgroundColor: backgroundColor}} >
-      <div className={` ${styles.parentdiv} container grid grid-cols-6`} style={{backgroundColor: backgroundColor}}>
+      <div>
+      <div className={` ${styles.parentdiv} container grid grid-cols-6`}>
         <div className="first col-span-1">
        
         <button className={`${styles.btn} ${isCollapsedSidebar ? styles.btnCollapsed : ''}`} onClick={toggleSideBarCollapsedHandler}>
@@ -211,20 +210,27 @@ const page = ({params, children}) => {
             </ul>
           </aside>
         </div>
-        <div className="middle col-span-4">
+        <div className="middle col-span-5">
           <div className={styles.maindiv}>
+              {themeData && themeData.theme_video && (
+                <video
+                  className={styles.backgroundVideo} 
+                  src={`http://127.0.0.1:8000/${themeData.theme_video}`}
+                  autoPlay
+                  loop
+                
+                />
+            )}
             <div className='w-1/2 pt-28'>
               <div className='flex flex-col gap-5 pt-16'>
                 <div className='flex flex-col items-center'>
-                  <p className='text-[52px] font-bold'>
-                    Welcome to
-                  </p>
+                 
                   <p className='text-[72px] font-bold'>
                     {`${boothData.name}!`}
                   </p>
                 </div>
                 <div className='flex flex-col items-center gap-8'>
-                  <p className="text-center">{boothData.description}</p>
+                  
                   <Link href="/xpoarena">
                     <Button text="Explore Games" classname="exploregames" />
                   </Link>
@@ -235,9 +241,9 @@ const page = ({params, children}) => {
             </div>
           </div>
         </div>
-        <div className='last col-span-1'></div>
+       
       </div>
-      <div className={`${styles.maingame} container grid grid-cols-6 pb-16`}>
+      <div className={`${styles.maingame} container grid grid-cols-6 pb-16`} style={{backgroundColor: backgroundColor}}>
       <div className="first col-span-1"></div>
       <div className="middle col-span-4 flex flex-col">
         <div className='gap-5 flex flex-col'>
