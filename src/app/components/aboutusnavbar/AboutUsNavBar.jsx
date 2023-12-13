@@ -4,9 +4,9 @@ import styles from './page.module.css'
 import Link from 'next/link'
 
 
-const AboutUsNavBar = () => {
+const AboutUsNavBar = (props) => {
   return (
-    <div className={` ${styles.top} shadow-sm`}>
+    <div className={` ${styles[props.classname]} shadow-sm`}>
     
     <div className={`${styles.navbar} h-16 my-0 mx-auto flex items-center justify-center`}>
         <div className='flex gap-10'>

@@ -1,0 +1,38 @@
+.demo{
+    max-width: 1150px;
+    margin: 0 auto;
+}
+.parentdiv{
+    background-color: black;
+}
+.info{
+    border:1px solid white;
+    width:94%;
+    background-color: white;
+    border-radius: 15px;
+}
+.infotext{
+    color: grey
+}
+.infotextvalue{
+    color: black;
+    font-weight: 600;
+}
+
+.video {
+    width: 100%; /* Full width of the container */
+    height: auto; /* Height will be set automatically to maintain the aspect ratio */
+    max-width: 900px; /* You can set a max-width if necessary */
+}
+.purchase{
+    width: 200px;
+    padding: 25px 0;
+    background-color: #4F6F52;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-left: 190px;
+}

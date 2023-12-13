@@ -10,6 +10,18 @@
     background-color: white;
     
 }
+.game{
+    background-color: #4F6F52
+}
+.game .gradienttext{
+    font-size: 30px;
+    font-weight: 600; /* Semi-bold */
+    font-family: 'Inter', sans-serif;
+    color: white;
+    
+
+    
+}
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
 .gradienttext {
     font-size: 27px;
