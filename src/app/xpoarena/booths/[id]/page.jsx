@@ -20,7 +20,7 @@ const page = ({ params, children }) => {
   const [gameError, setGameError] = useState(null);
   const [themeData, setThemeData] = useState(null);
   const [themeError, setThemeError] = useState(null);
-  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(false);
+  const [isCollapsedSidebar, setIsCollapsedSidebar] = useState(true);
   const [isDropDownShown, setIsDropDownShown] = useState(false);
   const [isDropDownShownForFont, setIsDropDownShownForFont] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState("#FFFFFF");
@@ -333,7 +333,7 @@ const page = ({ params, children }) => {
         <div className={` ${styles.parentdiv} container grid grid-cols-6`}>
           <div className="first col-span-1">
             <button className={`${styles.btn} ${isCollapsedSidebar ? styles.btnCollapsed : ''}`} onClick={toggleSideBarCollapsedHandler}>
-              <Image src="/back.png" width={22} height={22} />
+              <Image src="/back.png" width={14} height={14} />
             </button>
             <aside className={isCollapsedSidebar ? styles.collapsed : styles.sidebar}>
               <div className={styles.sidebar_top}>
@@ -343,25 +343,25 @@ const page = ({ params, children }) => {
               <ul className={styles.sidebar_list}>
                 <li className={styles.sidebar_item}>
                   <Link href={`${pathname}/games`} className={styles.sidebar_link} title="Games">
-                    <Image src="/games.png" width={23} height={23} className={styles.link_icon} />
+                    <Image src="/games.png" width={20} height={20} className={styles.link_icon} />
                     <span className={styles.link_name}>Games</span>
                   </Link>
                 </li>
                 <li>
                   <Link href={`${pathname}/manage`} className={styles.sidebar_link} >
-                    <Image src="/editing.png" width={23} height={23} className={styles.link_icon} />
+                    <Image src="/verified.png" width={20} height={20} className={styles.link_icon} />
                     <span className={styles.link_name}>Manage</span>
                   </Link>
                 </li>
                 <li>
                   <Link href={`${pathname}/aboutus`} className={styles.sidebar_link}>
-                    <Image src="/editing.png" width={23} height={23} className={styles.link_icon} />
+                    <Image src="/abot.png" width={20} height={20} className={styles.link_icon} />
                     <span className={styles.link_name}>About Us</span>
                   </Link>
                 </li>
                 <li>
                   <Link href="" className={styles.sidebar_link} title="Background Color" onClick={decisionFunction}>
-                    <Image src="/editing.png" width={23} height={23} className={styles.link_icon} />
+                    <Image src="/color.png" width={23} height={23} className={styles.link_icon} />
                     <span className={styles.link_name}>Background Color</span>
                     <Image src="/downarrow.png" width={14} height={14} className={styles.downArrow} />
                   </Link>
@@ -373,7 +373,7 @@ const page = ({ params, children }) => {
                 </li>
                 <li>
                   <Link href="" className={styles.sidebar_link} title="Font Color" onClick={decisionFunctionForFont}>
-                    <Image src="/editing.png" width={23} height={23} className={styles.link_icon} />
+                    <Image src="/color.png" width={23} height={23} className={styles.link_icon} />
                     <span className={styles.link_name}>Font Color</span>
                     <Image src="/downarrow.png" width={14} height={14} className={styles.downArrow} />
                   </Link>
@@ -419,9 +419,8 @@ const page = ({ params, children }) => {
                   </div>
                 </li>
                 <li>
-                  <div className="flex flex-row gap-2">
+                  <div className={`flex flex-row gap-2 ${styles.butts}`}>
                     <button onClick={postBoothCustomizations}>Save</button>
-                    <button>Reset</button>
                   </div>
 
                 </li>

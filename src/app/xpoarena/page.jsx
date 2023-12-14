@@ -1,4 +1,6 @@
+"use client"
 import React from 'react'
+
 import styles from './page.module.css'
 import Image from 'next/image'
 import Button from '../components/button/Button'
@@ -6,7 +8,9 @@ import Link from 'next/link'
 import SearchBar from '../components/searchbar/SearchBar'
 import Navbar from '../components/navbar/Navbar'
 import Footer from '../components/footer/Footer'
-
+import 'aos/dist/aos.css'; // Import AOS styles
+import AOS from 'aos';
+import { useEffect } from 'react';
 
 async function getData() {
   const res = await fetch('http://127.0.0.1:8000/api/booth/', { next: { revalidate: 0 } })
@@ -18,6 +22,14 @@ async function getData() {
   return res.json()
 }
 export default async function XpoArena() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1500, // Animation duration
+      once: true, // Whether animation should only happen once
+      easing: 'ease', // Easing type
+      // More options can be added here
+    });
+  }, []); 
   const data = await getData()
 
   return (
@@ -28,8 +40,11 @@ export default async function XpoArena() {
           <div className='w-1/2 flex'>
             <div className='flex flex-col gap-3 mt-32'>
               <p className={styles.gradienttext}>Game MarketPlace</p>
+              <div className="aos-item" data-aos="fade-down">
               <p className={styles.maintext}>Reserve, Showcase, and Monetize Your Games</p>
+              </div>
               <p className={styles.desctext}>Connect with gamers and industry peers in our dynamic marketplace. Secure a virtual booth for your developer team and make your mark in the gaming world.</p>
+              <div className="aos-item" data-aos="fade-left">
               <div className='flex gap-4 mt-3'>
                 <Link href="/xpoarena/booths">
                   <div className={styles.but}>
@@ -42,8 +57,10 @@ export default async function XpoArena() {
                   </div>
                 </Link>
               </div>
+              </div>
             </div>
           </div>
+
           <div className='w-1/2 flex items-center justify-end'>
             <Image src="/animation.svg" width={320} height={260} />
           </div>
