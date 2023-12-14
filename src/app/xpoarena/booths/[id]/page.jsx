@@ -468,8 +468,9 @@ const page = ({ params, children }) => {
           <div className="first col-span-1"></div>
           <div className="middle col-span-4 flex flex-col mt-16">
             <div className='gap-5 flex flex-col'>
-              <div>
+              <div className="flex flex-row justify-between">
                 <p className='text-3xl font-bold' style={{ color: backgroundColor === '#FFFFFF' ? '#000000' : backgroundColor === '#000000' ? '#FFFFFF' : 'initial' }}>Popular Games</p>
+                <Link href={`${pathname}/addgame`} className={styles.addgame}>Add Game</Link>
               </div>
               <div className="grid grid-cols-4 mt-5 gap-4">
                 {gameData.map((game, index) => (

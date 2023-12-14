@@ -1,8 +1,11 @@
+'use client'
 import AboutUsNavBar from '@/app/components/aboutusnavbar/AboutUsNavBar'
 import React from 'react'
 import styles from './page.module.css'
 import Image from 'next/image'
 import Button from '@/app/components/button/Button'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 
 async function getData(title){
@@ -15,11 +18,12 @@ async function getData(title){
 
 }
 export default async function Game({params}){
+    const pathname = usePathname()
     const data = await getData(params.title)
     console.log(data)
-    const requirementsList = data.system_requirements.split(';').map((item, index) => (
+    const requirementsList = data.system_requirements ? data.system_requirements.split(';').map((item, index) => (
         item.trim() && <li key={index}>{item.trim()}</li>
-      ));
+      )) : <li>No system requirements provided.</li>;
     return (
         <>
         <AboutUsNavBar classname={"game"} />
@@ -32,7 +36,14 @@ export default async function Game({params}){
                             <div className='p-10 flex flex-col gap-16'>
                                 <div className='flex flex-col gap-3'>
                                     <p className='text-xl font-bold'>{data.title}</p>
+                                    <div className='flex flex-row gap-3'>
                                     <Button text="Share" classname="share" />
+                                    <Link href={`${pathname}/manage`}>
+                                        <Button text="Manage" classname="manage" />
+                                    </Link>
+                                    
+                                    </div>
+
                                 </div>
                                 <div className='flex flex-row gap-28'>
                                     <div className='flex flex-col gap-3'>

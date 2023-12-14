@@ -8,6 +8,17 @@
     font-size: 13px;
     font-weight: 500;
 }
+.deletebutton{
+  width: 100%;
+  text-align: center;
+  background-color: white;
+  border: 2px solid rgb(141, 31, 31);
+  border-radius: 5px;
+  padding: 10px 0;
+  color: rgb(141, 31, 31);
+  font-size: 13px;
+  font-weight: 500;
+}
 .bestseller{
     border:1px solid #D2D0D0;
     width:100px;
@@ -34,6 +45,14 @@
   }
   .share{
     background-color: #4F6F52;
+    padding: 7px 26px;
+    color:white;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 5px;
+  }
+  .manage{
+    background-color: rgb(174, 13, 13);
     padding: 7px 26px;
     color:white;
     font-size: 15px;
