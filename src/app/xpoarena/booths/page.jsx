@@ -17,6 +17,7 @@ async function getData() {
 
 export default async function Booths() {
     const data = await getData()
+    console.log(data)
 
     return (
       <>
@@ -39,7 +40,7 @@ export default async function Booths() {
                <div className={styles.imageContainer}>
                   <div className={styles.imageWrapper}>
                     <Image 
-                      src={`http://127.0.0.1:8000${item.image}`} 
+                      src={`http://127.0.0.1:8000/${item.image}`} 
                       alt={item.name} 
                       className={styles.image}
                       width={360} 

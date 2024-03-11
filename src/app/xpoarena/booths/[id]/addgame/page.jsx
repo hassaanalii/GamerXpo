@@ -16,7 +16,6 @@ import { useRouter } from 'next/navigation';
 
 
 const AddGame = (params) => {
-    const [selectedImage, setSelectedImage] = useState(null)
     const [gameTitle, setGameTitle] = useState('');
     const [gameDescription, setGameDescription] = useState('');
     const [systemRequirements, setSystemRequirements] = useState('');
@@ -24,19 +23,20 @@ const AddGame = (params) => {
     const [gameDownloadLink, setGameDownloadLink] = useState('');
     const [imageUrlLink, setImageUrlLink] = useState('');
 
-    const [fileName, setFileName] = useState('');
     const [releaseDate, setReleaseDate] = useState('');
-    const [gameGenre, setGameGenre] = useState('Adventure'); 
+    const [gameGenre, setGameGenre] = useState('Adventure');
     const [gameTechnology, setGameTechnology] = useState('HTML5');
-    const [gamePrice, setGamePrice] = useState(''); 
+    const [gamePrice, setGamePrice] = useState('');
     const [selectedVideo, setSelectedVideo] = React.useState(null);
     const [videoFileName, setVideoFileName] = React.useState('');
 
     const pathname = usePathname()
-    const segments = pathname.split('/'); 
-    const boothId = segments[3]; 
-    console.log(releaseDate)
-    
+    const segments = pathname.split('/');
+    const boothId = segments[3];
+
+
+    const [selectedImage, setSelectedImage] = useState(null)
+    const [fileName, setFileName] = useState('');
 
     const handleImageFile = (file) => {
         setSelectedImage(file);
@@ -46,6 +46,7 @@ const AddGame = (params) => {
         setSelectedVideo(file);
         setVideoFileName(file.name);
     };
+
     const handleSubmit = async () => {
         const formData = new FormData();
         formData.append('booth', boothId);
@@ -54,7 +55,9 @@ const AddGame = (params) => {
         formData.append('game_iframe_src', gameDemoLink);
         formData.append('genre', gameGenre)
         formData.append('game_description', gameDescription);
-        formData.append('image_url', imageUrlLink);
+        if (selectedImage) {
+            formData.append('image', selectedImage);
+        }
         formData.append('technology', gameTechnology);
         formData.append('system_requirements', systemRequirements);
         if (selectedVideo) {
@@ -71,7 +74,7 @@ const AddGame = (params) => {
             });
 
             if (response.ok) {
-                toast.success('Booth Added Successfully', {
+                toast.success('Game Added Successfully', {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -80,7 +83,7 @@ const AddGame = (params) => {
                     draggable: true,
                     progress: undefined,
                     theme: "dark",
-                    });
+                });
 
             } else {
                 const errorResult = await response.json();
@@ -134,39 +137,39 @@ const AddGame = (params) => {
                                 />
                             </div>
                             <div className='flex flex-row gap-10'>
-                            <div>
-                                <p className='text-xs font-semibold'>Genre</p>
-                                <select
-                                value={gameGenre}
-                                onChange={(e) => setGameGenre(e.target.value)}
-                                className={`${styles.inputfield} text-xs w-full`}
-                                >
-                                <option value="Action">Action</option>
-                                <option value="Adventure">Adventure</option>
-                                <option value="Puzzle">Puzzle</option>
-                                <option value="Sports">Sports</option>
-                                <option value="Casual">Casual</option>  
-                                <option value="Shooting">Shooting</option>
-                                <option value="Driving">Driving</option>
-                                <option value="Horror">Horror</option>
-                                
-                                </select>
-                            </div>
-                            <div>
-                                <p className='text-xs font-semibold'>Technology</p>
-                                <select
-                                value={gameTechnology}
-                                onChange={(e) => setGameTechnology(e.target.value)}
-                                className={`${styles.inputfield} text-xs w-full`}
-                                >
-                                <option value="HTML5">HTML5</option>
-                                <option value="Unity">Unity</option>
-                                <option value="Unreal Engine">Unreal Engine</option>
-                                <option value="Cocos2d">Cocos2d</option>
-                                <option value="Godot">Godot</option>
-                                
-                                </select>
-                            </div>
+                                <div>
+                                    <p className='text-xs font-semibold'>Genre</p>
+                                    <select
+                                        value={gameGenre}
+                                        onChange={(e) => setGameGenre(e.target.value)}
+                                        className={`${styles.inputfield} text-xs w-full`}
+                                    >
+                                        <option value="Action">Action</option>
+                                        <option value="Adventure">Adventure</option>
+                                        <option value="Puzzle">Puzzle</option>
+                                        <option value="Sports">Sports</option>
+                                        <option value="Casual">Casual</option>
+                                        <option value="Shooting">Shooting</option>
+                                        <option value="Driving">Driving</option>
+                                        <option value="Horror">Horror</option>
+
+                                    </select>
+                                </div>
+                                <div>
+                                    <p className='text-xs font-semibold'>Technology</p>
+                                    <select
+                                        value={gameTechnology}
+                                        onChange={(e) => setGameTechnology(e.target.value)}
+                                        className={`${styles.inputfield} text-xs w-full`}
+                                    >
+                                        <option value="HTML5">HTML5</option>
+                                        <option value="Unity">Unity</option>
+                                        <option value="Unreal Engine">Unreal Engine</option>
+                                        <option value="Cocos2d">Cocos2d</option>
+                                        <option value="Godot">Godot</option>
+
+                                    </select>
+                                </div>
                             </div>
 
                             <div>
@@ -175,20 +178,26 @@ const AddGame = (params) => {
                             </div>
                             <div>
                                 <p className='text-xs font-semibold'>Price</p>
-                                <input 
-                                type="number"
-                                placeholder='0' 
-                                value={gamePrice}
-                                onChange={(e) => setGamePrice(e.target.value)} 
-                                step="1"
-                                min="0" 
-                                className={`${styles.inputfield} text-xs w-full`} 
+                                <input
+                                    type="number"
+                                    placeholder='0'
+                                    value={gamePrice}
+                                    onChange={(e) => setGamePrice(e.target.value)}
+                                    step="1"
+                                    min="0"
+                                    className={`${styles.inputfield} text-xs w-full`}
                                 />
                             </div>
 
                             <div>
                                 <p className='text-xs font-semibold'>Image URL</p>
-                                <input type="text" onChange={(e) => setImageUrlLink(e.target.value)} className={`${styles.inputfield} text-xs border-0 border-b border-solid border-black w-full focus:ring-0 `} />
+                                <UploadButton onImageUpload={handleImageFile} />
+                                {
+                                    fileName && (
+                                        <p>{fileName}</p>
+                                    )
+                                }
+
                             </div>
                             <div className="w-1/2">
                                 <UploadGame onImageUpload={handleVideoFile} image="/video.png" accept="video/mp4" />

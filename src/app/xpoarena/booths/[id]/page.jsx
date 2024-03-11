@@ -225,6 +225,7 @@ const page = ({ params, children }) => {
         }
         const result = await response.json();
         setGameData(result);
+        
       } catch (error) {
         setGameError(error.message);
       }
@@ -326,6 +327,7 @@ const page = ({ params, children }) => {
       console.log(themeData.font_name)
   }
 
+
   return (
     <>
       <div>
@@ -341,12 +343,7 @@ const page = ({ params, children }) => {
                 <p className={styles.logo_name}>XpoArena</p>
               </div>
               <ul className={styles.sidebar_list}>
-                <li className={styles.sidebar_item}>
-                  <Link href={`${pathname}/games`} className={styles.sidebar_link} title="Games">
-                    <Image src="/games.png" width={20} height={20} className={styles.link_icon} />
-                    <span className={styles.link_name}>Games</span>
-                  </Link>
-                </li>
+
                 <li>
                   <Link href={`${pathname}/manage`} className={styles.sidebar_link} >
                     <Image src="/verified.png" width={20} height={20} className={styles.link_icon} />
@@ -362,7 +359,7 @@ const page = ({ params, children }) => {
                 <li>
                   <Link href="" className={styles.sidebar_link} title="Background Color" onClick={decisionFunction}>
                     <Image src="/color.png" width={23} height={23} className={styles.link_icon} />
-                    <span className={styles.link_name}>Background Color</span>
+                    <span className={styles.link_name}>Background</span>
                     <Image src="/downarrow.png" width={14} height={14} className={styles.downArrow} />
                   </Link>
                   <div className={`${styles.colors} ${isDropDownShown ? 'max-h-screen' : 'hidden'} overflow-hidden transition-max-height duration-300 ease-in-out`}>
@@ -374,7 +371,7 @@ const page = ({ params, children }) => {
                 <li>
                   <Link href="" className={styles.sidebar_link} title="Font Color" onClick={decisionFunctionForFont}>
                     <Image src="/color.png" width={23} height={23} className={styles.link_icon} />
-                    <span className={styles.link_name}>Font Color</span>
+                    <span className={styles.link_name}>Font</span>
                     <Image src="/downarrow.png" width={14} height={14} className={styles.downArrow} />
                   </Link>
                   <div className={`${styles.colors} ${isDropDownShownForFont ? 'max-h-screen' : 'hidden'} overflow-hidden transition-max-height duration-300 ease-in-out`}>
@@ -385,7 +382,7 @@ const page = ({ params, children }) => {
                 </li>
                 <li>
                   <div className={styles.themeSelector}>
-                    <p>Select a Theme:</p>
+                    <p className={styles.themeP}>Select a Theme:</p>
                     <form>
                       <label>
                         <input type="radio" value="Adrenaline Rush" name="theme" onChange={handleThemeChange} checked={selectedTheme === 'Adrenaline Rush'} />
@@ -420,7 +417,7 @@ const page = ({ params, children }) => {
                 </li>
                 <li>
                   <div className={`flex flex-row gap-2 ${styles.butts}`}>
-                    <button onClick={postBoothCustomizations}>Save</button>
+                    <button className={styles.savebutton} onClick={postBoothCustomizations}>Save</button>
                   </div>
 
                 </li>
@@ -472,21 +469,36 @@ const page = ({ params, children }) => {
                 <Link href={`${pathname}/addgame`} className={styles.addgame}>Add Game</Link>
               </div>
               <div className="grid grid-cols-4 mt-5 gap-4">
+                {console.log(gameData)}
                 {gameData.map((game, index) => (
+                  
                   <Link href={`${pathname}/${game.title}`}>
                     <div
                       key={game.id}
                       className="flex flex-col bg-white overflow-hidden border border-gray-200 rounded-lg hover:shadow-lg hover:border-black transform hover:scale-105 transition duration-300 cursor-pointer"
                     >
-                      <Image
-                        src={game.image_url}
-                        alt={game.title}
-                        width={160}
-                        height={90}
-                        layout="responsive"
-                        objectFit="cover"
-                        className="rounded-t-lg"
-                      />
+                      {game.image_url ? (
+                        <Image
+                          src={game.image_url}
+                          alt={game.title}
+                          width={160}
+                          height={90}
+                          layout="responsive"
+                          objectFit="cover"
+                          className="rounded-t-lg"
+                        />
+                      ) : (
+                        <Image
+                          src={`http://127.0.0.1:8000/${game.image}`}
+                          alt={game.title}
+                          width={160}
+                          height={90}
+                          layout="responsive"
+                          objectFit="cover"
+                          className="rounded-t-lg"
+                        />
+                      )}
+
                       <div className="p-5 flex flex-col gap-4">
                         <div>
                           <p className="text-center text-md font-semibold">{game.title}</p>
