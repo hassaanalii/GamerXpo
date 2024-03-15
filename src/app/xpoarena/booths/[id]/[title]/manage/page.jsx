@@ -37,7 +37,7 @@ const AddGame = (params) => {
 
     const fetchData = async (gameName) =>{
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/games/?title=${gameName}`);
+            const response = await fetch(`http://localhost:8000/api/games/?title=${gameName}`);
             if (response.ok) {
               const data = await response.json();
               setGameInfo(data);
@@ -61,7 +61,7 @@ const AddGame = (params) => {
         formData.append('price', gamePrice);
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/games/${gameName}`, {
+            const response = await fetch(`http://localhost:8000/api/games/${gameName}`, {
                 method: 'PATCH',
                 body: formData,
             });
@@ -101,7 +101,7 @@ const AddGame = (params) => {
 
     const handleSubmitSecond = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/games/${gameName}`, {
+            const response = await fetch(`http://localhost:8000/api/games/${gameName}`, {
                 method: 'DELETE',
             });
     

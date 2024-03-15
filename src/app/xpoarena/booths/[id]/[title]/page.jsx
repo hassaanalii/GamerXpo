@@ -9,7 +9,7 @@ import Link from 'next/link'
 
 
 async function getData(title){
-    const res = await fetch(`http://127.0.0.1:8000/api/games/?title=${title}`,  { next: { revalidate: 0 } })
+    const res = await fetch(`http://localhost:8000/api/games/?title=${title}`,  { next: { revalidate: 0 } })
     if (!res.ok) {
         throw new Error('Failed to fetch data')
     }
@@ -75,7 +75,7 @@ export default async function Game({params}){
                         <div className='flex flex-col gap-3 mt-10'>
                             <p className="text-xl font-bold text-white">Game Trailer</p>
                             <video className={styles.video} controls autoplay loop>
-                                <source src={`http://127.0.0.1:8000${data.game_trailer}`} type="video/mp4" />
+                                <source src={`http://localhost:8000${data.game_trailer}`} type="video/mp4" />
 
                             </video>
                         </div>

@@ -63,7 +63,7 @@ const page = ({ params, children }) => {
 
   const fetchThemeDetails = async (name) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/theme/?name=${name}`)
+      const response = await fetch(`http://localhost:8000/api/theme/?name=${name}`)
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -109,14 +109,14 @@ const page = ({ params, children }) => {
     };
 
 
-    const existingCustomizations = await fetch(`http://127.0.0.1:8000/api/customizedbooth/?id=${customizationData.booth}`)
+    const existingCustomizations = await fetch(`http://localhost:8000/api/customizedbooth/?id=${customizationData.booth}`)
 
     if (existingCustomizations.ok) {
       const customizations = await existingCustomizations.json()
 
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/customizedbooth/${customizations.id}/`, {
+        const response = await fetch(`http://localhost:8000/api/customizedbooth/${customizations.id}/`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -158,7 +158,7 @@ const page = ({ params, children }) => {
 
     } else {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/customizedbooth/', {
+        const response = await fetch('http://localhost:8000/api/customizedbooth/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -202,7 +202,7 @@ const page = ({ params, children }) => {
   useEffect(() => {
     const fetchBoothData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/booth/?id=${params.id}`);
+        const response = await fetch(`http://localhost:8000/api/booth/?id=${params.id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -219,7 +219,7 @@ const page = ({ params, children }) => {
   useEffect(() => {
     const fetchGameData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/games/?id=${params.id}`);
+        const response = await fetch(`http://localhost:8000/api/games/?id=${params.id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -237,7 +237,7 @@ const page = ({ params, children }) => {
   useEffect(() => {
     const fetchBoothCustomizations = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/customizedbooth/?id=${params.id}`);
+        const response = await fetch(`http://localhost:8000/api/customizedbooth/?id=${params.id}`);
         if (response.ok) {
           const result = await response.json();
           setBoothCustomizations(result);
@@ -295,7 +295,7 @@ const page = ({ params, children }) => {
   useEffect(() => {
     const fetchThemeDetails = async (themeIdentifier) => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/theme/?id=${themeIdentifier}`);
+        const response = await fetch(`http://localhost:8000/api/theme/?id=${themeIdentifier}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -432,7 +432,7 @@ const page = ({ params, children }) => {
               {themeData && themeData.theme_video && (
                 <video
                   className={styles.backgroundVideo}
-                  src={`http://127.0.0.1:8000/${themeData.theme_video}`}
+                  src={`http://localhost:8000/${themeData.theme_video}`}
                   autoPlay
                   loop
                   muted
@@ -489,7 +489,7 @@ const page = ({ params, children }) => {
                         />
                       ) : (
                         <Image
-                          src={`http://127.0.0.1:8000/${game.image}`}
+                          src={`http://localhost:8000/${game.image}`}
                           alt={game.title}
                           width={160}
                           height={90}

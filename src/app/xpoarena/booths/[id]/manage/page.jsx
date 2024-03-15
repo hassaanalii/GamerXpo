@@ -32,7 +32,7 @@ const page = () => {
 
   const fetchData = async (name) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/booth/?id=${name}`);
+      const response = await fetch(`http://localhost:8000/api/booth/?id=${name}`);
       if (response.ok) {
         const data = await response.json();
         setBoothInfo(data);
@@ -61,7 +61,7 @@ const page = () => {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/booth/${boothId}`, {
+        const response = await fetch(`http://localhost:8000/api/booth/${boothId}`, {
             method: 'PATCH',
             body: formData,
         });
