@@ -1,10 +1,13 @@
 "use client"
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [userDetails, setUserDetails] = useState('');
+    const router = useRouter()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -23,7 +26,26 @@ const Login = () => {
 
             if (response.ok) {
                 console.log('Login successful:', data);
-                // Handle successful login here (e.g., redirect, store tokens, etc.)
+                router.push('/signup/completeprofile')
+                // const fetchUserDetails = async () => {
+                //     try {
+                //         const response = await fetch('http://localhost:8000/api/userdetails/', {
+                //             method: 'GET',
+                //             credentials: 'include', // Include cookies with the request
+                //         });
+                //         if (!response.ok) {
+                //             throw new Error('Network response was not ok');
+                //         }
+                //         const data = await response.json();
+                //         setUserDetails(data);
+                //         console.log(userDetails)
+                //         console.log("hello")
+                //     } catch (error) {
+                //         console.error('There was a problem with your fetch operation:', error);
+                //     }
+                // };
+        
+                fetchUserDetails();
             } else {
                 console.error('Login failed:', data.detail);
                 // Handle login failure here (e.g., show an error message)

@@ -31,22 +31,23 @@ const Signup = () => {
 
             if (response.ok) {
                 console.log("hello");
-                const fetchUserDetails = async () => {
-                    try {
-                        const response = await fetch('http://localhost:8000/api/userdetails/', {
-                            credentials: 'include',
-                        });
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        const data = await response.json();
-                        setUserDetails(data);
-                    } catch (error) {
-                        console.error('There was a problem with your fetch operation:', error);
-                    }
-                };
+                router.push("/login")
+                // const fetchUserDetails = async () => {
+                //     try {
+                //         const response = await fetch('http://localhost:8000/api/userdetails/', {
+                //             credentials: 'include',
+                //         });
+                //         if (!response.ok) {
+                //             throw new Error('Network response was not ok');
+                //         }
+                //         const data = await response.json();
+                //         setUserDetails(data);
+                //     } catch (error) {
+                //         console.error('There was a problem with your fetch operation:', error);
+                //     }
+                // };
 
-                fetchUserDetails();
+                // fetchUserDetails();
             } else {
                 // Extract and log the error response from the server
                 const errorResponse = await response.json();
