@@ -1,4 +1,5 @@
 "use client"
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 const Signup = () => {
@@ -6,6 +7,9 @@ const Signup = () => {
     const [email, setEmail] = useState('');
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
+    const router = useRouter()
+    const [userDetails, setUserDetails] = useState(null);
+
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent the default form submit behavior
@@ -26,18 +30,38 @@ const Signup = () => {
             });
 
             if (response.ok) {
-                // Handle successful signup
-                console.log('Signup successful');
+                console.log("hello");
+                const fetchUserDetails = async () => {
+                    try {
+                        const response = await fetch('http://localhost:8000/api/userdetails/', {
+                            credentials: 'include',
+                        });
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        const data = await response.json();
+                        setUserDetails(data);
+                    } catch (error) {
+                        console.error('There was a problem with your fetch operation:', error);
+                    }
+                };
+
+                fetchUserDetails();
             } else {
                 // Extract and log the error response from the server
                 const errorResponse = await response.json();
                 console.log('Signup failed:', errorResponse);
-                alert("Username already exists")
+
             }
         } catch (error) {
             // Handle the error here, such as a network error
             console.log('There was an error submitting the form:', error);
         }
+    };
+    const handleGoogleLogin = () => {
+        // Redirect the user to your backend endpoint that handles Google OAuth
+        window.location.href = 'http://localhost:8000/accounts/google/login/';
+
     };
 
     return (
@@ -51,7 +75,7 @@ const Signup = () => {
                         id="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        required
+
                     />
                 </div>
                 <div>
@@ -70,7 +94,7 @@ const Signup = () => {
                         id="password1"
                         value={password1}
                         onChange={(e) => setPassword1(e.target.value)}
-                        required
+
                     />
                 </div>
                 <div>
@@ -84,11 +108,13 @@ const Signup = () => {
                         id="password2"
                         value={password2}
                         onChange={(e) => setPassword2(e.target.value)}
-                        required
+
                     />
                 </div>
                 <button type="submit">Sign Up</button>
                 <p>already have an account signin</p>
+                <button type="button" onClick={handleGoogleLogin}>Signup with Google</button>
+
             </form>
         </div>
     );

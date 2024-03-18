@@ -15,7 +15,8 @@ const Login = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password }), // Convert username and password to JSON
+                credentials: 'include', // Include cookies with the request
+                body: JSON.stringify({ username, password }),
             });
 
             const data = await response.json(); // Parse the JSON response
@@ -62,8 +63,8 @@ const Login = () => {
                     />
                 </div>
                 <div className='flex flex-col'>
-                <button type="submit">Login</button>
-                <button onClick={handleGoogleLogin}>Login with Google</button>
+                    <button type="submit">Login</button>
+                    <button onClick={handleGoogleLogin}>Login with Google</button>
                 </div>
 
             </form>
