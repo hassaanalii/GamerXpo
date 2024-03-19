@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import CustomButton from '../components/custombutton/CustomButton';
 import CustomInputField from '../components/custominputfield/CustomInputField';
 import styles from './page.module.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import Image from 'next/image';
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -13,8 +12,6 @@ const Signup = () => {
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
     const router = useRouter()
-
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -47,10 +44,11 @@ const Signup = () => {
         }
     };
     const handleGoogleLogin = () => {
-        // Redirect the user to your backend endpoint that handles Google OAuth
         window.location.href = 'http://localhost:8000/accounts/google/login/';
-
     };
+    const handleLogin = () => {
+        router.push("/login")
+    }
 
     return (
         <div className={styles.container}>
@@ -63,7 +61,7 @@ const Signup = () => {
                     />
                     <div className={styles.imageoverlay}>
                         <p className={styles.imagetext}>Join GamerXpo</p>
-                        <CustomButton onClick={handleGoogleLogin} className={styles.imagebutton}>
+                        <CustomButton onClick={handleLogin} className={styles.imagebutton}>
                             Log In
                         </CustomButton>
                     </div>
@@ -108,13 +106,14 @@ const Signup = () => {
                                 Sign Up
                             </CustomButton>
                             <CustomButton onClick={handleGoogleLogin} className={styles.btnsecondary}>
-                                <FontAwesomeIcon icon={faGoogle} className="mr-2 fa-icon" />
+                                <Image src="/googleicon.svg" alt="abc" width={20} height={20} />
                                 Sign Up with Google
                             </CustomButton>
                         </div>
-                        <div className={styles.lastdiv}>
-                            <a href="/login" className={styles.text2}>
-                                Already have an account? Sign In
+                        <div className="flex items-center justify-center gap-1">
+                            <p className={styles.text2}>Already have an account?</p>
+                            <a href="/login" className={` ${styles.text2} underline`}>
+                                Sign In
                             </a>
                         </div>
                     </form>

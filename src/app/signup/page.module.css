@@ -4,6 +4,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 .parentdiv {
@@ -12,6 +14,8 @@
   align-items: center;
   flex-direction: column;
   margin-left: 70px;
+  padding: 0;
+
 }
 
 .container {
@@ -20,6 +24,9 @@
   align-items: center;
   height: 100vh;
   padding: 0 20px;
+  background-color: black;
+  
+  margin: 0;
 }
 
 .logincard {
@@ -29,21 +36,28 @@
   width: 100%;
   max-width: 800px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  margin: 0;
 }
 
 .loginheader {
   margin-bottom: 2rem;
   text-align: center;
+  padding: 0;
+
 }
 
 .loginheader h1 {
   color: #fff;
+  margin: 0;
+  padding: 0;
   margin: 0;
 }
 
 .loginheader p {
   color: #aaa;
   margin: 0;
+  padding: 0;
+  
 }
 
 .inputfield {
@@ -55,6 +69,7 @@
   color: #fff;
   border-radius: 7px;
   height: 37px;
+  margin: 0;
 }
 
 .btnprimary {
@@ -69,15 +84,22 @@
   transition: background-color 0.3s;
   height: 30px;
   line-height: 3px;
+  padding: 0;
+
 }
 
 .subheading {
   color: white;
-  margin: 5;
+  margin: 8px;
+  padding: 0;
+  font-weight: bold;
+  font-size: 23px;
+  
 }
 
 .btnprimary:hover {
   background-color: #39573c; /* a darker shade for hover effect */
+
 }
 
 .btnsecondary {
@@ -91,20 +113,25 @@
   transition: border-color 0.3s;
   height: 30px;
   display: flex;
+  gap:10px;
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
+
 }
 
 .btnsecondary .fa-icon {
+
   margin-right: 8px; /* Adjust the value as needed */
 }
 
 .btnsecondary:hover {
+
   border-color: #39573c; /* a darker shade for hover effect */
 }
 
 .logoimage {
+
   display: block;
   /* margin: 0 auto 0px; */
   max-width: 350px; /* Adjust this to set the image size */
@@ -115,10 +142,13 @@
   opacity: 0.5;
 }
 .formcontainer {
+  padding: 0;
+  margin: 0;
   max-width: 800px;
 }
 
 .imagecontainer {
+  
   position: relative;
   width: 100%; /* or the width of your choice */
   max-width: 400px; /* or the max width of your choice */
@@ -126,6 +156,8 @@
 }
 
 .imageoverlay {
+  padding: 0;
+  margin: 0;
   position: absolute;
   top: 0;
   left: 0;
@@ -138,6 +170,8 @@
 }
 
 .imagetext {
+  padding: 0;
+  margin: 0;
   color: white; /* Choose color that makes the text stand out on your image */
   font-size: 1.5rem; /* Adjust size as necessary */
   text-align: center;
@@ -145,6 +179,7 @@
 }
 
 .imagebutton {
+
   padding: 10px 20px;
   background-color: #4f6f52; /* olive/green color */
   border: none;
@@ -155,10 +190,13 @@
 }
 
 .imagebutton:hover {
+  
   background-color: #39573c; /* a darker shade for hover effect */
 }
 
 .lastdiv {
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -166,12 +204,16 @@
 }
 
 .text2 {
+  padding: 0;
+  margin: 0;
   color: #aaa;
   font-size: 12px;
   margin-bottom: 15px;
 }
 
 .extra {
+  padding: 0;
+  
   margin-bottom: 50px;
 }
 

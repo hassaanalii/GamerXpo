@@ -1,12 +1,14 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import styles from './page.module.css'
+import CustomButton from '../components/custombutton/CustomButton';
+import CustomInputField from '../components/custominputfield/CustomInputField';
+import Image from 'next/image';
 
 const Login = () => {
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [userDetails, setUserDetails] = useState('');
     const router = useRouter()
 
     const handleSubmit = async (event) => {
@@ -27,69 +29,83 @@ const Login = () => {
             if (response.ok) {
                 console.log('Login successful:', data);
                 router.push('/signup/completeprofile')
-                // const fetchUserDetails = async () => {
-                //     try {
-                //         const response = await fetch('http://localhost:8000/api/userdetails/', {
-                //             method: 'GET',
-                //             credentials: 'include', // Include cookies with the request
-                //         });
-                //         if (!response.ok) {
-                //             throw new Error('Network response was not ok');
-                //         }
-                //         const data = await response.json();
-                //         setUserDetails(data);
-                //         console.log(userDetails)
-                //         console.log("hello")
-                //     } catch (error) {
-                //         console.error('There was a problem with your fetch operation:', error);
-                //     }
-                // };
-        
-                fetchUserDetails();
+
             } else {
                 console.error('Login failed:', data.detail);
-                // Handle login failure here (e.g., show an error message)
+
             }
         } catch (error) {
             console.error('Network error:', error);
-            // Handle network errors here
+
         }
     };
     const handleGoogleLogin = () => {
-        // Redirect the user to your backend endpoint that handles Google OAuth
         window.location.href = 'http://localhost:8000/accounts/google/login/';
-
+    };
+    const handleSignup = () => {
+        router.push("/signup")
     };
 
-
     return (
-        <div>
-            <p>if u have not created an account yet, pls signup first</p>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username</label>
-                    <input
+        <div className={styles.container}>
+            <div className={styles.formcontainer}>
+                <div className={styles.imagecontainer}>
+                    <img
+                        src="/gamebg.jpg"
+                        alt="Your Image Description"
+                        className={styles.logoimage}
+                    />
+                    <div className={styles.imageoverlay}>
+                        <p className={styles.imagetext}>Welcome to GamerXpo</p>
+                        <CustomButton onClick={handleSignup} className={styles.imagebutton}>
+                            Sign Up
+                        </CustomButton>
+                    </div>
+                </div>
+                <p className={styles.subheading}>Welcome Back!</p>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <CustomInputField
                         type="text"
                         id="username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)} // Update state on input change
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Username"
+                        className={styles.inputfield}
                     />
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
+                    <CustomInputField
                         type="password"
                         id="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)} // Update state on input change
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        className={styles.inputfield}
                     />
-                </div>
-                <div className='flex flex-col'>
-                    <button type="submit">Login</button>
-                    <button onClick={handleGoogleLogin}>Login with Google</button>
-                </div>
-
-            </form>
+                    <div className="flex flex-col space-y-2">
+                        <CustomButton
+                            onClick={handleSubmit}
+                            type="submit"
+                            className={styles.btnprimary}
+                        >
+                            Login
+                        </CustomButton>
+                        <CustomButton onClick={handleGoogleLogin} className={styles.btnsecondary}>
+                            <Image src="/googleicon.svg" alt="abc" width={20} height={20} />
+                            Login with Google
+                        </CustomButton>
+                    </div>
+                    <div className={styles.lastdiv}>
+                        <a href="/forgot-password" className={styles.text2}>
+                            Forgot your username or password?
+                        </a>
+                        <div className='flex items-center justify-center gap-1'>
+                            <p className={styles.text2}>New to GamerXpo?</p>
+                            <a href="/signup" className={` ${styles.text2} underline`}>
+                                Sign Up 
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

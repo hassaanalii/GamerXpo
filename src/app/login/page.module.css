@@ -1,0 +1,209 @@
+.formcontainer {
+    /* New class for common width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0 20px;
+    margin: 0;
+    
+    background-color: black;
+}
+
+.logincard {
+    background: #121212;
+    /* background of the card; replace with the actual color */
+    border-radius: 8px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.loginheader {
+    margin-bottom: 2rem;
+    text-align: center;
+    padding: 0;
+}
+
+.loginheader h1 {
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.loginheader p {
+    color: #aaa;
+    margin: 0;
+    padding: 0;
+}
+
+.inputfield {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #333;
+    background: #222;
+    color: #fff;
+    border-radius: 7px;
+    height: 37px;
+    margin: 0;
+    
+}
+
+.btnprimary {
+    background-color: #4f6f52;
+    /* Replace with the olive/green color you have in the app */
+    color: #fff;
+    padding: 15px;
+    border: none;
+    width: 100%;
+    border-radius: 7px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: 30px;
+    line-height: 3px;
+
+}
+
+.subheading {
+    color: white;
+    margin: 10px 0px;
+    font-weight: bold;
+    font-size: 20px;
+    
+}
+
+.btnprimary:hover {
+    background-color: #39573c;
+    /* a darker shade for hover effect */
+}
+
+.btnsecondary {
+    background-color: transparent;
+    color: #fff;
+    padding: 15px;
+    border: 1px solid #4f6f52;
+    /* same as the primary button color */
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+    margin-bottom: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+.btnsecondary .faicon {
+    margin-right: 8px;
+
+    /* Adjust the value as needed */
+}
+
+.btnsecondary:hover {
+    border-color: #39573c;
+    /* a darker shade for hover effect */
+}
+
+.logoimage {
+    display: block;
+    /* margin: 0 auto 0px; */
+    max-width: 350px;
+    /* Adjust this to set the image size */
+    max-height: 350px;
+    /* Adjust this to set the image size */
+    width: auto;
+    /* to maintain aspect ratio */
+    height: auto;
+    /* to maintain aspect ratio */
+    border-radius: 10px;
+    opacity: 0.5;
+}
+
+.formcontainer {
+    max-width: 360px;
+}
+
+.imagecontainer {
+    position: relative;
+    width: 100%;
+    /* or the width of your choice */
+    max-width: 400px;
+    /* or the max width of your choice */
+    margin: auto;
+    margin: 0;
+    
+}
+
+.imageoverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.imagetext {
+    color: white;
+    /* Choose color that makes the text stand out on your image */
+    font-size: 1.5rem;
+    /* Adjust size as necessary */
+    text-align: center;
+    margin-bottom: 20px;
+    /* Spacing between text and button */
+}
+
+.imagebutton {
+    padding: 10px 20px;
+    background-color: #4f6f52;
+    /* olive/green color */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.imagebutton:hover {
+    background-color: #39573c;
+    /* a darker shade for hover effect */
+}
+
+.lastdiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:0;
+}
+
+.text2 {
+    color: #aaa;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+.extra {
+    margin-bottom: 50px;
+}
