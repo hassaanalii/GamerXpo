@@ -9,11 +9,27 @@ const Page = () => {
         first_name: '',
         last_name: '',
         social_picture: '',
+        role: ''
     });
     const [profileImage, setProfileImage] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
     const defaultProfileImg = '/defaultuser.png';
-
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -56,20 +72,48 @@ const Page = () => {
         formData.append('email', userDetails.email);
         formData.append('first_name', userDetails.first_name);
         formData.append('last_name', userDetails.last_name);
+        formData.append('role', userDetails.role);
+
 
         if (profileImage) {
-            formData.append('profile_picture_url', profileImage);
-        } else if(userDetails.social_picture) {
+            formData.append('profile_picture', profileImage);
+            formData.append('profile_picture_url', null);
+        } else if (userDetails.social_picture) {
             formData.append('profile_picture_url', userDetails.social_picture);
+            formData.append('profile_picture', null);
 
-        }else {
-            formData.append('profile_picture_url', defaultProfileImg);
+        } else {
+            formData.append('profile_picture_url', null);
+            formData.append('profile_picture', null);
 
         }
+        const csrfToken = getCookie('csrftoken'); 
 
-        for (let [key, value] of formData.entries()) {
-            console.log(key, value);
+
+        // Inside your handleSubmit function
+        try {
+            const response = await fetch('http://localhost:8000/api/setprofile/', {
+                method: 'POST',
+                body: formData,
+                credentials: 'include', 
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    // other headers...
+                },
+             
+            });
+
+            if (response.ok) {
+                console.log("Profile updated successfully.");
+                
+            } else {
+            
+                console.error("Failed to update profile.");
+            }
+        } catch (error) {
+            console.error("Error updating profile:", error);
         }
+
 
     };
 
@@ -111,6 +155,15 @@ const Page = () => {
                         />
                     )}
                 </div>
+                <label>
+                    Role:
+                    <select name="role" value={userDetails.role} onChange={handleChange}>
+                        <option value="">Select Role</option>
+                        <option value="Lead">Lead</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Gamer">Gamer</option>
+                    </select>
+                </label>
                 <button type="submit">Save Changes</button>
             </form>
         </div>
