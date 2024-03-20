@@ -1,4 +1,5 @@
 "use client"
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
 const Page = () => {
@@ -7,9 +8,12 @@ const Page = () => {
         email: '',
         first_name: '',
         last_name: '',
-        social_name: '',
         social_picture: '',
     });
+    const [profileImage, setProfileImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState('');
+    const defaultProfileImg = '/defaultuser.png';
+
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -23,6 +27,7 @@ const Page = () => {
                 }
                 const data = await response.json();
                 setUserDetails(data);
+                console.log(data)
             } catch (error) {
                 console.error('There was a problem with your fetch operation:', error);
             }
@@ -38,11 +43,34 @@ const Page = () => {
             [name]: value,
         }));
     };
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setProfileImage(file);
+        setImagePreview(file ? URL.createObjectURL(file) : userDetails.social_picture || defaultProfileImg);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Here you would send the userDetails to the backend to update the user details
-        console.log(userDetails);
+        const formData = new FormData();
+        formData.append('username', userDetails.username);
+        formData.append('email', userDetails.email);
+        formData.append('first_name', userDetails.first_name);
+        formData.append('last_name', userDetails.last_name);
+
+        if (profileImage) {
+            formData.append('profile_picture_url', profileImage);
+        } else if(userDetails.social_picture) {
+            formData.append('profile_picture_url', userDetails.social_picture);
+
+        }else {
+            formData.append('profile_picture_url', defaultProfileImg);
+
+        }
+
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
     };
 
     return (
@@ -65,16 +93,24 @@ const Page = () => {
                     Last Name:
                     <input type="text" name="last_name" value={userDetails.last_name} onChange={handleChange} />
                 </label>
-                {userDetails.social_picture && (
-                    <div>
-                        <label>
-                            Social Name:
-                            <input type="text" name="social_name" value={userDetails.social_name || ''} onChange={handleChange} />
-                        </label>
-                        <p>Profile Picture:</p>
-                        <img src={userDetails.social_picture} alt="Profile" style={{ maxWidth: "200px" }} />
-                    </div>
-                )}
+
+                <div>
+                    <p>Profile Picture:</p>
+                    <input type="file" name="profile_picture" onChange={handleImageChange} />
+
+                    {imagePreview ? (
+                        // If there's an image preview, display it
+                        <img src={imagePreview} alt="Profile preview" style={{ maxWidth: '200px' }} />
+                    ) : (
+                        // If there's no image preview but there's a social picture, display it
+                        // Otherwise, display the default image
+                        <img
+                            src={userDetails.social_picture || defaultProfileImg}
+                            alt="Profile"
+                            style={{ maxWidth: '200px' }}
+                        />
+                    )}
+                </div>
                 <button type="submit">Save Changes</button>
             </form>
         </div>
