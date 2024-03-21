@@ -1,11 +1,14 @@
 "use client"
+import { useUserContext } from '@/app/context/userprofile';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, useContext } from 'react';
 
 const Page = () => {
+    const {leadDetails, updateLeadDetails } = useUserContext();
+    const router = useRouter()
+
     const [userDetails, setUserDetails] = useState({
-        username: '',
-        email: '',
         first_name: '',
         last_name: '',
         social_picture: '',
@@ -14,7 +17,7 @@ const Page = () => {
     const [profileImage, setProfileImage] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
     const defaultProfileImg = '/defaultuser.png';
-    
+
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -67,53 +70,65 @@ const Page = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('username', userDetails.username);
-        formData.append('email', userDetails.email);
-        formData.append('first_name', userDetails.first_name);
-        formData.append('last_name', userDetails.last_name);
-        formData.append('role', userDetails.role);
 
-
-        if (profileImage) {
-            formData.append('profile_picture', profileImage);
-            formData.append('profile_picture_url', null);
-        } else if (userDetails.social_picture) {
-            formData.append('profile_picture_url', userDetails.social_picture);
-            formData.append('profile_picture', null);
+        if (userDetails.role === 'Lead') {
+            console.log("hello")
+            updateLeadDetails({
+                firstname: userDetails.first_name,
+                lastname: userDetails.last_name,
+                role: userDetails.role,
+                profile_picture: profileImage, 
+                profile_picture_url: userDetails.social_picture || null,
+            });
+            
+            router.push('/signup/completeprofile/registercompany/')
 
         } else {
-            formData.append('profile_picture_url', null);
-            formData.append('profile_picture', null);
+            const formData = new FormData();
+            formData.append('first_name', userDetails.first_name);
+            formData.append('last_name', userDetails.last_name);
+            formData.append('role', userDetails.role);
 
-        }
-        const csrfToken = getCookie('csrftoken'); 
 
+            if (profileImage) {
+                formData.append('profile_picture', profileImage);
+                formData.append('profile_picture_url', null);
+            } else if (userDetails.social_picture) {
+                formData.append('profile_picture_url', userDetails.social_picture);
+                formData.append('profile_picture', null);
 
-        // Inside your handleSubmit function
-        try {
-            const response = await fetch('http://localhost:8000/api/setprofile/', {
-                method: 'POST',
-                body: formData,
-                credentials: 'include', 
-                headers: {
-                    'X-CSRFToken': csrfToken,
-                    // other headers...
-                },
-             
-            });
-
-            if (response.ok) {
-                console.log("Profile updated successfully.");
-                
             } else {
-            
-                console.error("Failed to update profile.");
-            }
-        } catch (error) {
-            console.error("Error updating profile:", error);
-        }
+                formData.append('profile_picture_url', null);
+                formData.append('profile_picture', null);
 
+            }
+            const csrfToken = getCookie('csrftoken');
+
+
+            // Inside your handleSubmit function
+            try {
+                const response = await fetch('http://localhost:8000/api/setprofile/', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+
+                });
+
+                if (response.ok) {
+                    console.log("Profile updated successfully.");
+
+                } else {
+
+                    console.error("Failed to update profile.");
+                }
+            } catch (error) {
+                console.error("Error updating profile:", error);
+            }
+
+        }
 
     };
 
