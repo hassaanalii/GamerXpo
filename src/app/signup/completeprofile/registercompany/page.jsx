@@ -1,6 +1,9 @@
 "use client"
 import { useUserContext } from '@/app/context/userprofile'
 import React, { useState } from 'react'
+import styles from "./page.module.css"
+import CustomInputField from '@/app/components/custominputfield/CustomInputField'
+import CustomButton from '@/app/components/custombutton/CustomButton'
 
 const page = () => {
   const { leadDetails } = useUserContext()
@@ -14,6 +17,8 @@ const page = () => {
     country: '',
     logo: null,
   });
+  const [fileName, setFileName] = useState('');
+
 
   function getCookie(name) {
     let cookieValue = null;
@@ -42,10 +47,15 @@ const page = () => {
   };
 
   const handleFileChange = (e) => {
-    setCompanyDetails(prevDetails => ({
-      ...prevDetails,
-      logo: e.target.files[0],
-    }));
+    const file = e.target.files[0]; // Get the selected file
+    if (file) {
+      setCompanyDetails(prevDetails => ({
+        ...prevDetails,
+        logo: file,
+        logoName: file.name, // Store the file name in the state
+      }));
+      setFileName(file.name); // If you have a separate state for the file name
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -130,83 +140,184 @@ const page = () => {
   };
 
   return (
-    <>
-      <div>
-        <p>First Name: {leadDetails.firstname}</p>
-        <p>Last Name: {leadDetails.lastname}</p>
-        <p>Role: {leadDetails.role}</p>
+    <div className='bg-black flex items-center justify-center h-screen w-full gap-[60px]'>
+      <div className={styles.imagecontainer}>
+        <img
+          src="/gamebg.jpg"
+          alt="GamerXpo Sign Up"
+          className={styles.logoimage}
+        />
+        <div className={styles.imageoverlay}>
+          <p className={styles.imagetext}>GamerXpo</p>
 
-        {leadDetails.profile_picture_url && (
-          <div>
-            <p>Profile Picture URL:</p>
-            {/* Using an <img> tag for simplicity; you can use Next.js's <Image> if preferred */}
-            <img src={leadDetails.profile_picture_url} alt="Profile" style={{ maxWidth: '200px' }} />
+        </div>
+
+      </div>
+      <div className='flex flex-col gap-3'>
+        <p className='text-white font-bold text-[28px]'>Register Your Organization!</p>
+
+        <div className='flex flex-col gap-2'>
+          <div className='flex flex-col gap-0.5'>
+            <p className='text-[#6c757d] text-[13px]'>Organization Name</p>
+            <CustomInputField
+              type="text"
+              id="organizationName"
+              value={companyDetails.name}
+              onChange={handleInputChange}
+              placeholder="Name"
+              className={styles.inputfield}
+            />
           </div>
-        )}
+          <div className='flex flex-col gap-0.5'>
+            <p className='text-[#6c757d] text-[13px]'>Website Url</p>
+            <CustomInputField
+              type="url"
+              id="website_url"
+              value={companyDetails.website_url}
+              onChange={handleInputChange}
+              placeholder="Url"
+              className={styles.inputfield}
+            />
+          </div>
+          <div className='flex flex-col gap-0.5'>
+            <p className='text-[#6c757d] text-[13px]'>Organization Address</p>
+            <CustomInputField
+              type="address"
+              id="address"
+              value={companyDetails.address}
+              onChange={handleInputChange}
+              placeholder="Address"
+              className={styles.inputfield}
+            />
+          </div>
+          <div className='flex flex-col gap-0.5'>
+            <p className='text-[#6c757d] text-[13px]'>Organization Email</p>
+            <CustomInputField
+              type="email"
+              id="email"
+              value={companyDetails.email}
+              onChange={handleInputChange}
+              placeholder="Email Address"
+              className={styles.inputfield}
+            />
+          </div>
+          <div className='flex flex-col gap-0.5'>
+            <p className='text-[#6c757d] text-[13px]'>Organization Description</p>
+            <CustomInputField
+              type="text"
+              id="description"
+              value={companyDetails.description}
+              onChange={handleInputChange}
+              placeholder="Description"
+              className={styles.inputfield}
+            />
+          </div>
+          <div className='flex flex-col gap-0.5'>
+            <p className='text-[#6c757d] text-[13px]'>Founded Date</p>
+            <CustomInputField
+              type="date"
+              id="founded_date"
+              value={companyDetails.founded_date}
+              onChange={handleInputChange}
+              placeholder=""
+              className={styles.inputfield}
+            />
+          </div>
+          <div className='flex flex-col gap-0.5'>
+            <p className='text-[#6c757d] text-[13px]'>Country</p>
+            <CustomInputField
+              type="text"
+              id="country"
+              value={companyDetails.country}
+              onChange={handleInputChange}
+              placeholder="Country"
+              className={styles.inputfield}
+            />
+          </div>
 
+          <div className='flex flex-col gap-0.5'>
+            <p className='text-[#6c757d] text-[13px]'>Upload Logo</p>
+            <div className='flex items-center gap-4'>
+              <label className="block w-[50%] text-center text-sm font-semibold py-2 px-4 rounded-md text-white bg-[#39573c] hover:bg-[#39573c]/50 cursor-pointer">
+                <span className="cursor-pointer">Choose file</span>
+                <input
+                  type="file"
+                  name="logo"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </label>
+              {fileName && <p className='text-[#6c757d] text-[13px]'>{fileName}</p>}
+            </div>
+          </div>
+          <CustomButton onClick={handleSubmit} className={styles.btnprimary}>
+            Submit
+          </CustomButton>
+        </div>
       </div>
+    </div>
 
-      <div>
-        <h1>Register Your Company</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Company Name"
-            value={companyDetails.name}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="url"
-            name="website_url"
-            placeholder="Website URL"
-            value={companyDetails.website_url}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="address"
-            placeholder="Address"
-            value={companyDetails.address}
-            onChange={handleInputChange}
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={companyDetails.email}
-            onChange={handleInputChange}
-          />
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={companyDetails.description}
-            onChange={handleInputChange}
-          ></textarea>
-          <input
-            type="date"
-            name="founded_date"
-            placeholder="Founded Date"
-            value={companyDetails.founded_date}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="country"
-            placeholder="Country"
-            value={companyDetails.country}
-            onChange={handleInputChange}
-          />
-          <input
-            type="file"
-            name="logo"
-            onChange={handleFileChange}
-          />
-          <button type="submit">Register Company</button>
-        </form>
-      </div>
-    </>
+    // <div>
+    //   <h1>Register Your Company</h1>
+    //   <form onSubmit={handleSubmit}>
+    //     <input
+    //       type="text"
+    //       name="name"
+    //       placeholder="Company Name"
+    //       value={companyDetails.name}
+    //       onChange={handleInputChange}
+    //       required
+    //     />
+    //     <input
+    //       type="url"
+    //       name="website_url"
+    //       placeholder="Website URL"
+    //       value={companyDetails.website_url}
+    //       onChange={handleInputChange}
+    //     />
+    //     <input
+    //       type="text"
+    //       name="address"
+    //       placeholder="Address"
+    //       value={companyDetails.address}
+    //       onChange={handleInputChange}
+    //     />
+    //     <input
+    //       type="email"
+    //       name="email"
+    //       placeholder="Email"
+    //       value={companyDetails.email}
+    //       onChange={handleInputChange}
+    //     />
+    //     <textarea
+    //       name="description"
+    //       placeholder="Description"
+    //       value={companyDetails.description}
+    //       onChange={handleInputChange}
+    //     ></textarea>
+    //     <input
+    //       type="date"
+    //       name="founded_date"
+    //       placeholder="Founded Date"
+    //       value={companyDetails.founded_date}
+    //       onChange={handleInputChange}
+    //     />
+    //     <input
+    //       type="text"
+    //       name="country"
+    //       placeholder="Country"
+    //       value={companyDetails.country}
+    //       onChange={handleInputChange}
+    //     />
+    //     <input
+    //       type="file"
+    //       name="logo"
+    //       onChange={handleFileChange}
+    //     />
+    //     <button type="submit">Register Company</button>
+    //   </form>
+    // </div>
+
   )
 }
 

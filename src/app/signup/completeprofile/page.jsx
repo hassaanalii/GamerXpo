@@ -139,20 +139,27 @@ const Page = () => {
     return (
         <div className='bg-black flex items-center justify-center h-screen w-full gap-[60px]'>
             <div className={styles.imageContainer}>
-                {imagePreview ? (
-                    <img src={imagePreview} alt="Profile preview" className={styles.circleImage} />
-                ) : (
-                    <img
-                        src={userDetails.social_picture || defaultProfileImg}
-                        alt="Profile"
-                        className={styles.circleImage}
+                <label htmlFor="profileImageUpload">
+                    {imagePreview ? (
+                        <img src={imagePreview} alt="Profile preview" className={styles.circleImage} />
+                    ) : (
+                        <img
+                            src={userDetails.social_picture || defaultProfileImg}
+                            alt="Profile"
+                            className={styles.circleImage}
+                        />
+                    )}
+                    <input
+                        type="file"
+                        id="profileImageUpload"
+                        name="profile_picture"
+                        onChange={handleImageChange}
+                        className={styles.hiddenFileInput}
+                        style={{ display: 'none' }} // This hides the input but it is still functional
                     />
-                )}
-                <label className={styles.editButton}>
-                    Edit
-                    <input type="file" name="profile_picture" onChange={handleImageChange} style={{ opacity: 1, position: 'absolute', width: '100%', height: '100%' }} />
                 </label>
             </div>
+
             <div className='flex flex-col gap-5'>
                 <p className='text-white font-bold text-[30px]'>Complete Your Profile!</p>
                 <div className='flex flex-col gap-4'>
