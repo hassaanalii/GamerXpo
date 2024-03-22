@@ -50,16 +50,22 @@ const Page = () => {
                 }
                 const data = await response.json();
                 setUserDetails(data);
-                console.log(data)
-                console.log(userDetails)
+                console.log(data);
+    
+                // Check if the user has a profile and redirect accordingly
+                if (data.has_profile) {
+                    // User has a complete profile, redirect to the profile page
+                    router.push('/profile');
+                }
 
             } catch (error) {
                 console.error('There was a problem with your fetch operation:', error);
+                // Consider redirecting to an error page or showing an error message
             }
         };
-
+    
         fetchUserDetails();
-    }, []);
+    }, [router]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
