@@ -109,6 +109,12 @@
     margin: 0;
     padding: 0;
 }
+.errorText {
+    color: red;
+    font-size: small;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
 
 .btnsecondary .faicon {
     margin-right: 8px;

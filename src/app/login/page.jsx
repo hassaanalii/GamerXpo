@@ -9,6 +9,8 @@ import Image from 'next/image';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const router = useRouter()
 
     function getCookie(name) {
@@ -28,6 +30,19 @@ const Login = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        // Reset errors
+        setUsernameError('');
+        setPasswordError('');
+
+        // Validate inputs
+        if (!username.trim()) {
+            setUsernameError('Username is required');
+            return; // Stop the function if there is an error
+        }
+        if (!password) {
+            setPasswordError('Password is required');
+            return; // Stop the function if there is an error
+        }
         const csrfToken = getCookie('csrftoken');
 
         try {
@@ -80,23 +95,33 @@ const Login = () => {
                     </div>
                 </div>
                 <p className={styles.subheading}>Welcome Back!</p>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <CustomInputField
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Username"
-                        className={styles.inputfield}
-                    />
-                    <CustomInputField
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
-                        className={styles.inputfield}
-                    />
+                <form onSubmit={handleSubmit} className="flex flex-col w-full gap-4">
+                    <div className='flex flex-col gap-0.5'>
+                        {usernameError && (
+                            <p className="text-red-500 text-[10px]">{usernameError}</p>
+                        )}
+                        <CustomInputField
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Username"
+                            className={styles.inputfield}
+                        />
+                    </div>
+                    <div>
+                        {passwordError && (
+                            <p className="text-red-500 text-[10px]">{passwordError}</p>
+                        )}
+                        <CustomInputField
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Password"
+                            className={styles.inputfield}
+                        />
+                    </div>
                     <div className="flex flex-col space-y-2">
                         <CustomButton
                             onClick={handleSubmit}
@@ -117,7 +142,7 @@ const Login = () => {
                         <div className='flex items-center justify-center gap-1'>
                             <p className={styles.text2}>New to GamerXpo?</p>
                             <a href="/signup" className={` ${styles.text2} underline`}>
-                                Sign Up 
+                                Sign Up
                             </a>
                         </div>
                     </div>
