@@ -4,9 +4,12 @@ import React, { useState } from 'react'
 import styles from "./page.module.css"
 import CustomInputField from '@/app/components/custominputfield/CustomInputField'
 import CustomButton from '@/app/components/custombutton/CustomButton'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
   const { leadDetails } = useUserContext()
+  console.log(leadDetails);
+  const router = useRouter()
   const [companyDetails, setCompanyDetails] = useState({
     name: '',
     website_url: '',
@@ -40,14 +43,14 @@ const page = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(`Setting ${name} to ${value}`); // Add a log to debug
     setCompanyDetails(prevDetails => ({
       ...prevDetails,
       [name]: value,
     }));
   };
-
   const handleFileChange = (e) => {
-    const file = e.target.files[0]; // Get the selected file
+    const file = e.target.files[0];
     if (file) {
       setCompanyDetails(prevDetails => ({
         ...prevDetails,
@@ -61,9 +64,10 @@ const page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData1 = new FormData();
-    formData1.append('first_name', leadDetails.first_name);
-    formData1.append('last_name', leadDetails.last_name);
+    formData1.append('first_name', leadDetails.firstname);
+    formData1.append('last_name', leadDetails.lastname);
     formData1.append('role', leadDetails.role);
+
 
     if (leadDetails.profile_picture) {
       formData1.append('profile_picture', leadDetails.profile_picture);
@@ -127,7 +131,7 @@ const page = () => {
 
       if (response.ok) {
         console.log("Company registered successfully.");
-        // Additional logic upon success
+        // router.push("/profile")
       } else {
         console.error("Failed to register company.");
         // Handle failure
@@ -162,6 +166,7 @@ const page = () => {
             <CustomInputField
               type="text"
               id="organizationName"
+              name="name" 
               value={companyDetails.name}
               onChange={handleInputChange}
               placeholder="Name"
@@ -173,10 +178,12 @@ const page = () => {
             <CustomInputField
               type="url"
               id="website_url"
+              name="website_url"
               value={companyDetails.website_url}
               onChange={handleInputChange}
               placeholder="Url"
               className={styles.inputfield}
+
             />
           </div>
           <div className='flex flex-col gap-0.5'>
@@ -184,6 +191,7 @@ const page = () => {
             <CustomInputField
               type="address"
               id="address"
+              name="address"
               value={companyDetails.address}
               onChange={handleInputChange}
               placeholder="Address"
@@ -195,6 +203,7 @@ const page = () => {
             <CustomInputField
               type="email"
               id="email"
+              name="email"
               value={companyDetails.email}
               onChange={handleInputChange}
               placeholder="Email Address"
@@ -206,6 +215,7 @@ const page = () => {
             <CustomInputField
               type="text"
               id="description"
+              name="description"
               value={companyDetails.description}
               onChange={handleInputChange}
               placeholder="Description"
@@ -217,6 +227,7 @@ const page = () => {
             <CustomInputField
               type="date"
               id="founded_date"
+              name="founded_date"
               value={companyDetails.founded_date}
               onChange={handleInputChange}
               placeholder=""
@@ -228,6 +239,7 @@ const page = () => {
             <CustomInputField
               type="text"
               id="country"
+              name="country"
               value={companyDetails.country}
               onChange={handleInputChange}
               placeholder="Country"
@@ -256,67 +268,6 @@ const page = () => {
         </div>
       </div>
     </div>
-
-    // <div>
-    //   <h1>Register Your Company</h1>
-    //   <form onSubmit={handleSubmit}>
-    //     <input
-    //       type="text"
-    //       name="name"
-    //       placeholder="Company Name"
-    //       value={companyDetails.name}
-    //       onChange={handleInputChange}
-    //       required
-    //     />
-    //     <input
-    //       type="url"
-    //       name="website_url"
-    //       placeholder="Website URL"
-    //       value={companyDetails.website_url}
-    //       onChange={handleInputChange}
-    //     />
-    //     <input
-    //       type="text"
-    //       name="address"
-    //       placeholder="Address"
-    //       value={companyDetails.address}
-    //       onChange={handleInputChange}
-    //     />
-    //     <input
-    //       type="email"
-    //       name="email"
-    //       placeholder="Email"
-    //       value={companyDetails.email}
-    //       onChange={handleInputChange}
-    //     />
-    //     <textarea
-    //       name="description"
-    //       placeholder="Description"
-    //       value={companyDetails.description}
-    //       onChange={handleInputChange}
-    //     ></textarea>
-    //     <input
-    //       type="date"
-    //       name="founded_date"
-    //       placeholder="Founded Date"
-    //       value={companyDetails.founded_date}
-    //       onChange={handleInputChange}
-    //     />
-    //     <input
-    //       type="text"
-    //       name="country"
-    //       placeholder="Country"
-    //       value={companyDetails.country}
-    //       onChange={handleInputChange}
-    //     />
-    //     <input
-    //       type="file"
-    //       name="logo"
-    //       onChange={handleFileChange}
-    //     />
-    //     <button type="submit">Register Company</button>
-    //   </form>
-    // </div>
 
   )
 }

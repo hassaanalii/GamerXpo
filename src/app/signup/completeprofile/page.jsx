@@ -51,6 +51,8 @@ const Page = () => {
                 const data = await response.json();
                 setUserDetails(data);
                 console.log(data)
+                console.log(userDetails)
+
             } catch (error) {
                 console.error('There was a problem with your fetch operation:', error);
             }
@@ -142,12 +144,10 @@ const Page = () => {
                 <label htmlFor="profileImageUpload">
                     {imagePreview ? (
                         <img src={imagePreview} alt="Profile preview" className={styles.circleImage} />
+                    ) : userDetails.social_picture ? (
+                        <img src={userDetails.social_picture} alt="Profile" className={styles.circleImage} />
                     ) : (
-                        <img
-                            src={userDetails.social_picture || defaultProfileImg}
-                            alt="Profile"
-                            className={styles.circleImage}
-                        />
+                        <img src="/profile.png" alt="Default User" className={styles.circleImage} />
                     )}
                     <input
                         type="file"
