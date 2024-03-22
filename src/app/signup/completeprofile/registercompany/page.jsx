@@ -49,52 +49,52 @@ const page = () => {
   };
 
   const handleSubmit = async (e) => {
-   
-    // const formData = new FormData();
-    // formData.append('first_name', leadDetails.first_name);
-    // formData.append('last_name', leadDetails.last_name);
-    // formData.append('role', leadDetails.role);
+    e.preventDefault()
+    const formData1 = new FormData();
+    formData1.append('first_name', leadDetails.first_name);
+    formData1.append('last_name', leadDetails.last_name);
+    formData1.append('role', leadDetails.role);
 
-    // if (leadDetails.profile_picture) {
-    //   formData.append('profile_picture', leadDetails.profile_picture);
-    //   formData.append('profile_picture_url', null);
-    // } else if (leadDetails.profile_picture_url) {
-    //   formData.append('profile_picture_url', leadDetails.profile_picture_url);
-    //   formData.append('profile_picture', null);
+    if (leadDetails.profile_picture) {
+      formData1.append('profile_picture', leadDetails.profile_picture);
+      formData1.append('profile_picture_url', null);
+    } else if (leadDetails.profile_picture_url) {
+      formData1.append('profile_picture_url', leadDetails.profile_picture_url);
+      formData1.append('profile_picture', null);
 
-    // } else {
-    //   formData.append('profile_picture_url', null);
-    //   formData.append('profile_picture', null);
+    } else {
+      formData1.append('profile_picture_url', null);
+      formData1.append('profile_picture', null);
 
-    // }
-    // const csrfToken = getCookie('csrftoken');
-
-
-    // // Inside your handleSubmit function
-    // try {
-    //   const response = await fetch('http://localhost:8000/api/setprofile/', {
-    //     method: 'POST',
-    //     body: formData,
-    //     credentials: 'include',
-    //     headers: {
-    //       'X-CSRFToken': csrfToken,
-    //     },
-
-    //   });
-
-    //   if (response.ok) {
-    //     console.log("Profile updated successfully.");
-
-    //   } else {
-
-    //     console.error("Failed to update profile.");
-    //   }
-    // } catch (error) {
-    //   console.error("Error updating profile:", error);
-    // }
+    }
+    const csrfToken = getCookie('csrftoken');
 
 
-    e.preventDefault();
+    // Inside your handleSubmit function
+    try {
+      const response = await fetch('http://localhost:8000/api/setprofile/', {
+        method: 'POST',
+        body: formData1,
+        credentials: 'include',
+        headers: {
+          'X-CSRFToken': csrfToken,
+        },
+
+      });
+
+      if (response.ok) {
+        console.log("Profile updated successfully.");
+
+      } else {
+
+        console.error("Failed to update profile.");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+
+
+
     const formData = new FormData();
     Object.keys(companyDetails).forEach(key => {
       if (key !== 'logo') {
@@ -111,7 +111,7 @@ const page = () => {
         body: formData,
         credentials: 'include',
         headers: {
-          'X-CSRFToken': getCookie('csrftoken'),
+          'X-CSRFToken': csrfToken,
         },
       });
 

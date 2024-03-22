@@ -3,10 +3,14 @@ import { useUserContext } from '@/app/context/userprofile';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect, useContext } from 'react';
+import styles from "./page.module.css"
+import CustomInputField from '@/app/components/custominputfield/CustomInputField';
+import CustomButton from '@/app/components/custombutton/CustomButton';
 
 const Page = () => {
-    const {leadDetails, updateLeadDetails } = useUserContext();
+    const { leadDetails, updateLeadDetails } = useUserContext();
     const router = useRouter()
+
 
     const [userDetails, setUserDetails] = useState({
         first_name: '',
@@ -77,10 +81,10 @@ const Page = () => {
                 firstname: userDetails.first_name,
                 lastname: userDetails.last_name,
                 role: userDetails.role,
-                profile_picture: profileImage, 
+                profile_picture: profileImage,
                 profile_picture_url: userDetails.social_picture || null,
             });
-            
+
             router.push('/signup/completeprofile/registercompany/')
 
         } else {
@@ -133,54 +137,88 @@ const Page = () => {
     };
 
     return (
-        <div>
-            <h1>Edit User Details</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Username:
-                    <input type="text" name="username" value={userDetails.username} onChange={handleChange} />
+        <div className='bg-black flex items-center justify-center h-screen w-full gap-[60px]'>
+            <div className={styles.imageContainer}>
+                {imagePreview ? (
+                    <img src={imagePreview} alt="Profile preview" className={styles.circleImage} />
+                ) : (
+                    <img
+                        src={userDetails.social_picture || defaultProfileImg}
+                        alt="Profile"
+                        className={styles.circleImage}
+                    />
+                )}
+                <label className={styles.editButton}>
+                    Edit
+                    <input type="file" name="profile_picture" onChange={handleImageChange} style={{ opacity: 1, position: 'absolute', width: '100%', height: '100%' }} />
                 </label>
-                <label>
-                    Email:
-                    <input type="email" name="email" value={userDetails.email} onChange={handleChange} />
-                </label>
-                <label>
-                    First Name:
-                    <input type="text" name="first_name" value={userDetails.first_name} onChange={handleChange} />
-                </label>
-                <label>
-                    Last Name:
-                    <input type="text" name="last_name" value={userDetails.last_name} onChange={handleChange} />
-                </label>
-
-                <div>
-                    <p>Profile Picture:</p>
-                    <input type="file" name="profile_picture" onChange={handleImageChange} />
-
-                    {imagePreview ? (
-                        // If there's an image preview, display it
-                        <img src={imagePreview} alt="Profile preview" style={{ maxWidth: '200px' }} />
-                    ) : (
-                        // If there's no image preview but there's a social picture, display it
-                        // Otherwise, display the default image
-                        <img
-                            src={userDetails.social_picture || defaultProfileImg}
-                            alt="Profile"
-                            style={{ maxWidth: '200px' }}
+            </div>
+            <div className='flex flex-col gap-5'>
+                <p className='text-white font-bold text-[30px]'>Complete Your Profile!</p>
+                <div className='flex flex-col gap-4'>
+                    <div className='flex flex-col gap-1'>
+                        <p className='text-[#6c757d] text-[13px]'>Username</p>
+                        <CustomInputField
+                            type="text"
+                            id="username"
+                            value={userDetails.username}
+                            onChange={handleChange}
+                            placeholder="Username"
+                            className={styles.inputfield}
+                            readOnly={true}
                         />
-                    )}
+                    </div>
+                    <div className='flex flex-col gap-1'>
+                        <p className='text-[#6c757d] text-[13px]'>Email</p>
+                        <CustomInputField
+                            type="text"
+                            id="email"
+                            value={userDetails.email}
+                            onChange={handleChange}
+                            className={styles.inputfield}
+                            readOnly={true}
+                        />
+                    </div>
+                    <div className='flex flex-col gap-1'>
+                        <p className='text-[#6c757d] text-[13px]'>First Name</p>
+                        <CustomInputField
+                            type="text"
+                            name="first_name" // This should match the state property
+                            id="firstname" // ID can be used for labeling and should match the 'for' attribute of the label
+                            value={userDetails.first_name === "undefined" ? "" : userDetails.first_name}
+                            onChange={handleChange}
+                            className={styles.inputfield}
+                            placeholder="First Name"
+                        />
+                    </div>
+                    <div className='flex flex-col gap-1'>
+                        <p className='text-[#6c757d] text-[13px]'>Last Name</p>
+                        <CustomInputField
+                            type="text"
+                            name="last_name" // This should match the state property
+                            id="lastname" // ID can be used for labeling and should match the 'for' attribute of the label
+                            value={userDetails.last_name === "undefined" ? "" : userDetails.last_name}
+                            onChange={handleChange}
+                            className={styles.inputfield}
+                            placeholder="Last Name"
+                        />
+                    </div>
+                    <div className='flex flex-col gap-1'>
+                        <p className='text-[#6c757d] text-[13px]'>Role</p>
+                        <select name="role" value={userDetails.role} onChange={handleChange} className='p-2 rounded-md bg-[#222] border-2 border-[#333] text-white'>
+                            <option value="">Select Role</option>
+                            <option value="Lead">Lead</option>
+                            <option value="Developer">Developer</option>
+                            <option value="Gamer">Gamer</option>
+                        </select>
+                    </div>
+                    <CustomButton onClick={handleSubmit} type="submit" className={styles.btnprimary}>
+                        Save
+                    </CustomButton>
+
                 </div>
-                <label>
-                    Role:
-                    <select name="role" value={userDetails.role} onChange={handleChange}>
-                        <option value="">Select Role</option>
-                        <option value="Lead">Lead</option>
-                        <option value="Developer">Developer</option>
-                        <option value="Gamer">Gamer</option>
-                    </select>
-                </label>
-                <button type="submit">Save Changes</button>
-            </form>
+            </div>
+
         </div>
     );
 };

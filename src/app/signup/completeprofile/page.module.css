@@ -1,0 +1,84 @@
+.circleImage {
+    display: block;
+    width: 300px;
+    /* New width */
+    height: 300px;
+    /* New height, should be the same as width for a circle */
+    object-fit: cover;
+    /* This will cover the circle area without stretching the image */
+    border-radius: 50%;
+    /* This makes the image a circle */
+    opacity: 1;
+    /* Update as needed */
+}
+
+.imageContainer {
+    position: relative;
+    width: 300px;
+    /* Container should match image size */
+    height: 300px;
+    border-radius: 50%;
+    /* Match the image's border-radius */
+    overflow: hidden;
+    /* This ensures that if the image is larger, it will be clipped to fit the container */
+}
+
+.inputfield {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 1rem;
+    border: 2px solid #333;
+    background: #222;
+    color: #fff;
+    border-radius: 7px;
+    height: 37px;
+    margin: 0;
+}
+
+.btnprimary {
+    background-color: #4f6f52;
+    /* Replace with the olive/green color you have in the app */
+    color: #fff;
+    padding: 15px;
+    border: none;
+    width: 100%;
+    border-radius: 7px;
+    margin-top: 0.6rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: 30px;
+    line-height: 3px;
+    padding: 0;
+
+}
+.editImageContainer {
+    position: relative;
+    width: 200px; /* Adjust based on your image size */
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.editButton {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Ensure the input[type='file'] doesn't display the default file input style */
+.editButton input[type='file'] {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
