@@ -56,16 +56,21 @@ const Login = () => {
                 body: JSON.stringify({ username, password }),
             });
 
-            const data = await response.json(); // Parse the JSON response
+
 
             if (response.ok) {
+                const data = await response.json();
                 console.log('Login successful:', data);
-                router.push('/signup/completeprofile')
-
+                if (data.has_profile) {
+                    router.push('/profile');
+                } else {
+                    router.push('/signup/completeprofile');
+                }
             } else {
                 console.error('Login failed:', data.detail);
-
             }
+
+
         } catch (error) {
             console.error('Network error:', error);
 
