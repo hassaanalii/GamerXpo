@@ -1,24 +1,33 @@
-import { redirect } from 'next/navigation';
+"use client"
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-async function getVerification(){
-  const res =  await fetch("http://localhost:8000/api/verify/", {
-    method: 'GET',
-    credentials: 'include', // Important for cookies if using sessions
-  });
-  if (res.ok) {
-    const data = await res.json();
-    if(data.authenticated){
-      redirect("/profile")
-    }else if(!data.authenticated){
-      redirect("/login")
+export default function Profile() {
+  const router = useRouter();
+
+  useEffect(() => {
+    async function getVerification() {
+      const res = await fetch("http://localhost:8000/api/verify/", {
+        method: 'GET',
+        credentials: 'include', // Important for cookies if using sessions
+      });
+      if (res.ok) {
+        const data = await res.json();
+         console.log("not")
+        if (data.authenticated) {
+          console.log("not")
+          router.push("/profile");
+        } else {
+          console.log("not")
+          router.push("/login");
+        }
+      }
     }
-  }
-}
-export default async function Profile(){
-  const data = await getVerification()
-  return(
-    <div>hello</div>
-  )
-}
 
+    getVerification();
+  }, [router]);
 
+  return (
+    <div>Hello</div>
+  );
+}
