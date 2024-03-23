@@ -34,7 +34,6 @@ const Login = () => {
         setUsernameError('');
         setPasswordError('');
 
-        // Validate inputs
         if (!username.trim()) {
             setUsernameError('Username is required');
             return; // Stop the function if there is an error
