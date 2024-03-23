@@ -15,7 +15,7 @@ export default function Profile() {
         const data = await res.json();
          console.log("not")
         if (data.authenticated) {
-          console.log("not")
+          
           router.push("/profile");
         } else {
           console.log("not")
