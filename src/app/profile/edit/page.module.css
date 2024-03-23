@@ -1,0 +1,50 @@
+.circleImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.imageContainer {
+    position: relative;
+    width: 300px;
+    /* Container should match image size */
+    height: 300px;
+    border-radius: 50%;
+    /* Match the image's border-radius */
+    overflow: hidden;
+    /* This ensures that if the image is larger, it will be clipped to fit the container */
+}
+
+.inputfield {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 1rem;
+    border: 2px solid #333;
+    background: #222;
+    color: #fff;
+    border-radius: 7px;
+    height: 37px;
+    margin: 0;
+}
+
+.btnprimary {
+    background-color: #4f6f52;
+    /* Replace with the olive/green color you have in the app */
+    color: #fff;
+    padding: 15px;
+    border: none;
+    width: 100%;
+    border-radius: 7px;
+    margin-top: 0.6rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: 30px;
+    line-height: 3px;
+    padding: 0;
+
+}
+

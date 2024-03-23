@@ -13,13 +13,10 @@ export default function Profile() {
       });
       if (res.ok) {
         const data = await res.json();
-         console.log("not")
         if (data.authenticated) {
-          
           router.push("/profile");
         } else {
-          console.log("not")
-          router.push("/login");
+          router.push("/login")
         }
       }
     }
