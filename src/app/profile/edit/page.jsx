@@ -7,6 +7,8 @@ import styles from './page.module.css'
 
 export default function Profile() {
   const router = useRouter();
+  const [usernames, setUsernames] = useState([]);
+
   const [userDetails, setUserDetails] = useState({
     first_name: '',
     last_name: '',
@@ -19,7 +21,7 @@ export default function Profile() {
   const [imagePreview, setImagePreview] = useState('');
 
   useEffect(() => {
-    // Determine which image to show as preview
+
     if (profileImage) {
       setImagePreview(URL.createObjectURL(profileImage));
     } else if (userDetails.profile_picture && userDetails.profile_picture !== "") {
@@ -27,7 +29,7 @@ export default function Profile() {
     } else if (userDetails.profile_picture_url) {
       setImagePreview(userDetails.profile_picture_url);
     } else {
-      setImagePreview('/profile.png'); // Default profile image
+      setImagePreview('/profile.png');
     }
   }, [profileImage, userDetails.profile_picture, userDetails.profile_picture_url]);
 
@@ -49,17 +51,27 @@ export default function Profile() {
   // Handler for form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('first_name', userDetails.first_name);
-    formData.append('last_name', userDetails.last_name);
-    formData.append('email', userDetails.email);
-    // Add the profile image only if a new one has been selected
-    if (profileImage) {
-      formData.append('profile_picture', profileImage);
-    }
-    // Here you would include the logic to send formData to the backend API
 
-    console.log(userDetails);
+    const isUsernamePresent = usernames.includes(userDetails.username);
+
+    if (isUsernamePresent) {
+      console.log("Username already present");
+      return;
+    }
+    else {
+      const formData = new FormData();
+      formData.append('first_name', userDetails.first_name);
+      formData.append('last_name', userDetails.last_name);
+      formData.append('username', userDetails.username);
+
+      if (profileImage) {
+        formData.append('profile_picture', profileImage);
+      }
+      console.log(formData);
+
+    }
+
+
   };
 
   useEffect(() => {
@@ -74,6 +86,23 @@ export default function Profile() {
       const data = await response.json();
       setUserDetails(data);
     }
+    const fetchUsernames = async () => {
+      try {
+        // Update the URL to match your API endpoint
+        const response = await fetch('http://localhost:8000/api/usernames/', {
+          credentials: 'include', // If your API requires authentication
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setUsernames(data.usernames);
+        console.log(data.usernames);
+      } catch (error) {
+        console.error('There was a problem with your fetch operation:', error);
+      }
+    };
+    fetchUsernames();
 
     fetchUserDetails();
   }, []);
@@ -129,6 +158,7 @@ export default function Profile() {
               id="username"
               className={styles.inputfield}
               value={userDetails.username}
+              onChange={handleChange}
               placeholder="Username"
             />
           </div>
