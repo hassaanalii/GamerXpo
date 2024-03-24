@@ -19,6 +19,16 @@ export default function Profile() {
     profile_picture: null,
     profile_picture_url: '',
   });
+  const [organizationDetails, setOrganizationDetails] = useState({
+    name: '',
+    website_url: '',
+    address: '',
+    logo: null,
+    description: '',
+    founded_date: '',
+    country: '',
+  });
+
 
   useEffect(() => {
     async function getVerification() {
@@ -45,6 +55,29 @@ export default function Profile() {
   }
 
   useEffect(() => {
+    async function fetchOrganizationDetails() {
+      const response = await fetch("http://localhost:8000/api/organization/", {
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        console.error("Failed to fetch organization details");
+        return;
+      }
+      const orgData = await response.json();
+      setUserDetails({
+        name: orgData.name || '',
+        website_url: orgData.website_url || '',
+        address: orgData.address || '',
+        email: orgData.email || '',
+        logo: orgData.logo || '/profile.png',
+        description: orgData.description || '',
+        founded_date: orgData.founded_date || '',
+        country: orgData.country || '',
+
+      });
+
+    }
+
     async function fetchUserDetails() {
       const response = await fetch("http://localhost:8000/api/userinformation/", {
         credentials: 'include',
@@ -55,7 +88,7 @@ export default function Profile() {
       }
       const data = await response.json();
       console.log(data);
-      setUserDetails({
+      setOrganizationDetails({
         first_name: data.first_name || '',
         last_name: data.last_name || '',
         email: data.email || '',
@@ -66,6 +99,8 @@ export default function Profile() {
       });
 
     }
+
+    fetchOrganizationDetails()
     fetchUserDetails()
 
   }, [])
@@ -90,7 +125,7 @@ export default function Profile() {
             <div className='flex flex-col gap-2'>
               <p className='text-white font-bold text-[30px]'>{userDetails.first_name} {userDetails.last_name}</p>
               <div>
-                <div className='p-2 rounded-md border-2 border-[#4F6F52] bg-[#4F6F52]/50 w-[40%] text-center'>
+                <div className='p-2 rounded-md border-2 border-[#4F6F52] bg-[#4F6F52]/50 w-[80%] text-center'>
                   <p className='text-white text-[10px]'>Role: {userDetails.role}</p>
                 </div>
               </div>
@@ -112,6 +147,13 @@ export default function Profile() {
           </div>
 
         </div>
+        {
+          userDetails.role === "Lead" && (
+            <div>
+                
+            </div>
+          )
+        }
 
       </div>
 
