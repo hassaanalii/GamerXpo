@@ -1,9 +1,22 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import styles from './page.module.css'
+import Image from 'next/image';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function Profile() {
   const router = useRouter();
+  const [userDetails, setUserDetails] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    username: '',
+    role: '',
+    profile_picture: null,
+    profile_picture_url: '',
+  });
 
   useEffect(() => {
     async function getVerification() {
@@ -23,8 +36,72 @@ export default function Profile() {
 
     getVerification();
   }, [router]);
+  
+
+  const handleEditClick = () =>{
+    router.push("/profile/edit")
+  }
+
+  useEffect(() => {
+    async function fetchUserDetails() {
+      const response = await fetch("http://localhost:8000/api/userinformation/", {
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        console.error("Failed to fetch user details");
+        return;
+      }
+      const data = await response.json();
+      console.log(data);
+      setUserDetails({
+        first_name: data.first_name || '',
+        last_name: data.last_name || '',
+        email: data.email || '',
+        username: data.username || '',
+        role: data.role || '',
+        profile_picture: data.profile_picture || '/profile.png',
+        profile_picture_url: data.profile_picture_url || '',
+      });
+
+    }
+    fetchUserDetails()
+
+  }, [])
+  console.log(userDetails)
+  const profileImageSrc = userDetails.profile_picture
+    ? `http://localhost:8000/${userDetails.profile_picture}`
+    : '/profile.png';
 
   return (
-    <div>Hello</div>
+    <div className='bg-black'>
+      <div className={styles.maindiv}>
+        <div className='flex flex-row items-center justify-between'>
+          <div className='flex flex-row pt-5 items-center gap-5'>
+            {userDetails.profile_picture && (
+              <img
+                src={profileImageSrc}
+                alt="Profile"
+                className={styles.image}
+                layout="responsive" // or fixed, depending on your layout needs
+              />
+            )}
+            <div className='flex flex-col gap-2'>
+              <p className='text-white font-bold text-[30px]'>{userDetails.first_name} {userDetails.last_name}</p>
+              <div>
+                <div className='p-2 rounded-md border-2 border-[#4F6F52] bg-[#4F6F52]/50 w-[30%] text-center'>
+                  <p className='text-white text-[10px]'>Role: {userDetails.role}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <FontAwesomeIcon icon={faEdit} onClick={handleEditClick} className="text-white text-xl cursor-pointer hover:text-[#4F6F52]" />
+          </div>
+        </div>
+
+      </div>
+
+    </div>
   );
 }
+

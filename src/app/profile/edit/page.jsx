@@ -8,6 +8,24 @@ import styles from './page.module.css'
 export default function Profile() {
   const router = useRouter();
   const [usernames, setUsernames] = useState([]);
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+
   useEffect(() => {
     async function getVerification() {
       const res = await fetch("http://localhost:8000/api/verify/", {
@@ -35,8 +53,6 @@ export default function Profile() {
   });
 
 
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserDetails(prevDetails => ({
@@ -49,7 +65,9 @@ export default function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const isUsernamePresent = usernames.includes(userDetails.username);
+    const currentUserUsername = userDetails.originalUsername; // Assuming you store the original username on load
+    const isUsernameChanged = userDetails.username !== currentUserUsername;
+    const isUsernamePresent = isUsernameChanged && usernames.includes(userDetails.username);
 
     if (isUsernamePresent) {
       console.log("Username already present");
@@ -61,7 +79,26 @@ export default function Profile() {
       formData.append('last_name', userDetails.last_name);
       formData.append('username', userDetails.username);
 
-      console.log(userDetails)
+      try {
+        const response = await fetch('http://localhost:8000/api/updateuser/', {
+          method: 'PATCH',
+          body: formData,
+          credentials: 'include', // Include cookies if needed
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'), 
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const updatedUserDetails = await response.json();
+        console.log('User updated successfully:', updatedUserDetails);
+        router.push("/profile")
+      } catch (error) {
+        console.error('Error updating user:', error);
+      }
 
     }
 
@@ -78,7 +115,10 @@ export default function Profile() {
         return;
       }
       const data = await response.json();
-      setUserDetails(data);
+      setUserDetails({
+        ...data,
+        originalUsername: data.username, 
+      });
     }
     const fetchUsernames = async () => {
       try {
