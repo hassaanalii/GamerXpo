@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './page.module.css'
 import Image from 'next/image';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faU } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function Profile() {
   const router = useRouter();
@@ -36,9 +38,9 @@ export default function Profile() {
 
     getVerification();
   }, [router]);
-  
 
-  const handleEditClick = () =>{
+
+  const handleEditClick = () => {
     router.push("/profile/edit")
   }
 
@@ -68,9 +70,9 @@ export default function Profile() {
 
   }, [])
   console.log(userDetails)
-  const profileImageSrc = userDetails.profile_picture
-    ? `http://localhost:8000/${userDetails.profile_picture}`
-    : '/profile.png';
+  const profileImageSrc = userDetails.profile_picture_url ==="null" ? (userDetails.profile_picture === "/profile.png"
+    ? '/profile.png'
+    : `http://localhost:8000/${userDetails.profile_picture}`) : userDetails.profile_picture_url;
 
   return (
     <div className='bg-black'>
@@ -88,7 +90,7 @@ export default function Profile() {
             <div className='flex flex-col gap-2'>
               <p className='text-white font-bold text-[30px]'>{userDetails.first_name} {userDetails.last_name}</p>
               <div>
-                <div className='p-2 rounded-md border-2 border-[#4F6F52] bg-[#4F6F52]/50 w-[30%] text-center'>
+                <div className='p-2 rounded-md border-2 border-[#4F6F52] bg-[#4F6F52]/50 w-[40%] text-center'>
                   <p className='text-white text-[10px]'>Role: {userDetails.role}</p>
                 </div>
               </div>
@@ -97,6 +99,18 @@ export default function Profile() {
           <div>
             <FontAwesomeIcon icon={faEdit} onClick={handleEditClick} className="text-white text-xl cursor-pointer hover:text-[#4F6F52]" />
           </div>
+        </div>
+        <div className='flex flex-col gap-2 pl-5 pt-5'>
+          <div className='flex flex-row gap-2'>
+            <FontAwesomeIcon icon={faUser} className="text-white text-md hover:text-[#4F6F52] cursor-pointer" />
+            <p className='text-white text-[12px]'>: {userDetails.username}</p>
+          </div>
+          <div className='flex flex-row gap-2'>
+            <FontAwesomeIcon icon={faEnvelope} className="text-white text-md hover:text-[#4F6F52] cursor-pointer" />
+            <p className='text-white text-[12px]'>: {userDetails.email}</p>
+
+          </div>
+
         </div>
 
       </div>
