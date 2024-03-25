@@ -5,7 +5,7 @@ import styles from './page.module.css'
 import Image from 'next/image';
 import { faEdit, faU } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser, faLink, faAddressCard, faAt, faInfo, faCalendar, faFlag } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function Profile() {
@@ -23,7 +23,8 @@ export default function Profile() {
     name: '',
     website_url: '',
     address: '',
-    logo: null,
+    email: '',
+    logo: '',
     description: '',
     founded_date: '',
     country: '',
@@ -53,6 +54,9 @@ export default function Profile() {
   const handleEditClick = () => {
     router.push("/profile/edit")
   }
+  const handleEditOrganization = () => {
+    router.push("/profile/editorganization")
+  }
 
   useEffect(() => {
     async function fetchOrganizationDetails() {
@@ -64,7 +68,7 @@ export default function Profile() {
         return;
       }
       const orgData = await response.json();
-      setUserDetails({
+      setOrganizationDetails({
         name: orgData.name || '',
         website_url: orgData.website_url || '',
         address: orgData.address || '',
@@ -88,7 +92,7 @@ export default function Profile() {
       }
       const data = await response.json();
       console.log(data);
-      setOrganizationDetails({
+      setUserDetails({
         first_name: data.first_name || '',
         last_name: data.last_name || '',
         email: data.email || '',
@@ -105,10 +109,11 @@ export default function Profile() {
 
   }, [])
   console.log(userDetails)
-  const profileImageSrc = userDetails.profile_picture_url ==="null" ? (userDetails.profile_picture === "/profile.png"
+  const profileImageSrc = userDetails.profile_picture_url === "null" ? (userDetails.profile_picture === "/profile.png"
     ? '/profile.png'
     : `http://localhost:8000/${userDetails.profile_picture}`) : userDetails.profile_picture_url;
 
+  const organizationImageSrc = `http://localhost:8000/${organizationDetails.logo}`
   return (
     <div className='bg-black'>
       <div className={styles.maindiv}>
@@ -149,8 +154,63 @@ export default function Profile() {
         </div>
         {
           userDetails.role === "Lead" && (
-            <div>
-                
+            <div className='bg-white mt-10 rounded-lg py-7 px-10'>
+              <div className='flex flex-row  justify-between'>
+                <div className='flex flex-col gap-2'>
+                  <div className='flex flex-row items-center justify-between'>
+                    <p className='font-bold text-[30px]'>{organizationDetails.name}</p>
+                    <FontAwesomeIcon icon={faEdit} onClick={handleEditOrganization} className="text-black text-xl cursor-pointer hover:text-[#4F6F52]" />
+                  </div>
+                  <div className='flex flex-col gap-2'>
+                    <div className='flex gap-2'>
+                      <div style={{ width: "30px" }}>
+                        <FontAwesomeIcon icon={faLink} className="text-black text-md mt-0.5 flex  cursor-pointer hover:text-[#4F6F52]" />
+                      </div>
+                      <a href={organizationDetails.website_url} className='text-[13px] underline'>{organizationDetails.website_url}</a>
+                    </div>
+                    <div className='flex gap-2'>
+                      <div style={{ width: "30px" }}>
+                        <FontAwesomeIcon icon={faAddressCard} className="text-black text-md mt-0.5 flex  cursor-pointer hover:text-[#4F6F52]" />
+                      </div>
+                      <p className='text-[13px]'>{organizationDetails.address}</p>
+                    </div>
+                    <div className='flex gap-2'>
+                      <div style={{ width: "30px" }}>
+                        <FontAwesomeIcon icon={faAt} className="text-black text-md mt-0.5 flex  cursor-pointer hover:text-[#4F6F52]" />
+                      </div>
+                      <p className='text-[13px]'>{organizationDetails.email}</p>
+                    </div>
+                    <div className='flex gap-2'>
+                      <div style={{ width: "30px" }}>
+                        <FontAwesomeIcon icon={faInfo} className="text-black text-md mt-0.5 flex  cursor-pointer hover:text-[#4F6F52]" />
+                      </div>
+                      <p className='text-[13px]'>{organizationDetails.description}</p>
+                    </div>
+                    <div className='flex gap-2'>
+                      <div style={{ width: "30px" }}>
+                        <FontAwesomeIcon icon={faCalendar} className="text-black text-md mt-0.5 flex  cursor-pointer hover:text-[#4F6F52]" />
+                      </div>
+                      <p className='text-[13px]'>{organizationDetails.founded_date}</p>
+                    </div>
+                    <div className='flex gap-2'>
+                      <div style={{ width: "30px" }}>
+                        <FontAwesomeIcon icon={faFlag} className="text-black text-md mt-0.5 flex  cursor-pointer hover:text-[#4F6F52]" />
+                      </div>
+                      <p className='text-[13px]'>{organizationDetails.country}</p>
+                    </div>
+
+                  </div>
+
+                </div>
+                <img
+                  src={organizationImageSrc}
+                  alt="Profile"
+                  className={styles.image2}
+                  layout="responsive"
+                />
+
+              </div>
+
             </div>
           )
         }
