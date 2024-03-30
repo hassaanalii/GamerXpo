@@ -10,6 +10,9 @@ import { faEnvelope, faUser, faLink, faAddressCard, faAt, faInfo, faCalendar, fa
 
 export default function Profile() {
   const router = useRouter();
+  const [userId, setUserId] = useState()
+  const [organizationId, setOrganizationId] = useState()
+
   const [userDetails, setUserDetails] = useState({
     first_name: '',
     last_name: '',
@@ -29,6 +32,37 @@ export default function Profile() {
     founded_date: '',
     country: '',
   });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const response = await fetch('http://localhost:8000/api/getuserid/', {
+        credentials: 'include',
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setUserId(data.userId);
+      }
+    };
+    fetchUserData();
+
+
+  }, []);
+
+  if (userId) {
+    const fetchOrganizationId = async () => {
+      const response = await fetch(`http://localhost:8000/api/getorganizationid/${userId}`, {
+        credentials: 'include',
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setOrganizationId(data.organization_id);
+      }
+    };
+    fetchOrganizationId()
+  }
+  if (organizationId) {
+
+  }
 
 
   useEffect(() => {
@@ -59,28 +93,6 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    async function fetchOrganizationDetails() {
-      const response = await fetch("http://localhost:8000/api/organization/", {
-        credentials: 'include',
-      });
-      if (!response.ok) {
-        console.error("Failed to fetch organization details");
-        return;
-      }
-      const orgData = await response.json();
-      setOrganizationDetails({
-        name: orgData.name || '',
-        website_url: orgData.website_url || '',
-        address: orgData.address || '',
-        email: orgData.email || '',
-        logo: orgData.logo || '/profile.png',
-        description: orgData.description || '',
-        founded_date: orgData.founded_date || '',
-        country: orgData.country || '',
-
-      });
-
-    }
 
     async function fetchUserDetails() {
       const response = await fetch("http://localhost:8000/api/userinformation/", {
@@ -102,9 +114,32 @@ export default function Profile() {
         profile_picture_url: data.profile_picture_url || '',
       });
 
+      if (data.role === 'Lead') {
+
+        const response = await fetch("http://localhost:8000/api/organization/", {
+          credentials: 'include',
+        });
+        if (!response.ok) {
+          console.error("Failed to fetch organization details");
+          return;
+        }
+        const orgData = await response.json();
+        setOrganizationDetails({
+          name: orgData.name || '',
+          website_url: orgData.website_url || '',
+          address: orgData.address || '',
+          email: orgData.email || '',
+          logo: orgData.logo || '/profile.png',
+          description: orgData.description || '',
+          founded_date: orgData.founded_date || '',
+          country: orgData.country || '',
+
+        });
+
+      }
+
     }
 
-    fetchOrganizationDetails()
     fetchUserDetails()
 
   }, [])
