@@ -5,13 +5,19 @@ import styles from './page.module.css'
 import Image from 'next/image';
 import { faEdit, faU } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faUser, faLink, faAddressCard, faAt, faInfo, faCalendar, faFlag } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser, faLink, faAddressCard, faAt, faInfo, faCalendar, faFlag, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import CustomButton from '../components/custombutton/CustomButton';
 
 
 export default function Profile() {
   const router = useRouter();
   const [userId, setUserId] = useState()
   const [organizationId, setOrganizationId] = useState()
+  const [secretKey, setSecretKey] = useState('');
+
+  const handleKeyChange = (event) => {
+    setSecretKey(event.target.value);
+  };
 
   const [userDetails, setUserDetails] = useState({
     first_name: '',
@@ -32,6 +38,22 @@ export default function Profile() {
     founded_date: '',
     country: '',
   });
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -84,6 +106,54 @@ export default function Profile() {
     getVerification();
   }, [router]);
 
+  const handleJoinClick = async () => {
+    const formData = new FormData();
+    formData.append('secret_key', secretKey);
+
+    try {
+      const response = await fetch('http://localhost:8000/api/joinorganization/', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Organization ID:", data.organization_id);
+        try {
+          const response = await fetch('http://localhost:8000/api/updateorganizationinuserprofile/', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken'),
+            },
+            credentials: 'include', 
+            body: JSON.stringify({ organization_id: data.organization_id }),
+          });
+
+          if (response.ok) {
+            console.log("User profile updated successfully.");
+          } else {
+            const errorData = await response.json();
+            console.error("Failed to update user profile:", errorData.error);
+          }
+        } catch (error) {
+          console.error("Error updating user profile:", error);
+        }
+
+
+      } else {
+        const errorData = await response.json();
+        console.error("Join organization failed:", errorData.error);
+        setSecretKey("");
+      }
+    } catch (error) {
+      console.error("Error joining organization:", error);
+    }
+  }
 
   const handleEditClick = () => {
     router.push("/profile/edit")
@@ -178,14 +248,19 @@ export default function Profile() {
     fetchUserDetails()
 
   }, [])
-  console.log(userDetails)
+
+
+  // console.log(userDetails)
+  // console.log(secretKey)
+
   const profileImageSrc = userDetails.profile_picture_url === "null" ? (userDetails.profile_picture === "/profile.png"
     ? '/profile.png'
     : `http://localhost:8000/${userDetails.profile_picture}`) : userDetails.profile_picture_url;
 
   const organizationImageSrc = `http://localhost:8000/${organizationDetails.logo}`
   const areOrganizationDetailsSet = Object.values(organizationDetails).some(detail => detail);
-  console.log(areOrganizationDetailsSet)
+
+  // console.log(areOrganizationDetailsSet)
 
   return (
     <div className='bg-black'>
@@ -223,8 +298,37 @@ export default function Profile() {
             <p className='text-white text-[12px]'>: {userDetails.email}</p>
 
           </div>
+          {userDetails.role === "Developer" && !areOrganizationDetailsSet && (
+            <div className='flex flex-row gap-2'>
+              <FontAwesomeIcon icon={faExclamationTriangle} className="text-red-500 text-md hover:text-white cursor-pointer" />
+              <p className='text-red-500 font-bold text-[12px]'>You are not a part of any organization!</p>
+
+            </div>
+          )}
+
 
         </div>
+
+        {userDetails.role === "Developer" && !areOrganizationDetailsSet && (
+          <div className='mt-10 flex flex-col'>
+            <div>
+              <p className='font-bold text-[30px] text-white'>Join an Organization</p>
+            </div>
+            <div className='flex items-center justify-center mt-3 gap-5'>
+              <input
+                type="password"
+                value={secretKey}
+                onChange={handleKeyChange}
+                className="w-[90%] p-3 mb-4 border border-gray-700 bg-gray-800 text-white rounded-lg h-9"
+                placeholder="Enter Secret Key"
+              />
+              <CustomButton onClick={handleJoinClick} className={styles.btnprimary}>
+                Join
+              </CustomButton>
+            </div>
+          </div>
+        )}
+
         {
           (userDetails.role === "Lead" || userDetails.role === "Developer") && areOrganizationDetailsSet && (
             <div className='bg-white mt-10 rounded-lg py-7 px-10'>

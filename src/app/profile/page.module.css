@@ -18,3 +18,19 @@
     border-radius: 10%;
 
 }
+.btnprimary {
+    background-color: #4f6f52; /* Replace with the olive/green color you have in the app */
+    color: #fff;
+    padding: 15px;
+    border: none;
+    width: 10%;
+    border-radius: 7px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: 35px;
+    line-height: 3px;
+    padding: 0;
+  
+  }
+  
