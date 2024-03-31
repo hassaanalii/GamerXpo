@@ -18,6 +18,8 @@ export default function Profile() {
   const handleKeyChange = (event) => {
     setSecretKey(event.target.value);
   };
+  const [developerProfiles, setDeveloperProfiles] = useState([]);
+
 
   const [userDetails, setUserDetails] = useState({
     first_name: '',
@@ -130,7 +132,7 @@ export default function Profile() {
               'Content-Type': 'application/json',
               'X-CSRFToken': getCookie('csrftoken'),
             },
-            credentials: 'include', 
+            credentials: 'include',
             body: JSON.stringify({ organization_id: data.organization_id }),
           });
 
@@ -244,8 +246,31 @@ export default function Profile() {
       }
 
     }
+    const fetchDeveloperProfiles = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/getdevelopers/', {
+          method: 'GET',
+          credentials: 'include', // for cookies to be sent
+          headers: {
+            'Content-Type': 'application/json',
+            // Other headers like Authorization if you use it
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch developer profiles');
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setDeveloperProfiles(data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
 
     fetchUserDetails()
+    fetchDeveloperProfiles();
 
   }, [])
 
@@ -390,6 +415,41 @@ export default function Profile() {
 
               </div>
 
+            </div>
+          )
+        }
+
+        {
+          userDetails.role === "Lead" && (
+            <div className='flex flex-col py-4 mt-5'>
+              <p className='text-white font-bold text-[26px]'>Employees</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {developerProfiles.map((profile, index) => {
+                  // Determine the correct image source
+                  const imageSrc = profile.profile_picture_url !== "null"
+                    ? profile.profile_picture_url
+                    : `http://localhost:8000${profile.profile_picture}`;
+
+                  return (
+                    <div key={index} className="card bg-white p-4 rounded-lg shadow-md">
+                      <div className="card-header flex items-center space-x-4">
+                        <img
+                          src={imageSrc}
+                          alt={`${profile.user.first_name} ${profile.user.last_name}`}
+                          className="h-14 w-14 object-cover rounded-full"
+                        />
+                        <div>
+                          <h3 className="text-xl font-bold">{`${profile.user.first_name} ${profile.user.last_name}`}</h3>
+                          <p className="text-gray-500">{profile.user.username}</p>
+                        </div>
+                      </div>
+                      <div className="card-body mt-4">
+                        <p className="text-gray-700">{profile.user.email}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )
         }
