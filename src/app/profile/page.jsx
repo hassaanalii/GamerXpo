@@ -135,7 +135,7 @@ export default function Profile() {
 
         });
 
-      }else if (data.role === "Developer"){
+      } else if (data.role === "Developer") {
 
         const response = await fetch("http://localhost:8000/api/userorganization/", {
           credentials: 'include',
@@ -147,17 +147,17 @@ export default function Profile() {
         const userorganization = await response.json()
         console.log(userorganization)
 
-        if(!userorganization.organization_id) {
+        if (!userorganization.organization_id) {
           console.log("Doesnot exist")
-        }else{
+        } else {
           const response = await fetch(`http://localhost:8000/api/organizationbyid/${userorganization.organization_id}/`, {
             credentials: 'include',
           });
-  
+
           if (!response.ok) {
             throw new Error('Failed to load organization details');
           }
-  
+
           const orgData = await response.json();
           setOrganizationDetails({
             name: orgData.name || '',
@@ -168,7 +168,7 @@ export default function Profile() {
             description: orgData.description || '',
             founded_date: orgData.founded_date || '',
             country: orgData.country || '',
-  
+
           });
         }
       }
@@ -232,7 +232,9 @@ export default function Profile() {
                 <div className='flex flex-col gap-2'>
                   <div className='flex flex-row items-center justify-between'>
                     <p className='font-bold text-[30px]'>{organizationDetails.name}</p>
-                    <FontAwesomeIcon icon={faEdit} onClick={handleEditOrganization} className="text-black text-xl cursor-pointer hover:text-[#4F6F52]" />
+                    {userDetails.role === "Lead" && (
+                      <FontAwesomeIcon icon={faEdit} onClick={handleEditOrganization} className="text-black text-xl cursor-pointer hover:text-[#4F6F52]" />
+                    )}
                   </div>
                   <div className='flex flex-col gap-2'>
                     <div className='flex gap-2'>
