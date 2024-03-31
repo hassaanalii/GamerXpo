@@ -115,7 +115,6 @@ export default function Profile() {
       });
 
       if (data.role === 'Lead') {
-
         const response = await fetch("http://localhost:8000/api/organization/", {
           credentials: 'include',
         });
@@ -136,6 +135,22 @@ export default function Profile() {
 
         });
 
+      }else if (data.role === "Developer"){
+
+        const response = await fetch("http://localhost:8000/api/userorganization/", {
+          credentials: 'include',
+        });
+        if (!response.ok) {
+          console.error("Failed to fetch organization details");
+          return;
+        }
+        const userorganization = await response.json()
+
+        if(!userorganization.organization_id) {
+          console.log("hello")
+        }else{
+          console.log("bye")
+        }
       }
 
     }
