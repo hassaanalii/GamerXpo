@@ -145,11 +145,31 @@ export default function Profile() {
           return;
         }
         const userorganization = await response.json()
+        console.log(userorganization)
 
         if(!userorganization.organization_id) {
-          console.log("hello")
+          console.log("Doesnot exist")
         }else{
-          console.log("bye")
+          const response = await fetch(`http://localhost:8000/api/organizationbyid/${userorganization.organization_id}/`, {
+            credentials: 'include',
+          });
+  
+          if (!response.ok) {
+            throw new Error('Failed to load organization details');
+          }
+  
+          const orgData = await response.json();
+          setOrganizationDetails({
+            name: orgData.name || '',
+            website_url: orgData.website_url || '',
+            address: orgData.address || '',
+            email: orgData.email || '',
+            logo: orgData.logo || '/profile.png',
+            description: orgData.description || '',
+            founded_date: orgData.founded_date || '',
+            country: orgData.country || '',
+  
+          });
         }
       }
 
@@ -164,6 +184,9 @@ export default function Profile() {
     : `http://localhost:8000/${userDetails.profile_picture}`) : userDetails.profile_picture_url;
 
   const organizationImageSrc = `http://localhost:8000/${organizationDetails.logo}`
+  const areOrganizationDetailsSet = Object.values(organizationDetails).some(detail => detail);
+  console.log(areOrganizationDetailsSet)
+
   return (
     <div className='bg-black'>
       <div className={styles.maindiv}>
@@ -203,7 +226,7 @@ export default function Profile() {
 
         </div>
         {
-          userDetails.role === "Lead" && (
+          (userDetails.role === "Lead" || userDetails.role === "Developer") && areOrganizationDetailsSet && (
             <div className='bg-white mt-10 rounded-lg py-7 px-10'>
               <div className='flex flex-row  justify-between'>
                 <div className='flex flex-col gap-2'>
