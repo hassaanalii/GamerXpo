@@ -5,7 +5,7 @@ import styles from './page.module.css'
 import Image from 'next/image';
 import { faEdit, faU } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faUser, faLink, faAddressCard, faAt, faInfo, faCalendar, faFlag, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser, faLink, faAddressCard, faAt, faInfo, faCalendar, faFlag, faExclamationTriangle, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import CustomButton from '../components/custombutton/CustomButton';
 import EmployeeCard from '../components/employeecard/EmployeeCard';
 import Modal from '../components/modal/modal';
@@ -288,6 +288,31 @@ export default function Profile() {
 
   }, [])
 
+  const handleLogoutClick = async() => {
+    try {
+      const response = await fetch('http://localhost:8000/accounts/logout/', {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'), // function to get the CSRF token from cookies
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // This is important to include cookies
+      });
+
+      if (response.ok) {
+        // Successfully logged out
+        console.log('Logout successful');
+        // Redirect to homepage or login page
+        router.push('/login'); // or whatever your login route is
+      } else {
+        // Handle any errors
+        console.error('Failed to log out');
+      }
+    } catch (error) {
+      console.error('There was an error logging out:', error);
+    }
+  }
+
 
   // console.log(userDetails)
   // console.log(secretKey)
@@ -305,17 +330,15 @@ export default function Profile() {
     try {
       const response = await fetch(`http://localhost:8000/api/removeuserfromorg/${selectedEmployeeId}/`, {
         method: 'PATCH',
-        credentials: 'include', // for cookies to be sent
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          // Include other headers like Authorization if you use it
-          'X-CSRFToken': getCookie('csrftoken'), // Assuming you have a function to get cookies
+          'X-CSRFToken': getCookie('csrftoken'),
         },
       });
 
       if (response.ok) {
         console.log('User removed successfully');
-        // Remove the user from the local state or trigger a re-fetch
       } else {
         throw new Error('Failed to remove the user');
       }
@@ -347,8 +370,10 @@ export default function Profile() {
               </div>
             </div>
           </div>
-          <div>
+          <div className='flex items-center justify-center gap-8'>
             <FontAwesomeIcon icon={faEdit} onClick={handleEditClick} className="text-white text-xl cursor-pointer hover:text-[#4F6F52]" />
+            <FontAwesomeIcon icon={faSignOut} onClick={handleLogoutClick} className="text-red-800 text-xl cursor-pointer hover:text-white" />
+
           </div>
         </div>
         <div className='flex flex-col gap-2 pl-5 pt-5'>
