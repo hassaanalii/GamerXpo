@@ -19,8 +19,10 @@ async function getData(title){
 }
 export default async function Game({params}){
     const pathname = usePathname()
+    
     const data = await getData(params.title)
     console.log(data)
+    console.log(pathname)
     const requirementsList = data.system_requirements ? data.system_requirements.split(';').map((item, index) => (
         item.trim() && <li key={index}>{item.trim()}</li>
       )) : <li>No system requirements provided.</li>;
@@ -51,12 +53,15 @@ export default async function Game({params}){
                                         <p className={styles.infotext}>Release Date:</p>
                                         <p className={styles.infotext}>Technology:</p>
                                         <p className={styles.infotext}>Last Updated:</p>
+                                        <p className={styles.infotext}>Price:</p>
                                     </div>
                                     <div className='flex flex-col gap-3'>
                                         <p className={styles.infotextvalue}>{data.genre}</p>
                                         <p className={styles.infotextvalue}>{data.release_date}</p>
                                         <p className={styles.infotextvalue}>{data.technology}</p>
                                         <p className={styles.infotextvalue}>{data.last_updated}</p>
+                                        <p className={styles.infotextvalue}>{data.price}</p>
+
                                     </div>
                                 </div>
                                 <div>
@@ -80,14 +85,14 @@ export default async function Game({params}){
                             </video>
                         </div>
                         <div className="mt-20 mb-24 align-center justify-center flex">
-                            <button className={styles.purchase}>
+                            <Link href={`/xpoarena/checkout/${data.id}`} className={styles.purchase}>
                                 <Image src="/download.png" width={30} height={30} />
                                 <p className='font-semibold text-md text-white'>Purchase Now!</p>
-                            </button>
+                            </Link>
                         </div>
 
 
-                        
+
                     </div>
                 </div>
                 <div className='second col-span-1 '>
