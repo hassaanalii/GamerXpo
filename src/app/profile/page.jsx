@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser, faLink, faAddressCard, faAt, faInfo, faCalendar, faFlag, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import CustomButton from '../components/custombutton/CustomButton';
 import EmployeeCard from '../components/employeecard/EmployeeCard';
+import Modal from '../components/modal/modal';
 
 
 export default function Profile() {
@@ -41,6 +42,18 @@ export default function Profile() {
     founded_date: '',
     country: '',
   });
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+
+  const handleDeleteIconClick = (employeeId) => {
+    setSelectedEmployeeId(employeeId);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   function getCookie(name) {
     let cookieValue = null;
@@ -288,6 +301,30 @@ export default function Profile() {
 
   // console.log(areOrganizationDetailsSet)
 
+  const handleConfirmDelete = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/removeuserfromorg/${selectedEmployeeId}/`, {
+        method: 'PATCH',
+        credentials: 'include', // for cookies to be sent
+        headers: {
+          'Content-Type': 'application/json',
+          // Include other headers like Authorization if you use it
+          'X-CSRFToken': getCookie('csrftoken'), // Assuming you have a function to get cookies
+        },
+      });
+
+      if (response.ok) {
+        console.log('User removed successfully');
+        // Remove the user from the local state or trigger a re-fetch
+      } else {
+        throw new Error('Failed to remove the user');
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+    setModalOpen(false);
+  };
+
   return (
     <div className='bg-black h-screen overflow-auto'>
       <div className={styles.maindiv}>
@@ -429,7 +466,7 @@ export default function Profile() {
               <p className='text-white font-bold text-[26px]'>Employees</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                 {developerProfiles.map((profile, index) => (
-                  <EmployeeCard key={index} profile={profile} />
+                  <EmployeeCard key={index} profile={profile} onDeleteIconClick={handleDeleteIconClick} />
                 ))}
               </div>
             </div>
@@ -437,6 +474,8 @@ export default function Profile() {
         }
 
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={handleConfirmDelete} />
+
 
     </div>
   );
