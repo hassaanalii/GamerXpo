@@ -7,6 +7,7 @@ import { faEdit, faU } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser, faLink, faAddressCard, faAt, faInfo, faCalendar, faFlag, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import CustomButton from '../components/custombutton/CustomButton';
+import EmployeeCard from '../components/employeecard/EmployeeCard';
 
 
 export default function Profile() {
@@ -288,7 +289,7 @@ export default function Profile() {
   // console.log(areOrganizationDetailsSet)
 
   return (
-    <div className='bg-black'>
+    <div className='bg-black h-screen overflow-auto'>
       <div className={styles.maindiv}>
         <div className='flex flex-row items-center justify-between'>
           <div className='flex flex-row pt-5 items-center gap-5'>
@@ -318,11 +319,14 @@ export default function Profile() {
             <FontAwesomeIcon icon={faUser} className="text-white text-md hover:text-[#4F6F52] cursor-pointer" />
             <p className='text-white text-[12px]'>: {userDetails.username}</p>
           </div>
-          <div className='flex flex-row gap-2'>
-            <FontAwesomeIcon icon={faEnvelope} className="text-white text-md hover:text-[#4F6F52] cursor-pointer" />
-            <p className='text-white text-[12px]'>: {userDetails.email}</p>
+          {userDetails.email && (
+            <div className='flex flex-row gap-2'>
+              <FontAwesomeIcon icon={faEnvelope} className="text-white text-md hover:text-[#4F6F52] cursor-pointer" />
+              <p className='text-white text-[12px]'>: {userDetails.email}</p>
 
-          </div>
+            </div>
+          )}
+
           {userDetails.role === "Developer" && !areOrganizationDetailsSet && (
             <div className='flex flex-row gap-2'>
               <FontAwesomeIcon icon={faExclamationTriangle} className="text-red-500 text-md hover:text-white cursor-pointer" />
@@ -423,32 +427,10 @@ export default function Profile() {
           userDetails.role === "Lead" && (
             <div className='flex flex-col py-4 mt-5'>
               <p className='text-white font-bold text-[26px]'>Employees</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {developerProfiles.map((profile, index) => {
-                  // Determine the correct image source
-                  const imageSrc = profile.profile_picture_url !== "null"
-                    ? profile.profile_picture_url
-                    : `http://localhost:8000${profile.profile_picture}`;
-
-                  return (
-                    <div key={index} className="card bg-white p-4 rounded-lg shadow-md">
-                      <div className="card-header flex items-center space-x-4">
-                        <img
-                          src={imageSrc}
-                          alt={`${profile.user.first_name} ${profile.user.last_name}`}
-                          className="h-14 w-14 object-cover rounded-full"
-                        />
-                        <div>
-                          <h3 className="text-xl font-bold">{`${profile.user.first_name} ${profile.user.last_name}`}</h3>
-                          <p className="text-gray-500">{profile.user.username}</p>
-                        </div>
-                      </div>
-                      <div className="card-body mt-4">
-                        <p className="text-gray-700">{profile.user.email}</p>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                {developerProfiles.map((profile, index) => (
+                  <EmployeeCard key={index} profile={profile} />
+                ))}
               </div>
             </div>
           )
