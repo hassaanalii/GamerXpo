@@ -99,6 +99,7 @@
     width: 100%;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 14px;
     transition: border-color 0.3s;
     height: 30px;
     display: flex;
@@ -206,6 +207,12 @@
 
 .text2 {
     color: #aaa;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+.text3 {
+    
     font-size: 12px;
     margin-bottom: 15px;
 }

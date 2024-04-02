@@ -5,6 +5,8 @@ import styles from './page.module.css'
 import CustomButton from '../components/custombutton/CustomButton';
 import CustomInputField from '../components/custominputfield/CustomInputField';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -56,16 +58,52 @@ const Login = () => {
             });
 
 
-
+            const data = await response.json();
             if (response.ok) {
-                const data = await response.json();
                 console.log('Login successful:', data);
                 if (data.has_profile) {
-                    router.push('/profile');
+                    toast.success('Login Successfull', {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                    setTimeout(() => {
+                        router.push("/profile");
+                    }, 1000);
+
                 } else {
-                    router.push('/signup/completeprofile');
+                    toast.success('Login Successful', {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                    setTimeout(() => {
+                        router.push("/signup/completeprofile/");
+                    }, 1000);
                 }
             } else {
+                toast.error(`Login Failed: ${data.detail}`, {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                setUsername("")
+                setPassword("")
                 console.error('Login failed:', data.detail);
             }
 
@@ -140,12 +178,9 @@ const Login = () => {
                         </CustomButton>
                     </div>
                     <div className={styles.lastdiv}>
-                        <a href="/forgot-password" className={styles.text2}>
-                            Forgot your username or password?
-                        </a>
                         <div className='flex items-center justify-center gap-1'>
                             <p className={styles.text2}>New to GamerXpo?</p>
-                            <a href="/signup" className={` ${styles.text2} underline`}>
+                            <a href="/signup" className={` ${styles.text3} underline text-[#4f6f52]`}>
                                 Sign Up
                             </a>
                         </div>
