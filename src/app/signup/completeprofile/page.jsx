@@ -6,6 +6,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import styles from "./page.module.css"
 import CustomInputField from '@/app/components/custominputfield/CustomInputField';
 import CustomButton from '@/app/components/custombutton/CustomButton';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
     const { leadDetails, updateLeadDetails } = useUserContext();
@@ -18,6 +20,18 @@ const Page = () => {
         social_picture: '',
         role: ''
     });
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        let tempErrors = {};
+        tempErrors.first_name = userDetails.first_name ? "" : "First Name is required";
+        tempErrors.last_name = userDetails.last_name ? "" : "Last Name is required";
+        tempErrors.role = userDetails.role ? "" : "Role is required";
+        setErrors(tempErrors);
+
+        // Return true if no errors
+        return Object.values(tempErrors).every(x => x === "");
+    };
     const [profileImage, setProfileImage] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
     const defaultProfileImg = '/defaultuser.png';
@@ -51,7 +65,7 @@ const Page = () => {
                 const data = await response.json();
                 setUserDetails(data);
                 console.log(data);
-    
+
                 // Check if the user has a profile and redirect accordingly
                 if (data.has_profile) {
                     // User has a complete profile, redirect to the profile page
@@ -63,7 +77,7 @@ const Page = () => {
                 // Consider redirecting to an error page or showing an error message
             }
         };
-    
+
         fetchUserDetails();
     }, [router]);
 
@@ -83,63 +97,78 @@ const Page = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (userDetails.role === 'Lead') {
-            console.log("hello")
-            updateLeadDetails({
-                firstname: userDetails.first_name,
-                lastname: userDetails.last_name,
-                role: userDetails.role,
-                profile_picture: profileImage,
-                profile_picture_url: userDetails.social_picture || null,
-            });
-
-            router.push('/signup/completeprofile/registercompany/')
-
-        } else {
-            const formData = new FormData();
-            formData.append('first_name', userDetails.first_name);
-            formData.append('last_name', userDetails.last_name);
-            formData.append('role', userDetails.role);
-
-
-            if (profileImage) {
-                formData.append('profile_picture', profileImage);
-                formData.append('profile_picture_url', null);
-            } else if (userDetails.social_picture) {
-                formData.append('profile_picture_url', userDetails.social_picture);
-                formData.append('profile_picture', null);
-
-            } else {
-                formData.append('profile_picture_url', null);
-                formData.append('profile_picture', null);
-
-            }
-            const csrfToken = getCookie('csrftoken');
-
-
-            // Inside your handleSubmit function
-            try {
-                const response = await fetch('http://localhost:8000/api/setprofile/', {
-                    method: 'POST',
-                    body: formData,
-                    credentials: 'include',
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-
+        if (validate()) {
+            if (userDetails.role === 'Lead') {
+                console.log("hello")
+                updateLeadDetails({
+                    firstname: userDetails.first_name,
+                    lastname: userDetails.last_name,
+                    role: userDetails.role,
+                    profile_picture: profileImage,
+                    profile_picture_url: userDetails.social_picture || null,
                 });
 
-                if (response.ok) {
-                    console.log("Profile updated successfully.");
+                router.push('/signup/completeprofile/registercompany/')
+
+            } else {
+                const formData = new FormData();
+                formData.append('first_name', userDetails.first_name);
+                formData.append('last_name', userDetails.last_name);
+                formData.append('role', userDetails.role);
+
+
+                if (profileImage) {
+                    formData.append('profile_picture', profileImage);
+                    formData.append('profile_picture_url', null);
+                } else if (userDetails.social_picture) {
+                    formData.append('profile_picture_url', userDetails.social_picture);
+                    formData.append('profile_picture', null);
 
                 } else {
+                    formData.append('profile_picture_url', null);
+                    formData.append('profile_picture', null);
 
-                    console.error("Failed to update profile.");
                 }
-            } catch (error) {
-                console.error("Error updating profile:", error);
-            }
+                const csrfToken = getCookie('csrftoken');
 
+
+                // Inside your handleSubmit function
+                try {
+                    const response = await fetch('http://localhost:8000/api/setprofile/', {
+                        method: 'POST',
+                        body: formData,
+                        credentials: 'include',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                        },
+
+                    });
+
+                    if (response.ok) {
+                        console.log("Profile updated successfully.");
+                        toast.success('Profile has been set up successfully!', {
+                            position: "top-right",
+                            autoClose: 1000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark",
+                        });
+                        setTimeout(() => {
+                            router.push("/profile");
+                        }, 1000);
+
+                    } else {
+
+                        console.error("Failed to update profile.");
+                    }
+                } catch (error) {
+                    console.error("Error updating profile:", error);
+                }
+
+            }
         }
 
     };
@@ -203,6 +232,8 @@ const Page = () => {
                             className={styles.inputfield}
                             placeholder="First Name"
                         />
+                        {errors.first_name && <p className="text-red-800 text-[10px]">{errors.first_name}</p>}
+
                     </div>
                     <div className='flex flex-col gap-1'>
                         <p className='text-[#6c757d] text-[13px]'>Last Name</p>
@@ -215,6 +246,8 @@ const Page = () => {
                             className={styles.inputfield}
                             placeholder="Last Name"
                         />
+                        {errors.last_name && <p className="text-red-800 text-[10px]">{errors.last_name}</p>}
+
                     </div>
                     <div className='flex flex-col gap-1'>
                         <p className='text-[#6c757d] text-[13px]'>Role</p>
@@ -224,6 +257,8 @@ const Page = () => {
                             <option value="Developer">Developer</option>
                             <option value="Gamer">Gamer</option>
                         </select>
+                        {errors.role && <p className="text-red-800 text-[10px]">{errors.role}</p>}
+
                     </div>
                     <CustomButton onClick={handleSubmit} type="submit" className={styles.btnprimary}>
                         Save

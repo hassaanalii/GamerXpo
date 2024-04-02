@@ -32,7 +32,7 @@ const Signup = () => {
             });
 
             if (response.ok) {
-                toast.success('Signup Successfull', {
+                toast.success('Signup Successful', {
                     position: "top-right",
                     autoClose: 1000,
                     hideProgressBar: false,
