@@ -31,23 +31,26 @@ const page = ({ params, children }) => {
   const [boothCustomizations, setBoothCustomizations] = useState(null)
 
   const [filteredGames, setFilteredGames] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
+    // Filter games based on search term and selected genre
     if (gameData) {
-      setFilteredGames(gameData);
+      const filtered = gameData.filter((game) =>
+        (selectedGenre === 'All' || game.genre === selectedGenre) &&
+        game.title.toLowerCase().includes(searchTerm.toLowerCase()) // Now also filters based on the search term
+      );
+      setFilteredGames(filtered);
     }
-  }, [gameData]);
+  }, [gameData, selectedGenre, searchTerm])
+
+  const handleGenreChange = (e) => {
+    setSelectedGenre(e.target.value);
+  };
 
   const handleSearchSubmit = (searchTerm) => {
-    if (!searchTerm) {
-      setFilteredGames(gameData); // No search term means show all games
-      return;
-    }
-    // Filter gameData based on the searchTerm
-    const filtered = gameData.filter((game) =>
-      game.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredGames(filtered);
+    setSearchTerm(searchTerm); // Update the search term state
   };
 
 
@@ -247,7 +250,7 @@ const page = ({ params, children }) => {
         }
         const result = await response.json();
         setGameData(result);
-        
+
       } catch (error) {
         setGameError(error.message);
       }
@@ -492,13 +495,23 @@ const page = ({ params, children }) => {
                 <p className='text-3xl font-bold' style={{ color: backgroundColor === '#FFFFFF' ? '#000000' : backgroundColor === '#000000' ? '#FFFFFF' : 'initial' }}>Popular Games</p>
                 <SearchBarClient onSearchSubmit={handleSearchSubmit} />
                 <Link href={`${pathname}/addgame`} className={styles.addgame}>Add Game</Link>
-                
+                <select onChange={handleGenreChange} value={selectedGenre}>
+                  <option value="All">All Genres</option>
+                  <option value="Action">Action</option>
+                  <option value="Adventure">Adventure</option>
+                  <option value="Puzzle">Puzzle</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Casual">Casual</option>
+                  <option value="Shooting">Shooting</option>
+                  <option value="Driving">Driving</option>
+                  <option value="Horror">Horror</option>
+                </select>
 
               </div>
               <div className="grid grid-cols-4 mt-5 gap-4">
-                {console.log(gameData)}
+                {console.log(filteredGames)}
                 {filteredGames.map((game, index) => (
-                  
+
                   <Link href={`${pathname}/${game.title}`}>
                     <div
                       key={game.id}
