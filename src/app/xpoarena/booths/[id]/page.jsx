@@ -12,6 +12,7 @@ import ColorItem from "@/app/components/coloritem/ColorItem";
 import Head from 'next/head';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SearchBarClient from "@/app/components/searchbarclient/SearchBarClient";
 
 const page = ({ params, children }) => {
   const [boothData, setBoothData] = useState(null);
@@ -28,6 +29,27 @@ const page = ({ params, children }) => {
   const [fontColor, setFontColor] = useState('#000000');
   const [selectedTheme, setSelectedTheme] = useState("")
   const [boothCustomizations, setBoothCustomizations] = useState(null)
+
+  const [filteredGames, setFilteredGames] = useState([]);
+
+  useEffect(() => {
+    if (gameData) {
+      setFilteredGames(gameData);
+    }
+  }, [gameData]);
+
+  const handleSearchSubmit = (searchTerm) => {
+    if (!searchTerm) {
+      setFilteredGames(gameData); // No search term means show all games
+      return;
+    }
+    // Filter gameData based on the searchTerm
+    const filtered = gameData.filter((game) =>
+      game.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredGames(filtered);
+  };
+
 
 
 
@@ -328,6 +350,8 @@ const page = ({ params, children }) => {
   }
 
 
+
+
   return (
     <>
       <div>
@@ -466,11 +490,14 @@ const page = ({ params, children }) => {
             <div className='gap-5 flex flex-col'>
               <div className="flex flex-row justify-between">
                 <p className='text-3xl font-bold' style={{ color: backgroundColor === '#FFFFFF' ? '#000000' : backgroundColor === '#000000' ? '#FFFFFF' : 'initial' }}>Popular Games</p>
+                <SearchBarClient onSearchSubmit={handleSearchSubmit} />
                 <Link href={`${pathname}/addgame`} className={styles.addgame}>Add Game</Link>
+                
+
               </div>
               <div className="grid grid-cols-4 mt-5 gap-4">
                 {console.log(gameData)}
-                {gameData.map((game, index) => (
+                {filteredGames.map((game, index) => (
                   
                   <Link href={`${pathname}/${game.title}`}>
                     <div
