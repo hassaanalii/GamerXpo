@@ -537,8 +537,14 @@ const page = ({ params, children }) => {
                 </select>
 
               </div>
+              {
+                  filteredGames.length === 0 && (
+                  <div className="flex py-56 items-center justify-center w-full">
+                    <p className="text-red-800 font-bold text-[30px]">No Games Found!</p>
+                  </div>
+                  )
+                }
               <div className="grid grid-cols-4 mt-5 gap-4">
-                {console.log(filteredGames)}
                 {filteredGames.map((game, index) => (
 
                   <Link href={`${pathname}/${game.title}`}>
