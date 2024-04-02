@@ -101,107 +101,126 @@ const page = () => {
       console.error("Validation failed.");
       return;
     }
-    const formData1 = new FormData();
-    formData1.append('first_name', leadDetails.firstname);
-    formData1.append('last_name', leadDetails.lastname);
-    formData1.append('role', leadDetails.role);
+    else {
 
 
-    if (leadDetails.profile_picture) {
-      formData1.append('profile_picture', leadDetails.profile_picture);
-      formData1.append('profile_picture_url', null);
-    } else if (leadDetails.profile_picture_url) {
-      formData1.append('profile_picture_url', leadDetails.profile_picture_url);
-      formData1.append('profile_picture', null);
-
-    } else {
-      formData1.append('profile_picture_url', null);
-      formData1.append('profile_picture', null);
-
-    }
-    const csrfToken = getCookie('csrftoken');
+      const formData1 = new FormData();
+      formData1.append('first_name', leadDetails.firstname);
+      formData1.append('last_name', leadDetails.lastname);
+      console.log(leadDetails.role)
+      formData1.append('role', leadDetails.role);
 
 
-    // Inside your handleSubmit function
-    try {
-      const response = await fetch('http://localhost:8000/api/setprofile/', {
-        method: 'POST',
-        body: formData1,
-        credentials: 'include',
-        headers: {
-          'X-CSRFToken': csrfToken,
-        },
-
-      });
-
-      if (response.ok) {
-        const userProfile = await response.json();
-
-        console.log("Profile updated successfully.");
+      if (leadDetails.profile_picture) {
+        formData1.append('profile_picture', leadDetails.profile_picture);
+        formData1.append('profile_picture_url', null);
+      } else if (leadDetails.profile_picture_url) {
+        formData1.append('profile_picture_url', leadDetails.profile_picture_url);
+        formData1.append('profile_picture', null);
 
       } else {
+        formData1.append('profile_picture_url', null);
+        formData1.append('profile_picture', null);
 
-        console.error("Failed to update profile.");
       }
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    }
+      const csrfToken = getCookie('csrftoken');
 
 
-
-    const formData = new FormData();
-    Object.keys(companyDetails).forEach(key => {
-      if (key !== 'logo') {
-        formData.append(key, companyDetails[key]);
-      }
-    });
-    if (companyDetails.logo) {
-      formData.append('logo', companyDetails.logo);
-    }
-
-    try {
-      const response = await fetch('http://localhost:8000/api/registerorganization/', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-        headers: {
-          'X-CSRFToken': csrfToken,
-        },
-      });
-
-      if (response.ok) {
-        console.log("Company registered successfully.");
-        const orgData = await response.json(); // Assuming this contains the organization ID
-        const organizationId = orgData.id;
-        console.log(organizationId);
-        const userUpdateResponse = await fetch(`http://localhost:8000/api/updateuserprofilewithorganization/${userId}/`, {
-          method: 'PATCH',
-          body: JSON.stringify({ organization: organizationId }),
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken'),
-          },
+      // Inside your handleSubmit function
+      try {
+        const response = await fetch('http://localhost:8000/api/setprofile/', {
+          method: 'POST',
+          body: formData1,
           credentials: 'include',
+          headers: {
+            'X-CSRFToken': csrfToken,
+          },
+
         });
 
-        if (userUpdateResponse.ok) {
-          console.log("UserProfile updated with organization ID.");
-          toast.success('Componay Registered Successfully', {
-            position: "top-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-          setTimeout(() => {
-            router.push("/profile");
-          }, 1000);
+        if (response.ok) {
+          const userProfile = await response.json();
+
+          console.log("Profile updated successfully.");
+
         } else {
-          console.error("Failed to update UserProfile with organization ID.");
-          toast.error(`Failed to update UserProfile with organization ID`, {
+
+          console.error("Failed to update profile.");
+        }
+      } catch (error) {
+        console.error("Error updating profile:", error);
+      }
+
+
+
+      const formData = new FormData();
+      Object.keys(companyDetails).forEach(key => {
+        if (key !== 'logo') {
+          formData.append(key, companyDetails[key]);
+        }
+      });
+      if (companyDetails.logo) {
+        formData.append('logo', companyDetails.logo);
+      }
+
+      try {
+        const response = await fetch('http://localhost:8000/api/registerorganization/', {
+          method: 'POST',
+          body: formData,
+          credentials: 'include',
+          headers: {
+            'X-CSRFToken': csrfToken,
+          },
+        });
+
+        if (response.ok) {
+          console.log("Company registered successfully.");
+          const orgData = await response.json(); // Assuming this contains the organization ID
+          const organizationId = orgData.id;
+          console.log(organizationId);
+          const userUpdateResponse = await fetch(`http://localhost:8000/api/updateuserprofilewithorganization/${userId}/`, {
+            method: 'PATCH',
+            body: JSON.stringify({ organization: organizationId }),
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken'),
+            },
+            credentials: 'include',
+          });
+
+          if (userUpdateResponse.ok) {
+            console.log("UserProfile updated with organization ID.");
+            toast.success('Company Registered Successfully', {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+            setTimeout(() => {
+              router.push("/profile");
+            }, 1000);
+          } else {
+            console.error("Failed to update UserProfile with organization ID.");
+            toast.error(`Failed to update UserProfile with organization ID`, {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }
+
+        } else {
+          console.error("Failed to register company.");
+          // Handle failure
+          toast.error(`Organization Name Already Exists!`, {
             position: "top-right",
             autoClose: 1000,
             hideProgressBar: false,
@@ -212,27 +231,13 @@ const page = () => {
             theme: "dark",
           });
         }
-
-      } else {
-        console.error("Failed to register company.");
-        // Handle failure
-        toast.error(`Organization Name Already Exists!`, {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+      } catch (error) {
+        console.error("Error registering company:", error);
       }
-    } catch (error) {
-      console.error("Error registering company:", error);
+
     }
-
-
   };
+  console.log(leadDetails)
 
   return (
     <div className='bg-black flex items-center justify-center h-screen w-full gap-[60px]'>
