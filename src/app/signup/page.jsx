@@ -5,6 +5,8 @@ import CustomButton from '../components/custombutton/CustomButton';
 import CustomInputField from '../components/custominputfield/CustomInputField';
 import styles from './page.module.css'
 import Image from 'next/image';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -30,11 +32,37 @@ const Signup = () => {
             });
 
             if (response.ok) {
-                console.log("hello");
-                router.push("/login")
+                toast.success('Signup Successfull', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                setTimeout(() => {
+                    router.push("/login");
+                }, 1000);
+                
             } else {
 
                 const errorResponse = await response.json();
+                toast.error(`Signup Failed: ${errorResponse.error}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                setUsername("")
+                setEmail("")
+                setPassword2("")
+                setPassword1("")
                 console.log('Signup failed:', errorResponse);
 
             }
@@ -111,8 +139,8 @@ const Signup = () => {
                             </CustomButton>
                         </div>
                         <div className="flex items-center justify-center gap-1">
-                            <p className={styles.text2}>Already have an account?</p>
-                            <a href="/login" className={` ${styles.text2} underline`}>
+                            <p className={styles.text3}>Already have an account?</p>
+                            <a href="/login" className={` ${styles.text2} underline text-[#4f6f52]`}>
                                 Sign In
                             </a>
                         </div>
