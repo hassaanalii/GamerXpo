@@ -33,17 +33,40 @@ const page = ({ params, children }) => {
   const [filteredGames, setFilteredGames] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPriceRange, setSelectedPriceRange] = useState('All');
+
 
   useEffect(() => {
-    // Filter games based on search term and selected genre
     if (gameData) {
-      const filtered = gameData.filter((game) =>
-        (selectedGenre === 'All' || game.genre === selectedGenre) &&
-        game.title.toLowerCase().includes(searchTerm.toLowerCase()) // Now also filters based on the search term
-      );
+      const filtered = gameData.filter((game) => {
+        const price = parseFloat(game.price.replace(/[^0-9.-]+/g, "")); // Convert price string to number
+        let priceMatch = false;
+
+        // Check if game's price is within the selected price range
+        switch (selectedPriceRange) {
+          case 'Under10':
+            priceMatch = price < 10;
+            break;
+          case '10to20':
+            priceMatch = price >= 10 && price <= 20;
+            break;
+          case 'Over20':
+            priceMatch = price > 20;
+            break;
+          default:
+            priceMatch = true; // 'All' prices
+        }
+
+        return (
+          (selectedGenre === 'All' || game.genre === selectedGenre) &&
+          game.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+          priceMatch
+        );
+      });
       setFilteredGames(filtered);
     }
-  }, [gameData, selectedGenre, searchTerm])
+  }, [gameData, selectedGenre, searchTerm, selectedPriceRange]); // Depend on selectedPriceRange too
+
 
   const handleGenreChange = (e) => {
     setSelectedGenre(e.target.value);
@@ -505,6 +528,12 @@ const page = ({ params, children }) => {
                   <option value="Shooting">Shooting</option>
                   <option value="Driving">Driving</option>
                   <option value="Horror">Horror</option>
+                </select>
+                <select onChange={(e) => setSelectedPriceRange(e.target.value)} value={selectedPriceRange}>
+                  <option value="All">All Prices</option>
+                  <option value="Under10">Under $10</option>
+                  <option value="10to20">$10 to $20</option>
+                  <option value="Over20">Over $20</option>
                 </select>
 
               </div>
