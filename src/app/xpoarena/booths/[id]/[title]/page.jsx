@@ -42,10 +42,10 @@ export default async function Game({ params }) {
     const navigateToGame = (gameTitle) => {
         // Construct the URL using template literals and encodeURIComponent for the game title
         const url = `/xpoarena/booths/${params.id}/${encodeURIComponent(gameTitle)}`;
-        
+
         // Use router.push to navigate
         router.push(url);
-      };
+    };
     return (
         <>
             <AboutUsNavBar classname={"game"} />
@@ -121,36 +121,32 @@ export default async function Game({ params }) {
                         </div>
                         <div className='text-white mt-32 flex flex-col'>
                             {gameData.map((game) => (
-                                <div onClick={() => navigateToGame(game.title)} style={{cursor: 'pointer'}}>
-                                    {
-                                        game.image_url ? (
-                                            <Image
-                                                src={game.image_url}
-                                                alt={game.title}
-                                                width={160}
-                                                height={90}
-                                                className='mb-6 rounded-md'
-
-                                            />
-                                        ) : (
-                                            <Image
-                                                src={`http://localhost:8000/${game.image}`}
-                                                alt={game.title}
-                                                width={160}
-                                                height={90}
-                                                className='mb-6 rounded-md'
-
-                                            />
-                                        )
-                                    }
-
-                                </div>
-
+                                data.title !== game.title && (
+                                    <div onClick={() => navigateToGame(game.title)} style={{ cursor: 'pointer' }}>
+                                        {
+                                            game.image_url ? (
+                                                <Image
+                                                    src={game.image_url}
+                                                    alt={game.title}
+                                                    width={160}
+                                                    height={90}
+                                                    className='mb-6 rounded-md'
+                                                />
+                                            ) : (
+                                                <Image
+                                                    src={`http://localhost:8000/${game.image}`}
+                                                    alt={game.title}
+                                                    width={160}
+                                                    height={90}
+                                                    className='mb-6 rounded-md'
+                                                />
+                                            )
+                                        }
+                                    </div>
+                                )
                             ))}
-
-
-
                         </div>
+
                     </div>
 
 
