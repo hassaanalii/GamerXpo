@@ -1,12 +1,36 @@
+"use client"
 import React from 'react'
+import Image from 'next/image';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+
 
 const SearchBar = () => {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const {replace} = useRouter()
+
+  const handleSearch = (searchTerm) =>{
+    const params = new URLSearchParams(searchParams)
+    if(searchTerm){
+      params.set("query", searchTerm)
+    }else{
+      params.delete("query")
+    }
+    replace(`${pathname}?${params.toString()}`)
+
+  }
   return (
-    <div class="flex items-center rounded-full bg-white shadow-md"> 
-        <svg class="w-5 h-5 ml-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10a4 4 0 11-2 3.464m2-3.464v-4m0 4H6" />
-        </svg>
-        <input class="w-full text-sm rounded-full py-2 pl-2 pr-4 bg-white focus:outline-none" type="search" placeholder="Search by Name" />
+    <div class="flex items-center rounded-full bg-white shadow-md px-5 py-2">
+      <input 
+      defaultValue={searchParams.get("query")?.toString()}
+      onChange={(e)=> {
+        handleSearch(e.target.value)
+      }}
+      class="w-full text-[14px] rounded-full py-2 pl-2 pr-4 bg-white focus:outline-none" type="search" placeholder="Search by Name" />
+      {/* <div className='cursor-pointer flex rounded-full items-center justify-center p-2 bg-[#4F6F52]'>
+        <Image src="/search.png" alt="hello" height={14} width={14} />
+      </div> */}
+
     </div>
   )
 }
