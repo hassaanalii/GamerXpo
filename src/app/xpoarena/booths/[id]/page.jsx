@@ -400,12 +400,12 @@ const page = ({ params, children }) => {
                     <span className={styles.link_name}>Manage</span>
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href={`${pathname}/aboutus`} className={styles.sidebar_link}>
                     <Image src="/abot.png" width={20} height={20} className={styles.link_icon} />
                     <span className={styles.link_name}>About Us</span>
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link href="" className={styles.sidebar_link} title="Background Color" onClick={decisionFunction}>
                     <Image src="/color.png" width={23} height={23} className={styles.link_icon} />

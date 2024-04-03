@@ -69,7 +69,7 @@ const page = () => {
         if (response.ok) {
             toast.success('Booth Updated Successfully', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -83,9 +83,9 @@ const page = () => {
             
 
         } else {
-            toast.error('We encountered an unexpected issue while processing your request. Please try again later.', {
+            toast.error('Booth with this name is already registered!', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
