@@ -514,11 +514,13 @@ const page = ({ params, children }) => {
           <div className="first col-span-1"></div>
           <div className="middle col-span-4 flex flex-col mt-16">
             <div className='gap-5 flex flex-col'>
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-row justify-between items-center">
                 <p className='text-3xl font-bold' style={{ color: backgroundColor === '#FFFFFF' ? '#000000' : backgroundColor === '#000000' ? '#FFFFFF' : 'initial' }}>Popular Games</p>
                 <SearchBarClient onSearchSubmit={handleSearchSubmit} />
+              </div>
+              <div className="flex justify-end gap-5 mt-3">
                 <Link href={`${pathname}/addgame`} className={styles.addgame}>Add Game</Link>
-                <select onChange={handleGenreChange} value={selectedGenre}>
+                <select className={styles.dropdown} onChange={handleGenreChange} value={selectedGenre}>
                   <option value="All">All Genres</option>
                   <option value="Action">Action</option>
                   <option value="Adventure">Adventure</option>
@@ -529,21 +531,20 @@ const page = ({ params, children }) => {
                   <option value="Driving">Driving</option>
                   <option value="Horror">Horror</option>
                 </select>
-                <select onChange={(e) => setSelectedPriceRange(e.target.value)} value={selectedPriceRange}>
+                <select className={styles.dropdown} onChange={(e) => setSelectedPriceRange(e.target.value)} value={selectedPriceRange}>
                   <option value="All">All Prices</option>
                   <option value="Under10">Under $10</option>
                   <option value="10to20">$10 to $20</option>
                   <option value="Over20">Over $20</option>
                 </select>
-
               </div>
               {
-                  filteredGames.length === 0 && (
+                filteredGames.length === 0 && (
                   <div className="flex py-56 items-center justify-center w-full">
                     <p className="text-red-800 font-bold text-[30px]">No Games Found!</p>
                   </div>
-                  )
-                }
+                )
+              }
               <div className="grid grid-cols-4 mt-5 gap-4">
                 {filteredGames.map((game, index) => (
 
