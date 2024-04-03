@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import CustomInputField from '@/app/components/custominputfield/CustomInputField';
 import CustomButton from '@/app/components/custombutton/CustomButton';
 import styles from './page.module.css'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Profile() {
   const router = useRouter();
@@ -70,8 +72,18 @@ export default function Profile() {
     const isUsernamePresent = isUsernameChanged && usernames.includes(userDetails.username);
 
     if (isUsernamePresent) {
+      toast.error(`Username Already Present`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       console.log("Username already present");
-      return;
+
     }
     else {
       const formData = new FormData();
@@ -85,7 +97,7 @@ export default function Profile() {
           body: formData,
           credentials: 'include', // Include cookies if needed
           headers: {
-            'X-CSRFToken': getCookie('csrftoken'), 
+            'X-CSRFToken': getCookie('csrftoken'),
           },
         });
 
@@ -94,8 +106,19 @@ export default function Profile() {
         }
 
         const updatedUserDetails = await response.json();
-        console.log('User updated successfully:', updatedUserDetails);
-        router.push("/profile")
+        toast.success('User Updated Successfully', {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        setTimeout(() => {
+          router.push("/profile");
+        }, 1000);
       } catch (error) {
         console.error('Error updating user:', error);
       }
@@ -117,7 +140,7 @@ export default function Profile() {
       const data = await response.json();
       setUserDetails({
         ...data,
-        originalUsername: data.username, 
+        originalUsername: data.username,
       });
     }
     const fetchUsernames = async () => {

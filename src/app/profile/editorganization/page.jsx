@@ -3,8 +3,12 @@ import CustomInputField from '@/app/components/custominputfield/CustomInputField
 import React, { useEffect, useState } from 'react'
 import styles from '../edit/page.module.css'
 import CustomButton from '@/app/components/custombutton/CustomButton';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
+    const router = useRouter()
     const [organizationDetails, setOrganizationDetails] = useState({
         name: '',
         website_url: '',
@@ -118,10 +122,33 @@ const page = () => {
             if (response.ok) {
                 const updatedData = await response.json();
                 console.log('Organization updated successfully:', updatedData);
+                toast.success('Organization Updated Successfully', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                setTimeout(() => {
+                    router.push("/profile");
+                }, 1000);
 
             } else {
                 // Handle errors
                 console.error('Failed to update organization details');
+                toast.error(`Organization with this name already exists!`, {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
             }
         } catch (error) {
             console.error('There was a problem with your fetch operation:', error);

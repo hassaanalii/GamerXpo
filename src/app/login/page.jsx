@@ -62,7 +62,7 @@ const Login = () => {
             if (response.ok) {
                 console.log('Login successful:', data);
                 if (data.has_profile) {
-                    toast.success('Login Successfull', {
+                    toast.success('Login Successful', {
                         position: "top-right",
                         autoClose: 1000,
                         hideProgressBar: false,
