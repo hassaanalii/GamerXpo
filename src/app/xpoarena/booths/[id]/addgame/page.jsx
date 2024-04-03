@@ -15,7 +15,9 @@ import { useRouter } from 'next/navigation';
 
 
 
+
 const AddGame = (params) => {
+    const router = useRouter()
     const [gameTitle, setGameTitle] = useState('');
     const [gameDescription, setGameDescription] = useState('');
     const [systemRequirements, setSystemRequirements] = useState('');
@@ -53,7 +55,8 @@ const AddGame = (params) => {
         formData.append('title', gameTitle);
         formData.append('release_date', releaseDate);
         formData.append('game_iframe_src', gameDemoLink);
-        formData.append('genre', gameGenre)
+        formData.append('genre', gameGenre),
+        formData.append('image_url', imageUrlLink)
         formData.append('game_description', gameDescription);
         if (selectedImage) {
             formData.append('image', selectedImage);
@@ -76,7 +79,7 @@ const AddGame = (params) => {
             if (response.ok) {
                 toast.success('Game Added Successfully', {
                     position: "top-right",
-                    autoClose: 5000,
+                    autoClose: 2000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -84,6 +87,9 @@ const AddGame = (params) => {
                     progress: undefined,
                     theme: "dark",
                 });
+                setTimeout(() => {
+                    router.push(`/xpoarena/booths/${boothId}`);
+                }, 1000);
 
             } else {
                 const errorResult = await response.json();
@@ -188,9 +194,13 @@ const AddGame = (params) => {
                                     className={`${styles.inputfield} text-xs w-full`}
                                 />
                             </div>
-
                             <div>
                                 <p className='text-xs font-semibold'>Image URL</p>
+                                <input type="text" onChange={(e) => setImageUrlLink(e.target.value)} className={`${styles.inputfield} text-xs border-0 border-b border-solid border-black w-full focus:ring-0 `} />
+                            </div>
+
+                            <div>
+
                                 <UploadButton onImageUpload={handleImageFile} />
                                 {
                                     fileName && (

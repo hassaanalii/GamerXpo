@@ -67,9 +67,9 @@ const AddGame = (params) => {
             });
     
             if (response.ok) {
-                toast.success('Booth Updated Successfully', {
+                toast.success('Game Updated Successfully', {
                     position: "top-right",
-                    autoClose: 5000,
+                    autoClose: 2000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
