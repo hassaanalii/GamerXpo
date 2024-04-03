@@ -9,6 +9,8 @@ import { faEnvelope, faUser, faLink, faAddressCard, faAt, faInfo, faCalendar, fa
 import CustomButton from '../components/custombutton/CustomButton';
 import EmployeeCard from '../components/employeecard/EmployeeCard';
 import Modal from '../components/modal/modal';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Profile() {
@@ -98,9 +100,7 @@ export default function Profile() {
     };
     fetchOrganizationId()
   }
-  if (organizationId) {
-
-  }
+  
 
 
   useEffect(() => {
@@ -152,6 +152,19 @@ export default function Profile() {
 
           if (response.ok) {
             console.log("User profile updated successfully.");
+            toast.success('Organization joined successfully!', {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+            setTimeout(() => {
+              router.push("/profile");
+            }, 1000);
           } else {
             const errorData = await response.json();
             console.error("Failed to update user profile:", errorData.error);
@@ -163,6 +176,16 @@ export default function Profile() {
 
       } else {
         const errorData = await response.json();
+        toast.error(`Invalid Secret Key!`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         console.error("Join organization failed:", errorData.error);
         setSecretKey("");
       }
