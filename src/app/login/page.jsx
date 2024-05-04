@@ -7,6 +7,7 @@ import CustomInputField from '../components/custominputfield/CustomInputField';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { handleLogin } from '../lib/actions';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -61,6 +62,12 @@ const Login = () => {
             const data = await response.json();
             if (response.ok) {
                 console.log('Login successful:', data);
+                console.log(data.access)
+                console.log(data.refresh)
+                console.log(username)
+                handleLogin(username, data.access, data.refresh)
+
+                // handleLogin(data.username, da)
                 if (data.has_profile) {
                     toast.success('Login Successful', {
                         position: "top-right",

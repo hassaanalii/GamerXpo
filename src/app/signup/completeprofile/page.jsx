@@ -89,7 +89,11 @@ const Page = () => {
                 // Consider redirecting to an error page or showing an error message
             }
         };
-        fetchToken();
+        if (window.location.search.includes('access=') && window.location.search.includes('refresh=')) {
+            fetchToken();
+        } else {
+            console.log("fetchToken not called: URL does not contain required tokens.");
+        }       
         fetchUserDetails();
     }, [router]);
 
