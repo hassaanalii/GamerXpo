@@ -30,8 +30,11 @@ const Signup = () => {
                     password2: password2,
                 }),
             });
+            const data = await response.json();
 
             if (response.ok) {
+                console.log(data);
+                console.log('Access Token:', data.access);
                 toast.success('Signup Successful', {
                     position: "top-right",
                     autoClose: 1000,
@@ -47,7 +50,6 @@ const Signup = () => {
                 }, 1000);
                 
             } else {
-
                 const errorResponse = await response.json();
                 toast.error(`Signup Failed: ${errorResponse.error}`, {
                     position: "top-right",
