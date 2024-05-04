@@ -53,6 +53,18 @@ const Page = () => {
     }
 
     useEffect(() => {
+        const fetchToken = async () =>{
+            const urlParams = new URLSearchParams(window.location.search);
+            const refresh = urlParams.get('refresh');
+            const access = urlParams.get('access');
+            if (access && refresh) {
+                console.log('hello')
+                console.log(access)
+                console.log(refresh)
+            }else{
+                console.log("nothing")
+            }
+        }
         const fetchUserDetails = async () => {
             try {
                 const response = await fetch('http://localhost:8000/api/userdetails/', {
@@ -77,7 +89,7 @@ const Page = () => {
                 // Consider redirecting to an error page or showing an error message
             }
         };
-
+        fetchToken();
         fetchUserDetails();
     }, [router]);
 

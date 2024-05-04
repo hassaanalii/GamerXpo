@@ -34,7 +34,7 @@ const Signup = () => {
 
             if (response.ok) {
                 console.log(data);
-                console.log('Access Token:', data.access);
+               
                 toast.success('Signup Successful', {
                     position: "top-right",
                     autoClose: 1000,
