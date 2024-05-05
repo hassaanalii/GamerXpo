@@ -18,6 +18,9 @@ module.exports = {
         'extracolombo': ['"Post No Bills Colombo Extrabold"', 'sans-serif'],
         'regularcolombo': ['"Post No Bills Colombo Regular"', 'sans-serif'],
       },
+      colors: {
+        cyellow: '#E7D700',
+      }
     },
   },
   plugins: [],

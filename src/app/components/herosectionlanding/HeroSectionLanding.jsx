@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const HeroSectionLanding = () => {
     return (
-        <div className="flex flex-col items-center mt-2">
+        <div className="flex flex-col items-center mt-2" style={{ position: 'relative', height: '600px' }}>
             <div className="flex flex-col">
                 <div className="flex flex-col items-center">
                     <p className="font-extracolombo text-white text-[150px] leading-none">GAMERXPO</p>
@@ -10,14 +10,14 @@ const HeroSectionLanding = () => {
                 </div>
                 <div className="flex flex-row items-center relative">
                     <Image
-                        src="/controller2.svg"
+                        src="/controller2.png"
                         alt="Controller 2"
                         width={300}
                         height={300}
                         className="z-10" // Higher z-index for the controller you want on top
                     />
                     <Image
-                        src="/controller1.svg"
+                        src="/controller1.png"
                         alt="Controller 1"
                         width={500}
                         height={500}
