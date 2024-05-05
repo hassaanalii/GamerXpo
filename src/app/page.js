@@ -1,4 +1,5 @@
 import EventSectionLanding from "./components/eventsectionlanding/EventSectionLanding";
+import FeaturesSectionLanding from "./components/featuressectionlanding/FeaturesSectionLanding";
 import HeroSectionLanding from "./components/herosectionlanding/HeroSectionLanding";
 import MarketplaceSectionLanding from "./components/marketplacesectionlanding/MarketplaceSectionLanding";
 import NavBarLandingPage from "./components/navbarlandingpage/NavBarLandingPage";
@@ -13,6 +14,7 @@ const LandingPage = () => {
       <div className="flex flex-col bg-cover bg-center" style={{backgroundImage: "url('/bgimagecomplete.png')"}}>
         <EventSectionLanding />
         <MarketplaceSectionLanding />
+        <FeaturesSectionLanding />
 
       </div>
 
