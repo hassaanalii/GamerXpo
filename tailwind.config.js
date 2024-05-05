@@ -15,6 +15,8 @@ module.exports = {
       },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
+        'extracolombo': ['"Post No Bills Colombo Extrabold"', 'sans-serif'],
+        'regularcolombo': ['"Post No Bills Colombo Regular"', 'sans-serif'],
       },
     },
   },

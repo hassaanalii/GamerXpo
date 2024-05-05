@@ -4,6 +4,48 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Post No Bills Colombo Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/postnobillscolombo-regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Post No Bills Colombo Medium';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/postnobillscolombo-medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Post No Bills Colombo Semibold';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/postnobillscolombo-semibold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Post No Bills Colombo Bold';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/postnobillscolombo-bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Post No Bills Colombo Extrabold';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/fonts/postnobillscolombo-extrabold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Post No Bills Colombo Light';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/fonts/postnobillscolombo-light.ttf') format('truetype');
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
