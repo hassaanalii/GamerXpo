@@ -1,6 +1,7 @@
 import ArenaSectionLanding from "./components/arenasectionlanding/ArenaSectionLanding";
 import EventSectionLanding from "./components/eventsectionlanding/EventSectionLanding";
 import FeaturesSectionLanding from "./components/featuressectionlanding/FeaturesSectionLanding";
+import FooterLanding from "./components/footerlanding/FooterLanding";
 import HeroSectionLanding from "./components/herosectionlanding/HeroSectionLanding";
 import MarketplaceSectionLanding from "./components/marketplacesectionlanding/MarketplaceSectionLanding";
 import NavBarLandingPage from "./components/navbarlandingpage/NavBarLandingPage";
@@ -19,8 +20,8 @@ const LandingPage = () => {
         <FeaturesSectionLanding />
         <ArenaSectionLanding />
         <TeamSectionLanding />
-
       </div>
+      <FooterLanding />
 
     </div>
   )
