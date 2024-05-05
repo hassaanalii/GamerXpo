@@ -1,6 +1,11 @@
+"use client"
 import EventCard from "../eventcard/EventCard";
+import StyledButton from "../styledbuttons/StyledButton";
 
 const EventSectionLanding = () => {
+    const ViewAllEvents = () =>{
+        console.log("View All Events");
+    }
     return (
         <div id="events" className="my-20 mx-48 flex flex-col gap-20">
             <p className="text-white font-poppins text-center">
@@ -15,7 +20,10 @@ const EventSectionLanding = () => {
                 <p className="font-extracolombo text-white text-[50px]">UPCOMING EVENTS</p>
                 <div className="flex flex-row items-center justify-center gap-5">
                     <EventCard image="/demoimage.svg"/>
+                    <EventCard image="/demoimage.svg"/>
+                    <EventCard image="/demoimage.svg"/>
                 </div>
+                <StyledButton text="View All Events" className="text-black font-poppins text-[10px] font-semibold rounded-md py-3 px-3 bg-cyellow" onClick={ViewAllEvents}/>
             </div>
 
         </div>
