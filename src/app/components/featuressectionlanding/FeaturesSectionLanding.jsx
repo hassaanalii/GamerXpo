@@ -50,7 +50,7 @@ const FeaturesSectionLanding = () =>{
     ];
     
     return(
-        <div className="flex flex-col gap-5 items-center justify-center py-36 px-12">
+        <div id="features" className="flex flex-col gap-5 items-center justify-center py-36 px-12">
             <p className="font-extracolombo text-white text-[50px] leading-none">FEATURES</p>
             <div className="grid grid-cols-3 gap-6 mt-8 w-full max-w-6xl"> {/* Grid container */}
                 {services.map(service => (

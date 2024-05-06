@@ -1,6 +1,6 @@
 const ArenaSectionLanding = () =>{
     return (
-        <div className="flex flex-col py-16 items-center justify-center bg-cover gap-10 " 
+        <div id="arena" className="flex flex-col py-16 items-center justify-center bg-cover gap-10 " 
         style={{backgroundImage: "url('/marketplace.svg')"}}>
             <div className="flex flex-col justify-center items-center w-[50%] gap-6">
                 <p className="font-extracolombo text-white text-[50px] leading-none">ESPORTS ARENA</p>
