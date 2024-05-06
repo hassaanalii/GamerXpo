@@ -1,6 +1,12 @@
+"use client"
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const NavBarLandingPage = () =>{
+    const router = useRouter()
+    const handleGetStarted = () =>{
+        router.push("/signup")
+    }
     return(
         <div className="flex flex-row justify-between py-9 px-20">
             <Image src="/logolandingpage.svg" alt="logo" width={60} height={60}/>
@@ -11,7 +17,7 @@ const NavBarLandingPage = () =>{
                 <a href="#arena" className="text-white hover:text-gray-300 font-poppins">Arena</a>
                 <a href="#team" className="text-white hover:text-gray-300 font-poppins">Team</a>
             </div>
-            <button className="px-10 py-1 border-2 border-white font-poppins hover:text-gray-300 hover:border-gray-300 rounded-lg text-white text-sm">
+            <button onClick={handleGetStarted} className="px-10 py-1 border-2 border-white font-poppins hover:text-gray-300 hover:border-gray-300 rounded-lg text-white text-sm">
                 Get Started
             </button>
             

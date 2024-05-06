@@ -80,7 +80,7 @@ const Login = () => {
                         theme: "dark",
                     });
                     setTimeout(() => {
-                        router.push("/profile");
+                        router.push("/home");
                     }, 1000);
 
                 } else {

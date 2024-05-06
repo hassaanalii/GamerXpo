@@ -11,6 +11,7 @@ import EmployeeCard from '../components/employeecard/EmployeeCard';
 import Modal from '../components/modal/modal';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getAccessToken, resetAuthCookies } from '../lib/actions';
 
 
 export default function Profile() {
@@ -325,8 +326,9 @@ export default function Profile() {
       if (response.ok) {
         // Successfully logged out
         console.log('Logout successful');
-        // Redirect to homepage or login page
-        router.push('/login'); // or whatever your login route is
+        resetAuthCookies();
+        router.push('/');
+      
       } else {
         // Handle any errors
         console.error('Failed to log out');

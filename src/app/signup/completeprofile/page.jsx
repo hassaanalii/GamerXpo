@@ -81,7 +81,7 @@ const Page = () => {
                 // Check if the user has a profile and redirect accordingly
                 if (data.has_profile) {
                     // User has a complete profile, redirect to the profile page
-                    router.push('/profile');
+                    router.push('/home');
                 }
 
             } catch (error) {
@@ -173,7 +173,7 @@ const Page = () => {
                             theme: "dark",
                         });
                         setTimeout(() => {
-                            router.push("/profile");
+                            router.push("/home");
                         }, 1000);
 
                     } else {

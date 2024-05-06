@@ -201,7 +201,7 @@ const page = () => {
               theme: "dark",
             });
             setTimeout(() => {
-              router.push("/profile");
+              router.push("/home");
             }, 1000);
           } else {
             console.error("Failed to update UserProfile with organization ID.");

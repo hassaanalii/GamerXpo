@@ -1,9 +1,11 @@
+import { redirect } from "next/navigation";
 import { getAccessToken } from "../lib/actions";
 
 const handleAccess = async() =>{
     const access = await getAccessToken()
-    console.log("hhi")
-    console.log(access)
+    if(!access){
+        redirect("/login")
+    }
 }
 const TempF = async() =>{
     await handleAccess();
