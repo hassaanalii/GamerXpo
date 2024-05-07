@@ -24,7 +24,7 @@ const Home = async() =>{
     const role = response.role;
     return(
         <div className="flex flex-col">
-            <RoleNavBar role={role} username={username}/>
+            <RoleNavBar role={role} username={username} highlight="home"/>
 
         </div>   
     )
