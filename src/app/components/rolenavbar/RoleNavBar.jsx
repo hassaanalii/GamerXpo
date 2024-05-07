@@ -1,10 +1,10 @@
 import apiService from "@/app/services/apiService";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+
 
 const RoleNavBar = async (props) => {
-    const pathname = usePathname
+    
     const response = await apiService.get(`/api/user/${props.username}/profile_picture`)
     console.log(response)
     return (

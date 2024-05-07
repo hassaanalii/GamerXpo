@@ -25,10 +25,11 @@ const events = async () => {
     const role = response.role;
 
     return (
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-5">
             <RoleNavBar role={role} username={username} highlight="events" />
             <Banner role={role} />
             <ButtonBanner role={role} />
+            
                 
         </div>
     )
