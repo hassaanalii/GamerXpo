@@ -1,6 +1,9 @@
+import apiService from "@/app/services/apiService";
 import Image from "next/image";
 
-const RoleNavBar = (props) => {
+const RoleNavBar = async(props) => {
+    const response = await apiService.get(`/api/user/${props.username}/profile_picture`)
+    console.log(response)
     return (
         <div className="bg-gradient-to-r from-cgreen to-cgreen/60 py-6 px-36">
             <div className="flex flex-row items-center justify-between">
@@ -20,7 +23,7 @@ const RoleNavBar = (props) => {
 
                 </div>
                 <div className="flex flex-row gap-3">
-                    
+                    <Image src={response.profile_picture || response.profile_picture_url || '/profile.png'} width={40} height={40} alt="hello" className="rounded-full"/>
                 </div>
             </div>
 
