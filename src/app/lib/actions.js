@@ -35,3 +35,7 @@ export async function getAccessToken() {
     let accessToken = cookies().get('session_access_token')?.value;
     return accessToken;
 }
+export async function getUsername() {
+    let username = cookies().get('session_username')?.value;
+    return username;
+}

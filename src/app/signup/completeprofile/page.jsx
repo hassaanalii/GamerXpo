@@ -8,6 +8,7 @@ import CustomInputField from '@/app/components/custominputfield/CustomInputField
 import CustomButton from '@/app/components/custombutton/CustomButton';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { handleLogin } from '@/app/lib/actions';
 
 const Page = () => {
     const { leadDetails, updateLeadDetails } = useUserContext();
@@ -53,18 +54,6 @@ const Page = () => {
     }
 
     useEffect(() => {
-        const fetchToken = async () =>{
-            const urlParams = new URLSearchParams(window.location.search);
-            const refresh = urlParams.get('refresh');
-            const access = urlParams.get('access');
-            if (access && refresh) {
-                console.log('hello')
-                console.log(access)
-                console.log(refresh)
-            }else{
-                console.log("nothing")
-            }
-        }
         const fetchUserDetails = async () => {
             try {
                 const response = await fetch('http://localhost:8000/api/userdetails/', {
@@ -80,7 +69,23 @@ const Page = () => {
 
                 // Check if the user has a profile and redirect accordingly
                 if (data.has_profile) {
-                    // User has a complete profile, redirect to the profile page
+                    if (window.location.search.includes('access=') && window.location.search.includes('refresh=')) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const refresh = urlParams.get('refresh');
+                        const access = urlParams.get('access');
+                        if (access && refresh) {
+                            console.log('hello')
+                            console.log(access)
+                            console.log(refresh)
+                        }else{
+                            console.log("nothing")
+                        }
+                        handleLogin(data.username, access, refresh);
+                        console.log("done")
+                        console.log("hi" + data.username)
+                    } else {
+                        console.log("fetchToken not called: URL does not contain required tokens.");
+                    }  
                     router.push('/home');
                 }
 
@@ -89,12 +94,9 @@ const Page = () => {
                 // Consider redirecting to an error page or showing an error message
             }
         };
-        if (window.location.search.includes('access=') && window.location.search.includes('refresh=')) {
-            fetchToken();
-        } else {
-            console.log("fetchToken not called: URL does not contain required tokens.");
-        }       
         fetchUserDetails();
+             
+        
     }, [router]);
 
     const handleChange = (e) => {
@@ -123,6 +125,23 @@ const Page = () => {
                     profile_picture: profileImage,
                     profile_picture_url: userDetails.social_picture || null,
                 });
+                if (window.location.search.includes('access=') && window.location.search.includes('refresh=')) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const refresh = urlParams.get('refresh');
+                    const access = urlParams.get('access');
+                    if (access && refresh) {
+                        console.log('hello')
+                        console.log(access)
+                        console.log(refresh)
+                    }else{
+                        console.log("nothing")
+                    }
+                    handleLogin(userDetails.username, access, refresh);
+                    console.log("done")
+                    console.log("hi" + userDetails.username)
+                } else {
+                    console.log("fetchToken not called: URL does not contain required tokens.");
+                }  
 
                 router.push('/signup/completeprofile/registercompany/')
 
@@ -162,7 +181,24 @@ const Page = () => {
 
                     if (response.ok) {
                         console.log("Profile updated successfully.");
-                        toast.success('Profile has been set up successfully!', {
+                        if (window.location.search.includes('access=') && window.location.search.includes('refresh=')) {
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const refresh = urlParams.get('refresh');
+                            const access = urlParams.get('access');
+                            if (access && refresh) {
+                                console.log('hello')
+                                console.log(access)
+                                console.log(refresh)
+                            }else{
+                                console.log("nothing")
+                            }
+                            handleLogin(userDetails.username, access, refresh);
+                            console.log("done")
+                            console.log("hi" + userDetails.username)
+                        } else {
+                            console.log("fetchToken not called: URL does not contain required tokens.");
+                        }  
+                        toast.success('Profile has been setup successfully!', {
                             position: "top-right",
                             autoClose: 1000,
                             hideProgressBar: false,

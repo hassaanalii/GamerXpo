@@ -12,6 +12,7 @@ const page = () => {
   const { leadDetails } = useUserContext()
   const [errors, setErrors] = useState({});
   const [userId, setUserId] = useState()
+  const [username, setUsername] = useState()
 
   const router = useRouter()
   const [companyDetails, setCompanyDetails] = useState({
@@ -42,13 +43,14 @@ const page = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const response = await fetch('http://localhost:8000/api/getuserid/', {
+      const response = await fetch('http://localhost:8000/api/getuser/', {
         credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         setUserId(data.userId);
-
+        setUsername(data.username);
       }
     };
 

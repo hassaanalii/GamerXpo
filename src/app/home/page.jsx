@@ -1,9 +1,32 @@
+import { redirect } from "next/navigation";
+import { getAccessToken, getUsername } from "../lib/actions";
 import apiService from "../services/apiService";
+import RoleNavBar from "../components/rolenavbar/RoleNavBar";
 
-const Home = () =>{
-    apiService.get("/api/user/148")
+
+const handleAccess = async() =>{
+    const access = await getAccessToken();
+    if(!access){
+        redirect("/login")
+    }
+}
+const handleUsername = async() =>{
+    const username = await getUsername();
+    return username;
+}
+
+const Home = async() =>{
+    await handleAccess();
+    const username = await handleUsername();
+    console.log(username);
+
+    const response= await apiService.get(`/api/user/${username}`);
+    const role = response.role;
     return(
-        <p>home page</p>
+        <div className="flex flex-col">
+            {role}
+
+        </div>   
     )
 }
 export default Home;

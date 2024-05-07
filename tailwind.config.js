@@ -20,6 +20,7 @@ module.exports = {
       },
       colors: {
         cyellow: '#E7D700',
+        cgreen: '#2d3f2f'
       }
     },
   },
