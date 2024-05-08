@@ -57,7 +57,7 @@ const EventModal = ({ isOpen, close }) => {
     }
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center ">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40 ">
             <div className="bg-white py-6 px-12 rounded flex flex-col items-center justify-center w-[500px] gap-3">
                 <p className="text-black font-poppins text-[18px] font-bold">Enter Event Details</p>
 

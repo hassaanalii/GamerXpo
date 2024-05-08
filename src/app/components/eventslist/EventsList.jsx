@@ -22,9 +22,9 @@ const EventsList = async(props) => {
         <div>
         {
             props.role === 'Gamer' ? (
-                <GamerEvents events={response} />
+                <GamerEvents events={response} role={props.role} />
             ) : (
-                <OrganizationEvents />
+                <OrganizationEvents events={response} role={props.role}/>
             )
         }
         </div>
