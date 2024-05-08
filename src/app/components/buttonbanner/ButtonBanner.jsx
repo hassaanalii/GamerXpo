@@ -2,8 +2,9 @@
 import { useState } from "react";
 import StyledButton from "../styledbuttons/StyledButton";
 import EventModal from "../eventmodal/EventModal";
+import EventsList from "../eventslist/EventsList";
 
-const ButtonBanner = ({ role }) => {
+const ButtonBanner = ({ role, username }) => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const showFavEvents = () => {

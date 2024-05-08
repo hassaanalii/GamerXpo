@@ -1,17 +1,14 @@
-"use client"
-
 import apiService from "@/app/services/apiService";
-import { useEffect, useState } from "react";
 
-const EventsList = ({role, username}) => {
-    const [eventsList, setEventsList] = useState([])
-
-    useEffect(async()=>{
-        const response = await apiService.get(`/api/user/${username}/events`) 
-    }, [])
+const EventsList = async(props) => {
+    console.log(props.role)
+    const response = await apiService.get(`/api/user/${props.username}/leadevents`);
+    console.log(response);
 
     return (
-        <div></div>
+        <div>
+           <p>hello</p>
+        </div>
     )
 }
 export default EventsList;
