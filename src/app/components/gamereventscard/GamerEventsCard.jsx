@@ -1,10 +1,13 @@
 "use client"
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
 const GamerEventsCard = ({ event, role }) => {
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+    const pathname = usePathname()
 
     const [isLive, setIsLive] = useState(false);
 
@@ -37,53 +40,56 @@ const GamerEventsCard = ({ event, role }) => {
     }, [event.dateOfEvent, event.startTime, event.endTime]);
 
 
+
     return (
-        <div className="bg-white shadow-md rounded-lg overflow-hidden transition duration-500 hover:scale-105 cursor-pointer relative flex flex-col h-full">
-            <div className="relative w-full h-60">
-                <Image
-                    src={`http://localhost:8000/${event.image}`}
-                    alt="event image"
-                    layout="fill"
-                    objectFit="cover"
-                    className="object-cover"
-                />
-                {isLive && (
-                    <div className="absolute top-2 right-2 bg-red-800 text-white font-bold px-6 py-1 rounded-lg text-[12px] font-poppins">
-                        LIVE
-                    </div>
-                )}
-                {!isLive && (
-                    <div className="absolute top-2 right-2 bg-cyellow text-black font-bold px-2 py-1 rounded-lg text-[12px] font-poppins">
-                        {`${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`}
-                    </div>
-                )}
-            </div>
-            <div className="flex flex-col p-3 flex-grow gap-3">
-                <div className="flex flex-row items-center justify-between">
-                    <p className="text-[18px] font-semibold text-black font-poppins">{event.eventName}</p>
-                    {role === 'Gamer' && (
-                        <Image
-                            src={`http://localhost:8000/${event.organization.logo}`}
-                            alt="organization logo"
-                            height={40}
-                            width={40}
-                            className="rounded-full object-cover"
-                        />
+        <Link href={`${pathname}/${event.id}`}>
+            <div className="bg-white shadow-md rounded-lg overflow-hidden transition duration-500 hover:scale-105 cursor-pointer relative flex flex-col h-full">
+                <div className="relative w-full h-60">
+                    <Image
+                        src={`http://localhost:8000/${event.image}`}
+                        alt="event image"
+                        layout="fill"
+                        objectFit="cover"
+                        className="object-cover"
+                    />
+                    {isLive && (
+                        <div className="absolute top-2 right-2 bg-red-800 text-white font-bold px-6 py-1 rounded-lg text-[12px] font-poppins">
+                            LIVE
+                        </div>
                     )}
-
+                    {!isLive && (
+                        <div className="absolute top-2 right-2 bg-cyellow text-black font-bold px-2 py-1 rounded-lg text-[12px] font-poppins">
+                            {`${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`}
+                        </div>
+                    )}
                 </div>
-                {
-                    role === 'Gamer' && (
-                        <p className="mb-3 text-cgreen font-poppins font-semibold text-[14px]">Organization: {event.organization.name}</p>
+                <div className="flex flex-col p-3 flex-grow gap-3">
+                    <div className="flex flex-row items-center justify-between">
+                        <p className="text-[18px] font-semibold text-black font-poppins">{event.eventName}</p>
+                        {role === 'Gamer' && (
+                            <Image
+                                src={`http://localhost:8000/${event.organization.logo}`}
+                                alt="organization logo"
+                                height={40}
+                                width={40}
+                                className="rounded-full object-cover"
+                            />
+                        )}
 
-                    )
-                }
-                <div className="flex flex-col ">
-                    <p className="text-gray-600 font-poppins text-[12px]">{event.description}</p>
-                    <p className="text-gray-500 font-poppins text-[12px]">{new Date(event.dateOfEvent).toLocaleDateString()}</p>
+                    </div>
+                    {
+                        role === 'Gamer' && (
+                            <p className="mb-3 text-cgreen font-poppins font-semibold text-[14px]">Organization: {event.organization.name}</p>
+
+                        )
+                    }
+                    <div className="flex flex-col ">
+                        <p className="text-gray-600 font-poppins text-[12px]">{event.description}</p>
+                        <p className="text-gray-500 font-poppins text-[12px]">{new Date(event.dateOfEvent).toLocaleDateString()}</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 export default GamerEventsCard;
