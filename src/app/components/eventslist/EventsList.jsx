@@ -4,16 +4,14 @@ import OrganizationEvents from "../organizationevents/OrganizationEvents";
 
 const EventsList = async(props) => {
     console.log(props.role)
+    let response = []
 
     if (props.role === 'Lead'){
-        const response = await apiService.get(`/api/user/${props.username}/leadevents`);
-        console.log(response);
+        response = await apiService.get(`/api/user/${props.username}/leadevents`);
     }else if(props.role === 'Developer'){
-        const response = await apiService.get(`/api/user/${props.username}/devevents`);
-        console.log(response.message);
+        response = await apiService.get(`/api/user/${props.username}/devevents`);
     }else if(props.role === 'Gamer'){
-        const response = await apiService.get(`/api/getevents`);
-        console.log(response)
+        response = await apiService.get(`/api/getevents`);
     }
     
 
@@ -21,7 +19,7 @@ const EventsList = async(props) => {
         <div>
         {
             props.role === 'Gamer' ? (
-                <GamerEvents />
+                <GamerEvents events={response} />
             ) : (
                 <OrganizationEvents />
             )
