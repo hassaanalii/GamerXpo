@@ -2,8 +2,13 @@ import Image from "next/image";
 import GamerEventsCard from "../gamereventscard/GamerEventsCard";
 
 const GamerEvents = ({ events }) => {
+    const now = new Date();
+    const filteredEvents = events.filter(event => {
+        const eventEnd = new Date(`${event.dateOfEvent}T${event.endTime}`);
+        return eventEnd > now;
+    });
 
-    const sortedEvents = events.sort((a, b) => {
+    const sortedEvents = filteredEvents.sort((a, b) => {
         const dateA = new Date(`${a.dateOfEvent}T${a.startTime}`);
         const dateB = new Date(`${b.dateOfEvent}T${b.startTime}`);
         return dateA - dateB;
