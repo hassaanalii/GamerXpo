@@ -1,11 +1,15 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import StyledButton from "../styledbuttons/StyledButton";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const EventDetails = ({ event, role, username }) => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [isLive, setIsLive] = useState(false);
     const [eventEnded, setEventEnded] = useState(false);
+    const pathname = usePathname()
 
     useEffect(() => {
         const calculateTimeLeft = () => {
@@ -60,11 +64,18 @@ const EventDetails = ({ event, role, username }) => {
         <div className="flex flex-col bg-cover bg-center px-[200px]" style={{ backgroundImage: "url('/eventdetails.png')" }}>
             <div className="flex flex-col gap-6 pb-10">
                 <div className="flex flex-row items-center justify-between">
-                    <p className="font-extracolombo text-[40px] font-semibold ">{event.eventName}</p>
+                    <p className="font-poppins text-[40px] font-semibold ">{event.eventName}</p>
                     <div className={`font-poppins text-[16px] font-semibold py-3 rounded-lg w-[220px] text-center ${getStatusClassName()}`}>
                         {isLive ? "LIVE" : eventEnded ? "Event Ended" : `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`}
                     </div>
                 </div>
+                {
+                    isLive && (
+                        <Link href={`${pathname}/${event.room_id}`}>
+                            <div className="px-5 py-2 rounded-md bg-black text-white font-poppins font-semibold  text-center blinking" >Join Now!</div>
+                        </Link>
+                    )
+                }
                 <div className="relative w-full h-80  ">
                     <Image
                         src={`http://localhost:8000/${event.image}`}
@@ -99,7 +110,7 @@ const EventDetails = ({ event, role, username }) => {
                     <div className="flex flex-col">
                         <div className="flex flex-row items-center justify-between">
                             <p className="font-poppins text-[18px] text-black font-bold">{event.organization.name}</p>
-                            <Image src={`http://localhost:8000/${event.organization.logo}`} alt="hello" width={50} height={50} className="rounded-md"/>
+                            <Image src={`http://localhost:8000/${event.organization.logo}`} alt="hello" width={50} height={50} className="rounded-md" />
                         </div>
                         <div className="mt-2">
                             <p className="font-poppins text-[14px] text-black"><strong>Website:</strong> <a href={event.organization.website_url} className="text-blue-500 underline">{event.organization.website_url}</a></p>
@@ -109,7 +120,7 @@ const EventDetails = ({ event, role, username }) => {
                             <p className="font-poppins text-[14px] text-black"><strong>Founded Date:</strong> {new Date(event.organization.founded_date).toLocaleDateString()}</p>
                             <p className="font-poppins text-[14px] text-black"><strong>Country:</strong> {event.organization.country}</p>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
