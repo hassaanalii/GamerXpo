@@ -78,7 +78,7 @@ const EventDetails = ({ event, role, username }) => {
                 }
                 <div className="relative w-full h-80  ">
                     <Image
-                        src={`http://localhost:8000/${event.image}`}
+                        src={`http://localhost:8000${event.image}`}
                         alt="event image"
                         layout="fill"
                         objectFit="cover"

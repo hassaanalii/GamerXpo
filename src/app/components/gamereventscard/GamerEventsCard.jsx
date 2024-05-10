@@ -47,7 +47,7 @@ const GamerEventsCard = ({ event, role }) => {
             <div className="bg-white shadow-md rounded-lg overflow-hidden transition duration-500 hover:scale-105 cursor-pointer relative flex flex-col h-full">
                 <div className="relative w-full h-60">
                     <Image
-                        src={`http://localhost:8000/${event.image}`}
+                        src={`http://localhost:8000${event.image}`}
                         alt="event image"
                         layout="fill"
                         objectFit="cover"

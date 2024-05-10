@@ -13,7 +13,7 @@ const TeamSectionLanding = () => {
                 <ProfileCard
                     name="Muhammad Maarij"
                     id="FA20-BCS-060"
-                    imageUrl="/hassaan.jpg"
+                    imageUrl="/maarij.jpeg"
                 />
             </div>
 

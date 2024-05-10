@@ -3,8 +3,10 @@
 import { useState } from "react";
 import StyledButton from "../styledbuttons/StyledButton";
 import apiService from "@/app/services/apiService";
+import { redirect, useRouter } from "next/navigation";
 
 const EventModal = ({ isOpen, close }) => {
+    const router = useRouter();
     if (!isOpen) return null;
         const [eventName, setEventName] = useState('');
         const [description, setDescription] = useState('');
@@ -48,6 +50,10 @@ const EventModal = ({ isOpen, close }) => {
         try {
             const response = await apiService.post('/api/createevent/', formData);
             console.log(response.data);
+            isOpen(false)
+            router.push('/events')
+
+            
         } catch (error) {
             console.error('Error posting event:', error.response);
         }

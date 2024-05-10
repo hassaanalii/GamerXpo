@@ -346,7 +346,7 @@ export default function Profile() {
     ? '/profile.png'
     : `http://localhost:8000/${userDetails.profile_picture}`) : userDetails.profile_picture_url;
 
-  const organizationImageSrc = `http://localhost:8000/${organizationDetails.logo}`
+  const organizationImageSrc = `http://localhost:8000${organizationDetails.logo}`
   const areOrganizationDetailsSet = Object.values(organizationDetails).some(detail => detail);
 
   // console.log(areOrganizationDetailsSet)
