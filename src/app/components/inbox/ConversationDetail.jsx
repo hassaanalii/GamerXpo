@@ -71,6 +71,7 @@ const ConversationDetail = ({token, userId, messages, conversation}) => {
 
     console.log(messages)
     console.log(realtimeMessages)
+    console.log(myUser)
     return (
         <>
             <div ref={messagesDiv} className="max-h-[400px] overflow-auto flex flex-col space-y-4 px-[100px]">
@@ -94,7 +95,7 @@ const ConversationDetail = ({token, userId, messages, conversation}) => {
                 </div> */}
                 {messages.map((message, index)=>(
                     <div key={index}
-                    className={`w-[80%] py-4 px-5 rounded-lg ${message.created_by.name == myUser?.name ? 'ml-[20%] bg-blue-200' : 'bg-gray-200' }`}
+                    className={`w-[80%] py-4 px-5 rounded-lg ${message.created_by.username == myUser?.username ? 'ml-[20%] bg-blue-200' : 'bg-gray-200' }`}
                     >
                         <p className="font-bold font-poppins text-[18px]">{message.created_by.username}</p>
                         <p className="font-poppins text-[13px]">{message.body}</p>
