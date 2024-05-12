@@ -2,14 +2,16 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import StyledButton from "../styledbuttons/StyledButton";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import apiService from "@/app/services/apiService";
 
-const EventDetails = ({ event, role, username }) => {
+const EventDetails = ({ event, role, username, authenticatedUserId}) => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [isLive, setIsLive] = useState(false);
     const [eventEnded, setEventEnded] = useState(false);
     const pathname = usePathname()
+    const router = useRouter()
 
     useEffect(() => {
         const calculateTimeLeft = () => {
@@ -59,14 +61,37 @@ const EventDetails = ({ event, role, username }) => {
         day: 'numeric'
     });
 
+    const startConversation = async() =>{
+        const hostId = event.organization.created_by
+        if (authenticatedUserId){
+            const conversation = await apiService.get(`/api/conversations/start/${hostId}`)
+            if(conversation.conversation_id){
+                router.push(`/home/inbox/${conversation.conversation_id}`)
+            }
+            
+        }else{
+            router.push('/login')
+        }
+    }
 
     return (
         <div className="flex flex-col bg-cover bg-center px-[200px]" style={{ backgroundImage: "url('/eventdetails.png')" }}>
             <div className="flex flex-col gap-6 pb-10">
                 <div className="flex flex-row items-center justify-between">
                     <p className="font-poppins text-[40px] font-semibold ">{event.eventName}</p>
-                    <div className={`font-poppins text-[16px] font-semibold py-3 rounded-lg w-[220px] text-center ${getStatusClassName()}`}>
-                        {isLive ? "LIVE" : eventEnded ? "Event Ended" : `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`}
+                    <div className="flex flex-row gap-2 items-center justify-center">
+                        {
+                            role === 'Gamer' && (
+                                <div onClick={startConversation} className="flex flex-row items-center justify-center px-5 py-3 gap-2 rounded-md bg-cyellow hover:bg-cyellow/80 cursor-pointer">
+                                    <Image src="/chat.png" width={20} height={20} />
+                                    <p className="font-poppins font-semibold text-[14px]">Contact Us</p>
+                                </div>
+                            )
+                        }
+
+                        <div className={`font-poppins text-[16px] font-semibold py-3 rounded-lg w-[220px] text-center ${getStatusClassName()}`}>
+                            {isLive ? "LIVE" : eventEnded ? "Event Ended" : `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`}
+                        </div>
                     </div>
                 </div>
                 {
@@ -110,7 +135,7 @@ const EventDetails = ({ event, role, username }) => {
                     <div className="flex flex-col">
                         <div className="flex flex-row items-center justify-between">
                             <p className="font-poppins text-[18px] text-black font-bold">{event.organization.name}</p>
-                            <Image src={`http://localhost:8000/${event.organization.logo}`} alt="hello" width={50} height={50} className="rounded-md" />
+                            <Image src={`http://localhost:8000${event.organization.logo}`} alt="hello" width={50} height={50} className="rounded-md" />
                         </div>
                         <div className="mt-2">
                             <p className="font-poppins text-[14px] text-black"><strong>Website:</strong> <a href={event.organization.website_url} className="text-blue-500 underline">{event.organization.website_url}</a></p>

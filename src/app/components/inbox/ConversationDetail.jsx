@@ -75,7 +75,7 @@ const ConversationDetail = ({ token, userId, messages, conversation }) => {
     return (
         <>
             <div className="flex flex-col m-auto mt-[60px] w-[70%] rounded-lg border border-gray-300">
-                <div ref={messagesDiv} className="max-h-[400px] overflow-auto flex flex-col space-y-4 px-[100px]  ">
+                <div ref={messagesDiv} className="max-h-[400px] overflow-auto flex flex-col space-y-4 px-[100px] pt-5 ">
                     {/* <div className="w-[80%] py-4 px-6 rounded-xl bg-gray-200">
                     <p className="font-bold text-gray-500 font-poppins">
                         JohnDoe

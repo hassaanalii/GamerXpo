@@ -9,19 +9,18 @@ const handleUsername = async () => {
 
 const event = async ({ params }) => {
     const username = await handleUsername();
-    console.log(username);
-
     const response = await apiService.get(`/api/user/${username}`);
-    const role = response.role;
-
+    const getAuthenticatedUser = await apiService.get(`/api/getuser`)
     const myEvent = await apiService.get(`/api/getevent/${params.id}`);
-    console.log("he")
-    console.log(myEvent)
+
+    const role = response.role;
+    const authenticatedUserId = getAuthenticatedUser.userId
+
 
     return (
         <div className="flex flex-col gap-5">
             <RoleNavBar role={role} username={username} highlight="events" />
-            <EventDetails event={myEvent} role={role} username={username} />
+            <EventDetails event={myEvent} role={role} username={username} authenticatedUserId={authenticatedUserId} />
 
         </div>
     )
