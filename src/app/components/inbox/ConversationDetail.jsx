@@ -104,9 +104,9 @@ const ConversationDetail = ({ token, userId, messages, conversation }) => {
                     ))}
                     {realtimeMessages.map((message, index) => (
                         <div key={index}
-                            className={`w-[80%] py-4 px-5 rounded-lg ${message.name == myUser?.name ? 'bg-gray-200' : ' ml-[20%] bg-blue-200'}`}
+                            className={`w-[80%] py-4 px-5 rounded-lg ${message.created_by.username == myUser?.username ? 'ml-[20%] bg-cgreen/30' : 'bg-gray-200'}`}
                         >
-                            <p className="font-bold font-poppins text-[18px]">{message.name}</p>
+                            <p className="font-bold font-poppins text-[18px]">{message.created_by.username}</p>
                             <p className="font-poppins text-[13px]">{message.body}</p>
                         </div>
                     ))}
