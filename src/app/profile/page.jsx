@@ -374,7 +374,7 @@ export default function Profile() {
   };
 
   const handleExpoClick = () => {
-    router.push("/xpoarena")
+    router.push("/home")
   }
 
   return (
@@ -404,10 +404,10 @@ export default function Profile() {
             {/* <div onClick={handleLogoutClick} className='flex items-center justify-center gap-3 bg-red-800 rounded-md py-2 px-3 cursor-pointer'>
               <FontAwesomeIcon icon={faSignOut}  className="text-white text-xl " />
               <p className='text-white font-bold'>Logout</p>
-            </div>
-            <div onClick={handleExpoClick} className='flex items-center justify-center gap-3 bg-red-800 rounded-md py-2 px-3 cursor-pointer'>
-              <p className='text-white font-bold'>XpoArena</p>
             </div> */}
+            <div onClick={handleExpoClick} className='flex items-center justify-center gap-3 bg-cyellow rounded-md py-2 px-3 cursor-pointer'>
+              <p className='text-black font-semibold font-poppins'>Home</p>
+            </div>
 
           </div>
         </div>

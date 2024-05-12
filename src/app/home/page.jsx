@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getAccessToken, getUsername } from "../lib/actions";
 import apiService from "../services/apiService";
 import RoleNavBar from "../components/rolenavbar/RoleNavBar";
+import GreetingsBanner from "../components/greetingsbanner/GreetingsBanner";
 
 
 const handleAccess = async() =>{
@@ -23,8 +24,9 @@ const Home = async() =>{
     const response= await apiService.get(`/api/user/${username}`);
     const role = response.role;
     return(
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-10">
             <RoleNavBar role={role} username={username} highlight="home"/>
+            <GreetingsBanner role={role} username={username}/>
 
         </div>   
     )
