@@ -47,7 +47,7 @@ export default async function Booths({ searchParams }) {
                     <div className={styles.imageContainer}>
                       <div className={styles.imageWrapper}>
                         <Image
-                          src={`http://localhost:8000/${item.image}`}
+                          src={`http://localhost:8000${item.image}`}
                           alt={item.name}
                           className={styles.image}
                           width={360}

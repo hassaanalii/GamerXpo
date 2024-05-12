@@ -17,7 +17,7 @@ const NavBarLandingPage = () => {
                 <a href="#events" className="text-white hover:text-gray-300 font-poppins">Events</a>
                 <a href="#marketplace" className="text-white hover:text-gray-300 font-poppins">Marketplace</a>
                 <a href="#features" className="text-white hover:text-gray-300 font-poppins">Features</a>
-                <a href="#arena" className="text-white hover:text-gray-300 font-poppins">Arena</a>
+                {/* <a href="#arena" className="text-white hover:text-gray-300 font-poppins">Arena</a> */}
                 <a href="#team" className="text-white hover:text-gray-300 font-poppins">Team</a>
             </div>
             <button onClick={handleGetStarted} className="px-10 py-1 border-2 border-white font-poppins hover:text-gray-300 hover:border-gray-300 rounded-lg text-white text-sm">

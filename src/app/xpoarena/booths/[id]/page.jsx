@@ -482,7 +482,7 @@ const page = ({ params, children }) => {
               {themeData && themeData.theme_video && (
                 <video
                   className={styles.backgroundVideo}
-                  src={`http://localhost:8000/${themeData.theme_video}`}
+                  src={`http://localhost:8000${themeData.theme_video}`}
                   autoPlay
                   loop
                   muted

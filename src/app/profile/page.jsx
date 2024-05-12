@@ -73,6 +73,29 @@ export default function Profile() {
     }
     return cookieValue;
   }
+  useEffect(() => {
+    async function getVerification() {
+
+      const access = await getAccessToken()
+      if(!access) {
+        router.push("/login")
+      }
+      // const res = await fetch("http://localhost:8000/api/verify/", {
+      //   method: 'GET',
+      //   credentials: 'include', // Important for cookies if using sessions
+      // });
+      // if (res.ok) {
+      //   const data = await res.json();
+      //   if (data.authenticated) {
+      //     router.push("/profile");
+      //   } else {
+      //     router.push("/login")
+      //   }
+      // }
+    }
+
+    getVerification();
+  }, [router]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -104,24 +127,7 @@ export default function Profile() {
 
 
 
-  useEffect(() => {
-    async function getVerification() {
-      const res = await fetch("http://localhost:8000/api/verify/", {
-        method: 'GET',
-        credentials: 'include', // Important for cookies if using sessions
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.authenticated) {
-          router.push("/profile");
-        } else {
-          router.push("/login")
-        }
-      }
-    }
-
-    getVerification();
-  }, [router]);
+  
 
   const handleJoinClick = async () => {
     const formData = new FormData();
@@ -164,7 +170,7 @@ export default function Profile() {
               theme: "dark",
             });
             setTimeout(() => {
-              router.push("/profile");
+              router.push("/home");
             }, 1000);
           } else {
             const errorData = await response.json();

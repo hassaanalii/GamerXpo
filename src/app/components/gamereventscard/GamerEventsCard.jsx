@@ -69,7 +69,7 @@ const GamerEventsCard = ({ event, role }) => {
                         <p className="text-[18px] font-semibold text-black font-poppins">{event.eventName}</p>
                         {role === 'Gamer' && (
                             <Image
-                                src={`http://localhost:8000/${event.organization.logo}`}
+                                src={`http://localhost:8000${event.organization.logo}`}
                                 alt="organization logo"
                                 height={40}
                                 width={40}

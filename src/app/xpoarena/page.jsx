@@ -11,17 +11,22 @@ import Footer from '../components/footer/Footer'
 import 'aos/dist/aos.css'; // Import AOS styles
 import AOS from 'aos';
 import { useEffect } from 'react';
+import { getAccessToken } from '../lib/actions'
+import { useRouter } from 'next/navigation'
 
-async function getData() {
-  const res = await fetch('http://localhost:8000/api/booth/', { next: { revalidate: 0 } })
-  //wait (Await) till the promise of fetch is resolved
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
-  }
+// async function getData() {
+//   const res = await fetch('http://localhost:8000/api/booth/', { next: { revalidate: 0 } })
+//   //wait (Await) till the promise of fetch is resolved
+//   if (!res.ok) {
+//     throw new Error('Failed to fetch data')
+//   }
 
-  return res.json()
-}
-export default async function XpoArena() {
+
+//   return res.json()
+// }
+export default function XpoArena() {
+  const router = useRouter()
+
   useEffect(() => {
     AOS.init({
       duration: 1500, // Animation duration
@@ -29,8 +34,18 @@ export default async function XpoArena() {
       easing: 'ease', // Easing type
       // More options can be added here
     });
-  }, []); 
-  const data = await getData()
+
+    const myFunc = async() =>{
+      const access = await getAccessToken()
+      if (!access) {
+        router.push("/login")
+      }
+    }
+    myFunc()
+    
+  }, []);
+  // const data = await getData()
+
 
   return (
     <>
@@ -41,22 +56,22 @@ export default async function XpoArena() {
             <div className='flex flex-col gap-3 mt-32'>
               <p className={styles.gradienttext}>Game MarketPlace</p>
               <div className="aos-item" data-aos="fade-down">
-              <p className={styles.maintext}>Reserve, Showcase, and Monetize Your Games</p>
+                <p className={styles.maintext}>Reserve, Showcase, and Monetize Your Games</p>
               </div>
               <p className={styles.desctext}>Connect with gamers and industry peers in our dynamic marketplace. Secure a virtual booth for your developer team and make your mark in the gaming world.</p>
               <div className="aos-item" data-aos="fade-left">
-              <div className='flex gap-4 mt-3'>
-                <Link href="/xpoarena/booths">
-                  <div className={styles.but}>
-                    <p>Explore</p>
-                  </div>
-                </Link>
-                <Link href="/xpoarena/reserve">
-                  <div className={styles.but2}>
-                    <p>Reserve</p>
-                  </div>
-                </Link>
-              </div>
+                <div className='flex gap-4 mt-3'>
+                  <Link href="/xpoarena/booths">
+                    <div className={styles.but}>
+                      <p>Explore</p>
+                    </div>
+                  </Link>
+                  <Link href="/xpoarena/reserve">
+                    <div className={styles.but2}>
+                      <p>Reserve</p>
+                    </div>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -79,13 +94,13 @@ export default async function XpoArena() {
           />
           <div className={styles.textOverlay}>
             <p className={styles.maintext2}>Your Ultimate Destination for Gaming - Find, Experience, and Enjoy!</p>
-            
+
           </div>
         </div>
-        
-        
+
+
       </div>
-     
+
     </>
 
   )
