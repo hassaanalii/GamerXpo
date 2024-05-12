@@ -41,7 +41,7 @@ export default function XpoArena() {
         router.push("/login")
       }
     }
-    myFunc()
+    myFunc();
     
   }, []);
   // const data = await getData()

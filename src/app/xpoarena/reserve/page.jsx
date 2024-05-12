@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '@/app/components/navbar/Navbar'
 import { useRouter } from 'next/navigation'
+import { getUsername } from '@/app/lib/actions'
+import apiService from '@/app/services/apiService'
 
 
 
@@ -48,21 +50,33 @@ const Reserve = () => {
         if (!validateForm()) {
             return;
         }
-        const formData = new FormData();
-        formData.append('name', boothName);
-        formData.append('description', boothDescription);
-        if (selectedImage) {
-            formData.append('image', selectedImage);
-        }
 
-        try {
-            const response = await fetch('http://localhost:8000/api/booth/', {
-                method: 'POST',
-                body: formData,
+        const username = await getUsername()
+        const response = await apiService.get(`/api/user/${username}`);
+        const role = response.role;
+        console.log(role)
+
+        if (role !== "Lead") {
+            toast.error('You donot have any permissions to reserve a booth!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
             });
+            setTimeout(() => {
+                router.push("/xpoarena/booths");
+            }, 1000);
 
-            if (response.ok) {
-                toast.success('Booth Added Successfully', {
+        } else {
+            const response = await apiService.get(`/api/userorganization`)
+            const organization_id = response.organization_id;
+            const associated = await apiService.get(`/api/check-booth-association/${organization_id}`)
+            if (associated.is_associated) {
+                toast.error('You have already reserved a booth!', {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -74,24 +88,62 @@ const Reserve = () => {
                 });
                 setTimeout(() => {
                     router.push("/xpoarena/booths");
-                  }, 1000);
+                }, 1000);
+
 
             } else {
-                toast.error('Booth with this name is already present!', {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                const formData = new FormData();
+                formData.append('name', boothName);
+                formData.append('description', boothDescription);
+                if (selectedImage) {
+                    formData.append('image', selectedImage);
+                }
+                formData.append('organization', organization_id);
+                
 
+                try {
+                    const response = await fetch('http://localhost:8000/api/booth/', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        toast.success('Booth Added Successfully', {
+                            position: "top-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark",
+                        });
+                        setTimeout(() => {
+                            router.push("/xpoarena/booths");
+                        }, 1000);
+
+                    } else {
+                        toast.error('Booth with this name is already present!', {
+                            position: "top-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark",
+                        });
+
+                    }
+                } catch (error) {
+                    toast.error('Failed to submit form. Please try again later.');
+                }
             }
-        } catch (error) {
-            toast.error('Failed to submit form. Please try again later.');
         }
+
+
+
+
     };
 
     return (
