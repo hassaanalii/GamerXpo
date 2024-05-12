@@ -16,8 +16,8 @@ const Inbox = async () => {
     return (
         <div className="flex flex-col gap-5">
             <ChatNavBar />
-            <div className="flex flex-col px-[100px]">
-                <p className="font-poppins text-[20px] text-black font-semibold">Inbox</p>
+            <div className="flex flex-col px-[300px] mt-3">
+                <p className="font-poppins text-[30px] text-black font-semibold">Inbox</p>
                
                 {conversations.map(conversation =>{
                     return (
