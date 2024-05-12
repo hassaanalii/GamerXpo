@@ -1,10 +1,11 @@
 import apiService from "@/app/services/apiService";
 import Image from "next/image";
 import Link from "next/link";
+import ProfileMenu from "../profilemenu/ProfileMenu";
 
 
 const RoleNavBar = async (props) => {
-    
+
     const response = await apiService.get(`/api/user/${props.username}/profile_picture`)
     console.log(response)
     return (
@@ -28,12 +29,16 @@ const RoleNavBar = async (props) => {
                         )
                     }
                     <Link href={"/xpoarena"}>
-                    <p className={`text-white cursor-pointer hover:text-gray-300 font-poppins ${props.highlight === 'xpoarena' ? 'font-bold' : ''}`}>XpoArena</p>
+                        <p className={`text-white cursor-pointer hover:text-gray-300 font-poppins ${props.highlight === 'xpoarena' ? 'font-bold' : ''}`}>XpoArena</p>
+                    </Link>
+                    <Link href={"/home/inbox"}>
+                        <p className={`text-white cursor-pointer hover:text-gray-300 font-poppins ${props.highlight === 'xpoarena' ? 'font-bold' : ''}`}>Inbox</p>
+
                     </Link>
 
                 </div>
                 <div className="flex flex-row gap-3">
-                    <Image src={response.profile_picture || response.profile_picture_url || '/profile.png'} width={40} height={40} alt="hello" className="rounded-full" />
+                    <ProfileMenu profilePicture={response.profile_picture || response.profile_picture_url} />
                 </div>
             </div>
 

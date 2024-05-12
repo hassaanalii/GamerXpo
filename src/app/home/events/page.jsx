@@ -31,7 +31,6 @@ const events = async () => {
             <Banner role={role} />
             <ButtonBanner role={role} username={username} />
             <EventsList username={username} role={role}/>
-    
         </div>
     )
 }

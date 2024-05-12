@@ -50,15 +50,16 @@ const EventModal = ({ isOpen, close }) => {
         try {
             const response = await apiService.post('/api/createevent/', formData);
             console.log(response.data);
-            isOpen(false)
-            router.push('/events')
+            
+            close();  
+           
 
             
         } catch (error) {
             console.error('Error posting event:', error.response);
         }
 
-        console.log("Event Scheduled!");
+
 
     }
 

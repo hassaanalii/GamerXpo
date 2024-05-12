@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const ProfileCard = ({ name, id, imageUrl }) => {
     return (
-        <div className="w-[250px] rounded-lg overflow-hidden shadow-lg bg-[#2d3f2f] flex flex-col h-[400px] items-center justify-center py-5 gap-8">
+        <div className="w-[250px] rounded-lg overflow-hidden shadow-lg bg-[#2d3f2f] flex flex-col h-[400px] items-center justify-center py-5 gap-8  transition duration-500 hover:scale-105 cursor-pointer">
             <Image src={imageUrl} alt={name} width={200} height={200}  className="rounded-lg "/>
             <div className="px-6 flex flex-col items-center justify-center">
                 <div className="font-bold text-[15px] font-poppins text-cyellow">{name}</div>

@@ -401,13 +401,13 @@ export default function Profile() {
           </div>
           <div className='flex items-center justify-center gap-8'>
             <FontAwesomeIcon icon={faEdit} onClick={handleEditClick} className="text-white text-xl cursor-pointer hover:text-[#4F6F52]" />
-            <div onClick={handleLogoutClick} className='flex items-center justify-center gap-3 bg-red-800 rounded-md py-2 px-3 cursor-pointer'>
+            {/* <div onClick={handleLogoutClick} className='flex items-center justify-center gap-3 bg-red-800 rounded-md py-2 px-3 cursor-pointer'>
               <FontAwesomeIcon icon={faSignOut}  className="text-white text-xl " />
               <p className='text-white font-bold'>Logout</p>
             </div>
             <div onClick={handleExpoClick} className='flex items-center justify-center gap-3 bg-red-800 rounded-md py-2 px-3 cursor-pointer'>
               <p className='text-white font-bold'>XpoArena</p>
-            </div>
+            </div> */}
 
           </div>
         </div>

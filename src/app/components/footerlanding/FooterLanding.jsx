@@ -10,7 +10,7 @@ const FooterLanding = () => {
         setEmail(event.target.value);
     };
     const onSubsClick = () => {
-        console.log("onSubsClick");
+        setEmail("")
     }
     return (
 
