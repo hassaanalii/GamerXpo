@@ -82,9 +82,9 @@ const GamerEventsCard = ({ event, role }) => {
                             Organization: {event.organization.name}
                         </p>
                     )}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-2">
                         <p className="text-gray-600 font-poppins text-[12px]">{event.description}</p>
-                        <p className="text-gray-500 font-poppins text-[12px]">
+                        <p className="text-black font-poppins text-[12px]">
                             {new Date(event.dateOfEvent).toLocaleDateString()}
                         </p>
                     </div>

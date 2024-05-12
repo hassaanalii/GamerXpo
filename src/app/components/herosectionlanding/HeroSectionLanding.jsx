@@ -5,8 +5,8 @@ const HeroSectionLanding = () => {
         <div className="flex flex-col items-center mt-2" style={{ position: 'relative', height: '600px' }}>
             <div className="flex flex-col">
                 <div className="flex flex-col items-center">
-                    <p className="font-extracolombo text-white text-[150px] leading-none">GAMERXPO</p>
-                    <p className="font-regularcolombo text-white text-[26px]">Revolutionising The Gaming Industry </p>
+                    <p className="font-extracolombo text-white text-[150px] leading-none slide-in-top">GAMERXPO</p>
+                    <p className="font-regularcolombo text-white text-[26px] typing-animation">Revolutionising The Gaming Industry </p>
                 </div>
                 <div className="flex flex-row items-center relative">
                     <Image
