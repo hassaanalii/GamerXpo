@@ -3,7 +3,7 @@ import styles from './page.module.css'
 const Feedbacks = ({ gameId }) => {
 
     const handleFeedbackSubmit = () =>{
-        console.log("hello")
+        console.log(gameId)
     }
     return (
         <div className="mt-10">

@@ -7,14 +7,100 @@ import Button from '@/app/components/button/Button'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Feedbacks from '@/app/components/feedbacks/Feedbacks'
+import apiService from '@/app/services/apiService'
+import { getAccessToken, getUsername } from '@/app/lib/actions'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Game({ params }) {
     const pathname = usePathname();
+    const [feedbacks, setFeedbacks] = useState([]);
     const router = useRouter();
     const [data, setData] = useState(null);
     const [gameData, setGameData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isNew, setIsNew] = useState(false);
+
+    const [feedback, setFeedback] = useState('');
+
+    useEffect(() => {
+        const getFeedback = async () => {
+            const access = await getAccessToken()
+            if (!access) {
+                router.push("/login")
+            }
+            const response = await apiService.get(`/api/get-game-id/${params.title}`)
+
+            const game_id = response.game_id
+            console.log(game_id)
+
+            const getresponse = await apiService.get(`/api/games/${game_id}/feedbacks/`)
+            console.log(getresponse)
+            setFeedbacks(getresponse)
+
+
+        }
+
+        getFeedback();
+    }, [params.id, isNew])
+
+    const handleFeedbackSubmit = async () => {
+        const access = await getAccessToken()
+        if (!access) {
+            router.push("/login")
+        }
+        const username = await getUsername()
+        const responseofuser = await apiService.get(`/api/user/${username}`);
+        console.log(responseofuser.role);
+
+
+        if (responseofuser.role !== 'Gamer') {
+            toast.error('You donot have the permissions to submit a feedback!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            setFeedback('');
+        } else {
+            console.log(params.title)
+            console.log("Feedback submitted:", feedback);
+
+            setFeedback('');
+
+            const response = await apiService.get(`/api/get-game-id/${params.title}`)
+
+            const game_id = response.game_id
+
+            const formData = new FormData();
+            formData.append('feedback_text', feedback);
+            formData.append('game_id', game_id);
+
+            const feedbackres = await apiService.post(`/api/games/${game_id}/feedbacks/create/`, formData)
+            console.log(feedbackres.data)
+            toast.success('Your response has been submitted succesfully', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            setIsNew(!isNew)
+           
+
+        }
+
+
+    };
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,6 +137,7 @@ export default function Game({ params }) {
         const url = `/xpoarena/booths/${params.id}/${encodeURIComponent(gameTitle)}`;
         router.push(url);
     };
+
 
     return (
         <>
@@ -104,7 +191,43 @@ export default function Game({ params }) {
                                     <source src={`http://localhost:8000${data.game_trailer}`} type="video/mp4" />
                                 </video>
                             </div>
-                            <Feedbacks gameId={params.id} />
+                            <div className="mt-10 flex flex-col gap-3">
+                                <h2 className="text-[25px] font-bold font-poppins text-white">Feedback</h2>
+                                <div className="flex flex-col gap-2 items-start">
+                                    <input
+                                        type="text"
+                                        value={feedback}
+                                        onChange={(e) => setFeedback(e.target.value)}
+                                        className="border p-2 w-full rounded-md shadow-sm text-[12px] font-poppins"
+                                        placeholder="Write your feedback here..."
+                                        required
+                                    />
+                                    <button
+                                        onClick={handleFeedbackSubmit}
+                                        className="bg-cgreen px-5 py-2 rounded-md mt-2 hover:bg-cgreen/90 mt-2"
+                                    >
+                                        <p className="font-semibold text-[12px] font-poppins text-white">
+                                            Submit Feedback
+                                        </p>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="mt-10 flex flex-col gap-3">
+                                {feedbacks.length > 0 ? (
+                                    
+                                    feedbacks.map((feedback) => (
+                                        <div key={feedback.id} className="bg-gray-800 p-4 rounded-md shadow-sm">
+                                            <p className="text-white text-[15px] font-poppins">{feedback.feedback_text}</p>
+                                            <p className="text-gray-500 text-[12px] font-poppins">Submitted by: {feedback.submitted_by_username}</p>
+                                            <p className="text-gray-500 text-[12px] font-poppins">{new Date(feedback.created_at).toLocaleString()}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-white text-sm">No feedbacks yet.</p>
+                                )}
+                            </div>
+
                             <div className="mt-20 mb-24 align-center justify-center flex">
                                 <Link href={`/xpoarena/checkout/${data.id}`} className={styles.purchase}>
                                     <Image src="/download.png" width={30} height={30} alt="Purchase Now!" />
