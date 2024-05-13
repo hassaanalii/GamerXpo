@@ -13,7 +13,7 @@ const Navbar = () => {
             <div className='flex items-center'>
               <Image src="/mainlogo.png" alt='mainlogo' width={12} height={12} />
             </div>
-            <Link href="/xpoarena">
+            <Link href="/home">
               <p className={styles.gradienttext}>XpoArena</p>
             </Link>
         </div>

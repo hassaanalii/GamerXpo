@@ -94,7 +94,7 @@ export default function Game({ params }) {
                 theme: "dark",
             });
             setIsNew(!isNew)
-           
+
 
         }
 
@@ -138,6 +138,27 @@ export default function Game({ params }) {
         router.push(url);
     };
 
+    const onPurchaseClick = async () => {
+        const username = await getUsername()
+        const responseofuser = await apiService.get(`/api/user/${username}`);
+        console.log(responseofuser.role);
+
+        if (responseofuser.role === 'Gamer') {
+            router.push(`/xpoarena/checkout/${data.id}`)
+        }else{
+            toast.error('You donot have the permissions to purchase this game!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        }
+    }
+
 
     return (
         <>
@@ -152,7 +173,7 @@ export default function Game({ params }) {
                                     <div className='flex flex-col gap-3'>
                                         <p className='text-xl font-bold'>{data.title}</p>
                                         <div className='flex flex-row gap-3'>
-                                            <Button text="Share" classname="share" />
+                                            {/* <Button text="Share" classname="share" /> */}
                                             <Link href={`${pathname}/manage`}>
                                                 <Button text="Manage" classname="manage" />
                                             </Link>
@@ -185,12 +206,15 @@ export default function Game({ params }) {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex flex-col gap-3 mt-10'>
-                                <p className="text-xl font-bold text-white">Game Trailer</p>
-                                <video className={styles.video} controls autoPlay loop>
-                                    <source src={`http://localhost:8000${data.game_trailer}`} type="video/mp4" />
-                                </video>
-                            </div>
+                            {data.game_trailer && (
+                                <div className='flex flex-col gap-3 mt-10'>
+                                    <p className="text-xl font-bold text-white">Game Trailer</p>
+                                    <video className={styles.video} controls autoPlay loop>
+                                        <source src={`http://localhost:8000${data.game_trailer}`} type="video/mp4" />
+                                    </video>
+                                </div>
+                            )}
+
                             <div className="mt-10 flex flex-col gap-3">
                                 <h2 className="text-[25px] font-bold font-poppins text-white">Feedback</h2>
                                 <div className="flex flex-col gap-2 items-start">
@@ -204,7 +228,7 @@ export default function Game({ params }) {
                                     />
                                     <button
                                         onClick={handleFeedbackSubmit}
-                                        className="bg-cgreen px-5 py-2 rounded-md mt-2 hover:bg-cgreen/90 mt-2"
+                                        className="bg-cgreen px-5 py-2 rounded-md mt-2 hover:bg-cgreen/90"
                                     >
                                         <p className="font-semibold text-[12px] font-poppins text-white">
                                             Submit Feedback
@@ -215,7 +239,7 @@ export default function Game({ params }) {
 
                             <div className="mt-10 flex flex-col gap-3">
                                 {feedbacks.length > 0 ? (
-                                    
+
                                     feedbacks.map((feedback) => (
                                         <div key={feedback.id} className="bg-gray-800 p-4 rounded-md shadow-sm">
                                             <p className="text-white text-[15px] font-poppins">{feedback.feedback_text}</p>
@@ -229,10 +253,10 @@ export default function Game({ params }) {
                             </div>
 
                             <div className="mt-20 mb-24 align-center justify-center flex">
-                                <Link href={`/xpoarena/checkout/${data.id}`} className={styles.purchase}>
-                                    <Image src="/download.png" width={30} height={30} alt="Purchase Now!" />
-                                    <p className='font-semibold text-md text-white'>Purchase Now!</p>
-                                </Link>
+                                <div onClick={onPurchaseClick} className={` bg-cgreen rounded-md cursor-pointer ${styles.purchase}`}>
+                                    <Image src="/download.png" width={20} height={20} alt="Purchase Now!" />
+                                    <p className='font-semibold text-[12px] font-poppins text-white'>Purchase Now!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
