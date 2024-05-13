@@ -52,6 +52,7 @@ const EventModal = ({ isOpen, close }) => {
             console.log(response.data);
             
             close();  
+            window.location.reload();
            
 
             
