@@ -9,6 +9,8 @@ import { usePathname } from 'next/navigation'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation'
+import { getUsername } from '@/app/lib/actions'
+import apiService from '@/app/services/apiService'
 
 
 const page = () => {
@@ -43,7 +45,7 @@ const page = () => {
         console.error('Failed to fetch data');
       }
     } catch (error) {
-      console.error('Error fetching data:', error); 
+      console.error('Error fetching data:', error);
     }
   };
 
@@ -53,91 +55,136 @@ const page = () => {
   }
 
   const handleSubmit = async () => {
-    const formData = new FormData();
-    formData.append('name', boothName);
-    formData.append('description', boothDescription);
-    if (selectedImage) {
-        formData.append('image', selectedImage);
+    const username = await getUsername()
+    if (!username) {
+      router.push("/login")
     }
+    const response = await apiService.get(`/api/user/${username}`);
+    console.log(response.role);
 
-    try {
-        const response = await fetch(`http://localhost:8000/api/booth/${boothId}`, {
+    if (response.role === 'Gamer') {
+      toast.error('A gamer does not have the permissions to customize a booth!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      console.log(boothId)
+      const currentUser = await apiService.get(`/api/getuser`)
+      const userId = currentUser.userId
+      const response = await apiService.get(`/api/get-booth-organization/${boothId}`)
+      console.log(response)
+
+      const userorganization = await apiService.get(`/api/userorganization`)
+      console.log(userorganization)
+
+      if (response.organization_id === userorganization.organization_id) {
+        const formData = new FormData();
+        formData.append('name', boothName);
+        formData.append('description', boothDescription);
+        if (selectedImage) {
+          formData.append('image', selectedImage);
+        }
+
+        try {
+          const response = await fetch(`http://localhost:8000/api/booth/${boothId}`, {
             method: 'PATCH',
             body: formData,
-        });
+          });
 
-        if (response.ok) {
+          if (response.ok) {
             toast.success('Booth Updated Successfully', {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                });
-              setTimeout(() => {
-                  router.push(`/xpoarena/booths/${boothId}`);
-              }, 1000);
-            
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+            setTimeout(() => {
+              router.push(`/xpoarena/booths/${boothId}`);
+            }, 1000);
 
-        } else {
+
+          } else {
             toast.error('Booth with this name is already registered!', {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                });
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }
+        } catch (error) {
+          toast.error('Failed to submit form. Please try again later.');
         }
-    } catch (error) {
-        toast.error('Failed to submit form. Please try again later.');
+      }else{
+        toast.error("You donot have the permissions to manage someone else's booth!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        
+      }
     }
+
+
   };
- 
+
   return (
-    <>   
-    <BoothNavBar showIcon={false} />
-    <div class={` ${styles.top} grid grid-cols-[3fr_2fr] divide-x`}>
+    <>
+      <BoothNavBar showIcon={false} />
+      <div class={` ${styles.top} grid grid-cols-[3fr_2fr] divide-x`}>
         <div className={styles.innerdiv}>
-            <Image src="/reserve.jpg" layout="fill"
-              objectFit="cover"/>
+          <Image src="/reserve.jpg" layout="fill"
+            objectFit="cover" />
         </div>
         <div className={` ${styles.innerdiv} flex justify-center `}>
-            <div className='flex flex-col align-center justify-center gap-10'>
-                <div>
-                    <p className='text-3xl font-medium'>Update your Booth</p>
-                    <p className={styles.description}>Showcase your game to the world at XpoArena</p>
-                </div>
-                <div className='flex flex-col gap-4'>
-                    <div>
-                        <p className='text-xs'>Booth Name</p>
-                        <input type="text" value={boothName} onChange={(e)=> setBoothName(e.target.value)} className={`${styles.inputfield} text-xs border-0 border-b border-solid border-black w-full focus:ring-0 `} />
-                    </div>
-                    <div>
-                        <p className='text-xs'>Booth Description</p>
-                        <textarea name="textarea" value={boothDescription} onChange={(e)=> setBoothDescription(e.target.value)} id="textarea" cols="10" rows="5" className={` text-xs pl-1 pr-1 pt-1 border-0 border-b border-solid border-black w-full `}></textarea>
-                    </div>
-                    <div className="">
-                        <UploadButton onImageUpload={handleImageFile} />
-                        <p className="text-xs text-red-500">{boothInfo.image}</p>
-                        <p className="text-xs text-green-500">{fileName}</p>
-
-                    </div>
-                </div>
-                <div>
-                    <Button text="Update Booth" classname="reservebutton" onclick={handleSubmit} />
-                </div>
+          <div className='flex flex-col align-center justify-center gap-10'>
+            <div>
+              <p className='text-3xl font-medium'>Update your Booth</p>
+              <p className={styles.description}>Showcase your game to the world at XpoArena</p>
             </div>
-            
+            <div className='flex flex-col gap-4'>
+              <div>
+                <p className='text-xs'>Booth Name</p>
+                <input type="text" value={boothName} onChange={(e) => setBoothName(e.target.value)} className={`${styles.inputfield} text-xs border-0 border-b border-solid border-black w-full focus:ring-0 `} />
+              </div>
+              <div>
+                <p className='text-xs'>Booth Description</p>
+                <textarea name="textarea" value={boothDescription} onChange={(e) => setBoothDescription(e.target.value)} id="textarea" cols="10" rows="5" className={` text-xs pl-1 pr-1 pt-1 border-0 border-b border-solid border-black w-full `}></textarea>
+              </div>
+              <div className="">
+                <UploadButton onImageUpload={handleImageFile} />
+                <p className="text-xs text-red-500">{boothInfo.image}</p>
+                <p className="text-xs text-green-500">{fileName}</p>
+
+              </div>
+            </div>
+            <div>
+              <Button text="Update Booth" classname="reservebutton" onclick={handleSubmit} />
+            </div>
+          </div>
+
 
         </div>
-        
-    </div>
+
+      </div>
     </>
   )
 }

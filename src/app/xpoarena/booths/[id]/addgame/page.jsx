@@ -11,6 +11,8 @@ import UploadGame from '@/app/components/uploadbuttonforgame/UploadGame'
 import AboutUsNavBar from '@/app/components/aboutusnavbar/AboutUsNavBar'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation';
+import { getUsername } from '@/app/lib/actions'
+import apiService from '@/app/services/apiService'
 
 
 
@@ -50,34 +52,91 @@ const AddGame = (params) => {
     };
 
     const handleSubmit = async () => {
-        const formData = new FormData();
-        formData.append('booth', boothId);
-        formData.append('title', gameTitle);
-        formData.append('release_date', releaseDate);
-        formData.append('game_iframe_src', gameDemoLink);
-        formData.append('genre', gameGenre),
-        formData.append('image_url', imageUrlLink)
-        formData.append('game_description', gameDescription);
-        if (selectedImage) {
-            formData.append('image', selectedImage);
+        const username = await getUsername()
+        if (!username) {
+            router.push("/login")
         }
-        formData.append('technology', gameTechnology);
-        formData.append('system_requirements', systemRequirements);
-        if (selectedVideo) {
-            formData.append('game_trailer', selectedVideo);
-        }
-        formData.append('price', gamePrice);
-        formData.append('game_download_link', gameDownloadLink);
+        const response = await apiService.get(`/api/user/${username}`);
+        console.log(response.role);
 
-
-        try {
-            const response = await fetch('http://localhost:8000/api/games/', {
-                method: 'POST',
-                body: formData,
+        if (response.role === "Gamer") {
+            toast.error('A gamer does not have the permissions to add a game!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
             });
+            router.push("/xpoarena/booths")
+        } else {
+            const currentUser = await apiService.get(`/api/getuser`)
+            const userId = currentUser.userId
+            const response = await apiService.get(`/api/get-booth-organization/${boothId}`)
+            console.log(response)
 
-            if (response.ok) {
-                toast.success('Game Added Successfully', {
+            const userorganization = await apiService.get(`/api/userorganization`)
+            console.log(userorganization)
+
+            if (response.organization_id === userorganization.organization_id) {
+                const formData = new FormData();
+                formData.append('booth', boothId);
+                formData.append('title', gameTitle);
+                formData.append('release_date', releaseDate);
+                formData.append('game_iframe_src', gameDemoLink);
+                formData.append('genre', gameGenre),
+                    formData.append('image_url', imageUrlLink)
+                formData.append('game_description', gameDescription);
+                if (selectedImage) {
+                    formData.append('image', selectedImage);
+                }
+                formData.append('technology', gameTechnology);
+                formData.append('system_requirements', systemRequirements);
+                if (selectedVideo) {
+                    formData.append('game_trailer', selectedVideo);
+                }
+                formData.append('price', gamePrice);
+                formData.append('game_download_link', gameDownloadLink);
+
+
+                try {
+                    const response = await fetch('http://localhost:8000/api/games/', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        toast.success('Game Added Successfully', {
+                            position: "top-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark",
+                        });
+                        setTimeout(() => {
+                            router.push(`/xpoarena/booths/${boothId}`);
+                        }, 1000);
+
+                    } else {
+                        const errorResult = await response.json();
+                        console.error('Error from server:', errorResult);
+                        toast.error(`Error: ${errorResult.detail}`, { // Make sure 'detail' is the correct key
+                            // toast options
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    toast.error(`Error: ${error.toString()}`, {
+                        // toast options
+                    });
+                }
+            } else {
+                toast.error("You donot have the permissions to add a game to someone else's booth!", {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -87,23 +146,11 @@ const AddGame = (params) => {
                     progress: undefined,
                     theme: "dark",
                 });
-                setTimeout(() => {
-                    router.push(`/xpoarena/booths/${boothId}`);
-                }, 1000);
-
-            } else {
-                const errorResult = await response.json();
-                console.error('Error from server:', errorResult);
-                toast.error(`Error: ${errorResult.detail}`, { // Make sure 'detail' is the correct key
-                    // toast options
-                });
+                router.push(`/xpoarena/booths`)
             }
-        } catch (error) {
-            console.error('Error:', error);
-            toast.error(`Error: ${error.toString()}`, {
-                // toast options
-            });
         }
+
+
     };
 
     return (
