@@ -50,6 +50,31 @@ const apiService = {
             });
         });
     },
+    patch: async function(url, data) {
+        console.log('patch', url, data);
+        const token = await getAccessToken();
+    
+        return new Promise((resolve, reject) => {
+            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
+                method: 'PATCH',
+                body: JSON.stringify(data),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then((json) => {
+                console.log('Response:', json);
+                resolve(json);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                reject(error);
+            });
+        });
+    }
 
     // postWithoutToken: async function(url, data) {
     //     console.log('post', url, data);

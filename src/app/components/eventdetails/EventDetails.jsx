@@ -5,13 +5,19 @@ import StyledButton from "../styledbuttons/StyledButton";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import apiService from "@/app/services/apiService";
+import EventModal from "../eventmodal/EventModal";
+import EditEvent from "../editevent/EditEvent";
 
-const EventDetails = ({ event, role, username, authenticatedUserId}) => {
+const EventDetails = ({ event, role, username, authenticatedUserId }) => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [isLive, setIsLive] = useState(false);
     const [eventEnded, setEventEnded] = useState(false);
     const pathname = usePathname()
     const router = useRouter()
+    console.log("myrole")
+    console.log(event)
+    const [isModalOpen, setModalOpen] = useState(false);
+
 
     useEffect(() => {
         const calculateTimeLeft = () => {
@@ -61,17 +67,21 @@ const EventDetails = ({ event, role, username, authenticatedUserId}) => {
         day: 'numeric'
     });
 
-    const startConversation = async() =>{
+    const startConversation = async () => {
         const hostId = event.organization.created_by
-        if (authenticatedUserId){
+        if (authenticatedUserId) {
             const conversation = await apiService.get(`/api/conversations/start/${hostId}`)
-            if(conversation.conversation_id){
+            if (conversation.conversation_id) {
                 router.push(`/home/inbox/${conversation.conversation_id}`)
             }
-            
-        }else{
+
+        } else {
             router.push('/login')
         }
+    }
+
+    const editEvent = () =>{
+        setModalOpen(true);
     }
 
     return (
@@ -89,6 +99,15 @@ const EventDetails = ({ event, role, username, authenticatedUserId}) => {
                             )
                         }
 
+                        {
+                            (role === 'Lead' || role === 'Developer') && (
+                                <div onClick={editEvent} className="flex flex-row items-center justify-center px-5 py-3 gap-2 rounded-md bg-cgreen hover:bg-cgreen/80 cursor-pointer">
+                                    <p className="font-poppins text-white font-semibold text-[14px]">Edit</p>
+                                </div>
+                            )
+                        }
+
+
                         <div className={`font-poppins text-[16px] font-semibold py-3 rounded-lg w-[220px] text-center ${getStatusClassName()}`}>
                             {isLive ? "LIVE" : eventEnded ? "Event Ended" : `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`}
                         </div>
@@ -101,36 +120,8 @@ const EventDetails = ({ event, role, username, authenticatedUserId}) => {
                         </Link>
                     )
                 }
-                <div className="relative w-full h-80  ">
-                    <Image
-                        src={`http://localhost:8000${event.image}`}
-                        alt="event image"
-                        layout="fill"
-                        objectFit="cover"
-                        className="rounded-md object-cover"
-                    />
-                </div>
-                <div className="px-5 py-5 rounded-md border-2 border-gray-200 bg-gray-100 transition duration-500 hover:scale-105 cursor-pointer">
-                    <div className="flex flex-col items-center justify-center gap-5">
-                        <p className="text-[15px] font-poppins ">{event.description}</p>
-                        <div className="flex flex-row items-center justify-center gap-7">
-                            <div className="flex flex-row items-center gap-2 justify-center bg-green-800 text-yellow-400 font-bold px-4 py-2 rounded-lg text-[12px] font-poppins">
-                                <span className="text-white">DATE:</span>
-                                <p>
-                                    {formattedDate.toUpperCase()}
-                                </p>
-                            </div>
-                            <div className="flex flex-row gap-2 items-center justify-center bg-green-800 text-yellow-400 font-bold px-4 py-2 rounded-lg text-[12px] font-poppins">
-                                <span className="text-white">TIME:</span>
-                                <p>
-                                    {event.startTime} - {event.endTime}
-                                </p>
-                            </div>
+                <EditEvent event={event} isOpen={isModalOpen} close={() => setModalOpen(false)} />
 
-                        </div>
-
-                    </div>
-                </div>
                 <div className="px-[60px] py-5 rounded-md border-2 border-gray-200 bg-gray-100 transition duration-500 hover:scale-105 cursor-pointer">
                     <div className="flex flex-col">
                         <div className="flex flex-row items-center justify-between">
@@ -148,6 +139,39 @@ const EventDetails = ({ event, role, username, authenticatedUserId}) => {
 
                     </div>
                 </div>
+                <div className="flex flex-row gap-5">
+                    <div className="relative w-full h-80 transition duration-500 hover:scale-105 cursor-pointer ">
+                        <Image
+                            src={`http://localhost:8000${event.image}`}
+                            alt="event image"
+                            layout="fill"
+                            objectFit="cover"
+                            className="rounded-md object-cover"
+                        />
+                    </div>
+                    <div className="px-5 py-5 rounded-md border-2 border-gray-200 bg-gray-100 transition duration-500 hover:scale-105 cursor-pointer flex items-center justify-center">
+                        <div className="flex flex-col items-center justify-center gap-5">
+                            <p className="text-[15px] font-poppins ">{event.description}</p>
+                            <div className="flex flex-row items-center justify-center gap-7">
+                                <div className="flex flex-row items-center gap-2 justify-center bg-green-800 text-yellow-400 font-bold px-4 py-2 rounded-lg text-[12px] font-poppins">
+                                    <span className="text-white">DATE:</span>
+                                    <p>
+                                        {formattedDate.toUpperCase()}
+                                    </p>
+                                </div>
+                                <div className="flex flex-row gap-2 items-center justify-center bg-green-800 text-yellow-400 font-bold px-4 py-2 rounded-lg text-[12px] font-poppins">
+                                    <span className="text-white">TIME:</span>
+                                    <p>
+                                        {event.startTime} - {event.endTime}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );
