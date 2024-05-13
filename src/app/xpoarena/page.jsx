@@ -54,21 +54,21 @@ export default function XpoArena() {
         <div className={` ${styles.maindiv} flex`}>
           <div className='w-1/2 flex'>
             <div className='flex flex-col gap-3 mt-32'>
-              <p className={styles.gradienttext}>Game MarketPlace</p>
+              <p className={` ${styles.gradienttext} font-poppins`}>Game MarketPlace</p>
               <div className="aos-item" data-aos="fade-down">
-                <p className={styles.maintext}>Reserve, Showcase, and Monetize Your Games</p>
+                <p className={` ${styles.maintext} font-poppins`}>Reserve, Showcase, and Monetize Your Games</p>
               </div>
-              <p className={styles.desctext}>Connect with gamers and industry peers in our dynamic marketplace. Secure a virtual booth for your developer team and make your mark in the gaming world.</p>
+              <p className={` ${styles.desctext} font-poppins`}>Connect with gamers and industry peers in our dynamic marketplace. Secure a virtual booth for your developer team and make your mark in the gaming world.</p>
               <div className="aos-item" data-aos="fade-left">
                 <div className='flex gap-4 mt-3'>
                   <Link href="/xpoarena/booths">
                     <div className={styles.but}>
-                      <p>Explore</p>
+                      <p className='font-poppins'>Explore</p>
                     </div>
                   </Link>
                   <Link href="/xpoarena/reserve">
                     <div className={styles.but2}>
-                      <p>Reserve</p>
+                      <p className='font-poppins'>Reserve</p>
                     </div>
                   </Link>
                 </div>

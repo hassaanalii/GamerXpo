@@ -14,18 +14,18 @@ const Navbar = () => {
               <Image src="/mainlogo.png" alt='mainlogo' width={12} height={12} />
             </div>
             <Link href="/home">
-              <p className={styles.gradienttext}>XpoArena</p>
+              <p className={` ${styles.gradienttext} font-poppins`}>XpoArena</p>
             </Link>
         </div>
         <div className='flex items-center gap-10'>
           <Link href="/xpoarena/booths">
             <div className={`${styles.navItemDiv} p-2`}>
-              <p className={styles.navItems}>Explore</p>
+              <p className={` ${styles.navItems} font-poppins`}>Explore</p>
             </div>
           </Link>
           <Link href="/xpoarena/reserve">
             <div className={`${styles.navItemDiv} p-2`}>
-              <p className={styles.navItems}>Reserve</p>
+            <p className={` ${styles.navItems} font-poppins`}>Reserve</p>
             </div>
           </Link>
         </div>

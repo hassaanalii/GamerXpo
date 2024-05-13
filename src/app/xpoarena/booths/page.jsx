@@ -56,13 +56,12 @@ export default async function Booths({ searchParams }) {
                         />
                       </div>
                     </div>
-                    <div className='pl-5 flex flex-col gap-0.5'>
-                      <h1 className="text-lg font-semibold">{item.name}</h1>
-                      <h1 className="text-xs ">Company's Name</h1>
+                    <div className='pl-5 mt-1 flex flex-col gap-0.5'>
+                      <h1 className="text-lg font-poppins font-semibold">{item.name}</h1>
+                      <h1 className="text-xs font-poppins">{item.organization_name}</h1>
                     </div>
-                    <div className='flex mt-6 align-center justify-between pr-3 pl-3'>
-                      <h1 className='text-[10px] text-center'>Star Based Reviews</h1>
-                      <h1 className='text-[10px] text-center'>Total Games</h1>
+                    <div className='flex mt-6 align-center justify-between pl-5 pb-3'>
+                      <h1 className='text-[10px] text-center font-poppins'>Games Count: {item.games_count}</h1>
                     </div>
                   </div>
                 </Link>
