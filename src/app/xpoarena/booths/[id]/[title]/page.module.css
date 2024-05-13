@@ -1,33 +1,41 @@
-.demo{
+.demo {
     max-width: 1150px;
     margin: 0 auto;
 }
-.parentdiv{
+
+.parentdiv {
     background-color: black;
 }
-.info{
-    border:1px solid white;
-    width:94%;
+
+.info {
+    border: 1px solid white;
+    width: 94%;
     background-color: white;
     border-radius: 15px;
 }
-.infotext{
-    color: grey
+
+.infotext {
+    color: grey;
 }
-.infotextvalue{
+
+.infotextvalue {
     color: black;
     font-weight: 600;
 }
 
 .video {
-    width: 100%; /* Full width of the container */
-    height: auto; /* Height will be set automatically to maintain the aspect ratio */
-    max-width: 900px; /* You can set a max-width if necessary */
+    width: 100%;
+    /* Full width of the container */
+    height: auto;
+    /* Height will be set automatically to maintain the aspect ratio */
+    max-width: 900px;
+    /* You can set a max-width if necessary */
 }
-.purchase{
+
+.purchase {
     width: 200px;
     padding: 25px 0;
-    background-color: #4F6F52;
+    background-color: #4f6f52;
     border-radius: 10px;
     display: flex;
     flex-direction: row;
@@ -35,4 +43,28 @@
     align-items: center;
     gap: 10px;
     margin-left: 190px;
+}
+
+.feedback {
+    width: 180px;
+    padding: 15px 0;
+    background-color: #4f6f52;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-left: 0px;
+}
+
+.dateStyle {
+    font-size: 0.75rem;
+    /* Smaller font size for subtlety */
+    color: #bbb;
+    /* Light grey color for a soft appearance */
+    font-style: italic;
+    /* Italicize to differentiate from main content */
+    margin-left: 8px;
+    /* Space between the feedback text and the date */
 }
