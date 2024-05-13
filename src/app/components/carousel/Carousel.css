@@ -1,0 +1,21 @@
+.carousel-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.carousel-item {
+    text-align: center;
+    padding: 10px;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.item-title {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}

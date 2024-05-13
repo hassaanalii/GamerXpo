@@ -3,6 +3,7 @@ import { getAccessToken, getUsername } from "../lib/actions";
 import apiService from "../services/apiService";
 import RoleNavBar from "../components/rolenavbar/RoleNavBar";
 import GreetingsBanner from "../components/greetingsbanner/GreetingsBanner";
+import Carousel from "../components/carousel/Carousel";
 
 
 const handleAccess = async() =>{
@@ -27,6 +28,7 @@ const Home = async() =>{
         <div className="flex flex-col gap-10">
             <RoleNavBar role={role} username={username} highlight="home"/>
             <GreetingsBanner role={role} username={username}/>
+            <Carousel />
 
         </div>   
     )

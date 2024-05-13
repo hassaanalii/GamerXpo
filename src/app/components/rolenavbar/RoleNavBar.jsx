@@ -21,13 +21,13 @@ const RoleNavBar = async (props) => {
                         <p className={`text-white cursor-pointer hover:text-gray-300 font-poppins ${props.highlight === 'events' ? 'font-bold' : ''}`}>Events</p>
                     </Link>
 
-                    {
+                    {/* {
                         props.role === 'Gamer' && (
                             <Link href={"/home/library"}>
                                 <p className={`text-white cursor-pointer hover:text-gray-300 font-poppins ${props.highlight === 'library' ? 'font-bold' : ''}`}>Library</p>
                             </Link>
                         )
-                    }
+                    } */}
                     <Link href={"/xpoarena"}>
                         <p className={`text-white cursor-pointer hover:text-gray-300 font-poppins ${props.highlight === 'xpoarena' ? 'font-bold' : ''}`}>XpoArena</p>
                     </Link>
