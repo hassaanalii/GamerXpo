@@ -29,12 +29,12 @@ const BoothNavBar = (props) => {
         </div>
         <div className='flex items-center gap-10'>
   
-          <Link href={`${pathname}/games`}>
+          {/* <Link href={`${pathname}/games`}>
             <div className={`${styles.navItemDiv} p-2`}>
               <p className={styles.navItems}>Games</p>
             </div>
-          </Link>
-          <Link href={`${pathname}/manage`}>
+          </Link> */}
+          {/* <Link href={`${pathname}`}>
             <div className={`${styles.navItemDiv} p-2`}>
               <p className={styles.navItems}>Manage</p>
             </div>
@@ -43,7 +43,7 @@ const BoothNavBar = (props) => {
             <div className={`${styles.navItemDiv} p-2`}>
               <p className={styles.navItems}>About Us</p>
             </div>
-          </Link>
+          </Link> */}
         </div>  
     </div>
     </div>

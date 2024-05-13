@@ -6,13 +6,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Button from '@/app/components/button/Button';
 import Footer from '@/app/components/footer/Footer';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import ColorItem from "@/app/components/coloritem/ColorItem";
 import Head from 'next/head';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SearchBarClient from "@/app/components/searchbarclient/SearchBarClient";
+import { getUsername } from "@/app/lib/actions";
+import apiService from "@/app/services/apiService";
 
 const page = ({ params, children }) => {
   const [boothData, setBoothData] = useState(null);
@@ -34,6 +36,8 @@ const page = ({ params, children }) => {
   const [selectedGenre, setSelectedGenre] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
+
+  const router = useRouter()
 
 
   useEffect(() => {
@@ -149,101 +153,150 @@ const page = ({ params, children }) => {
   }
 
   const postBoothCustomizations = async () => {
-    const customizationData = {
-      booth: params.id,
-      theme: themeData === null ? 8 : themeData.id,
-      background_color: backgroundColor,
-      font_color: fontColor
-    };
+    const username = await getUsername()
+    if (!username) {
+      router.push("/login")
+    }
+    const response = await apiService.get(`/api/user/${username}`);
+    console.log(response.role);
 
 
-    const existingCustomizations = await fetch(`http://localhost:8000/api/customizedbooth/?id=${customizationData.booth}`)
-
-    if (existingCustomizations.ok) {
-      const customizations = await existingCustomizations.json()
-
-
-      try {
-        const response = await fetch(`http://localhost:8000/api/customizedbooth/${customizations.id}/`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(customizationData)
-        });
-
-        if (response.ok) {
-          toast.success('Customizations Updated Successfully', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-
-        } else {
-          const errorResult = await response.json();
-          console.error('Error from server:', errorResult);
-          toast.error('We encountered an unexpected issue while processing your request. Please try again later.', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-        }
-      } catch (error) {
-        toast.error('Failed to submit form. Please try again later.');
-      }
-
-
+    if (response.role === 'Gamer') {
+      toast.error('A gamer does not have the permissions to customize a booth!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
 
     } else {
-      try {
-        const response = await fetch('http://localhost:8000/api/customizedbooth/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(customizationData)
-        });
+      console.log("hi")
+      const currentUser = await apiService.get(`/api/getuser`)
+      const userId = currentUser.userId
+      const booth_id = params.id
 
-        if (response.ok) {
-          toast.success('Customizations Added Successfully', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+      const response = await apiService.get(`/api/get-booth-organization/${booth_id}`)
+      console.log(response)
+
+      const userorganization = await apiService.get(`/api/userorganization`)
+      console.log(userorganization)
+
+      if (response.organization_id === userorganization.organization_id) {
+        const customizationData = {
+          booth: params.id,
+          theme: themeData === null ? 8 : themeData.id,
+          background_color: backgroundColor,
+          font_color: fontColor
+        };
+
+
+        const existingCustomizations = await fetch(`http://localhost:8000/api/customizedbooth/?id=${customizationData.booth}`)
+
+        if (existingCustomizations.ok) {
+          const customizations = await existingCustomizations.json()
+
+
+          try {
+            const response = await fetch(`http://localhost:8000/api/customizedbooth/${customizations.id}/`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(customizationData)
+            });
+
+            if (response.ok) {
+              toast.success('Customizations Updated Successfully', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+
+            } else {
+              const errorResult = await response.json();
+              console.error('Error from server:', errorResult);
+              toast.error('We encountered an unexpected issue while processing your request. Please try again later.', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            }
+          } catch (error) {
+            toast.error('Failed to submit form. Please try again later.');
+          }
+
+
 
         } else {
-          const errorResult = await response.json();
-          console.error('Error from server:', errorResult);
-          toast.error('We encountered an unexpected issue while processing your request. Please try again later.', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+          try {
+            const response = await fetch('http://localhost:8000/api/customizedbooth/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(customizationData)
+            });
+
+            if (response.ok) {
+              toast.success('Customizations Added Successfully', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+
+            } else {
+              const errorResult = await response.json();
+              console.error('Error from server:', errorResult);
+              toast.error('We encountered an unexpected issue while processing your request. Please try again later.', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            }
+          } catch (error) {
+            toast.error('Failed to submit form. Please try again later.');
+          }
         }
-      } catch (error) {
-        toast.error('Failed to submit form. Please try again later.');
+      }else{
+        toast.error("You donot have the permissions to customize someone else's booth!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     }
+
+
+
   }
   const pathname = usePathname()
 

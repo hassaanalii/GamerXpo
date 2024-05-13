@@ -20,7 +20,7 @@ const ButtonBanner = ({ role, username }) => {
             <div className={`flex flex-col ${isModalOpen ? 'filter blur-sm' : ''}`}>
                 <div className="flex flex-row px-[200px] justify-end">
                     {
-                         (role === 'Lead') ? (
+                        (role === 'Lead') ? (
                             <StyledButton className="px-10 py-3 text-white font-poppins text-[12px] rounded-md bg-cgreen" text="Schedule an Event" onClick={scheduleAnEvent} />
 
                         ) : null
@@ -29,7 +29,7 @@ const ButtonBanner = ({ role, username }) => {
 
             </div>
             <EventModal isOpen={isModalOpen} close={() => setModalOpen(false)} />
-               
+
 
         </>
     )

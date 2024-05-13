@@ -116,10 +116,10 @@ export default async function Game({ params }) {
                         </div>
                     </div>
                     <div className='second col-span-1 '>
-                        <div className="mt-12 flex flex-end">
+                        {/* <div className="mt-12 flex flex-end">
                             <Image src="/advertisement.png" width={200} height={2000} />
-                        </div>
-                        <div className='text-white mt-32 flex flex-col'>
+                        </div> */}
+                        <div className='text-white mt-5 flex flex-col'>
                             {gameData.map((game) => (
                                 data.title !== game.title && (
                                     <div onClick={() => navigateToGame(game.title)} style={{ cursor: 'pointer' }}>
