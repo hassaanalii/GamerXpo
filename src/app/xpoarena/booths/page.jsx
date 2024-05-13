@@ -40,10 +40,10 @@ export default async function Booths({ searchParams }) {
             <SearchBar />
           </div>
           {data.length > 0 ? ( // Check if the data array is not empty
-            <div className={` ${styles.mybooth} mt-5 flex justify-between `}>
+            <div className={` ${styles.mybooth} mt-5 mb-5 flex justify-between `}>
               {data.map((item, index) => (
                 <Link href={`/xpoarena/booths/${item.id}`} key={item.id}> {/* Move key to Link component for better performance */}
-                  <div className={` ${styles.boothdiv} `} >
+                  <div className={`transition duration-500 hover:scale-105 cursor-pointer ${styles.boothdiv} `} >
                     <div className={styles.imageContainer}>
                       <div className={styles.imageWrapper}>
                         <Image

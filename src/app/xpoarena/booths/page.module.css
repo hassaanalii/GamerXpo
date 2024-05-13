@@ -8,6 +8,7 @@
     min-height: 120vh;
     margin: 0 auto;
     flex-wrap: wrap;
+    overflow: hidden;
 }
 
 .boothdiv{
@@ -43,9 +44,10 @@
     border:5px;
   }
 
-.mybooth{
-    flex-wrap: wrap;
-    gap: 30px;
-    
-
+.mybooth {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates three columns */
+    gap: 30px; /* Space between rows and columns */
+    padding-bottom: 30px; /* Additional space at the bottom */
 }
+
