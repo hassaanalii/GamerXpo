@@ -1,0 +1,297 @@
+:root {
+    --bg-color: black;
+    --foreground-color: #4f6f52;
+  }
+  
+  .eventdivfull {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .subscribedivone {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .insidesubscribe {
+    width: 100%;
+    height: 100%;
+    /* border-radius: 20px; */
+    background: linear-gradient(to right, #e2cf15 0%, #9ea62d 20%, #497352 100%);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .subscriberight {
+    width: 58%;
+    height: 95%;
+    /* border: 2px solid oldlace; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .subscriberight img {
+    /* border: 2px solid black; */
+    width: 70%;
+    height: 70%;
+  }
+  .subscribeleft {
+    width: 40%;
+    height: 95%;
+    margin-left: 1.5%;
+    border-radius: 15px;
+    background-color: rgb(252, 251, 251);
+    padding: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  
+  .subscribeleft p {
+    margin-top: 2%;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .bold {
+    font-weight: bolder;
+  }
+  
+  .pbigger {
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .heading1 {
+    color: white;
+    margin: 8px;
+    margin-left: 0;
+    padding: 0;
+    font-weight: bold;
+    font-size: 4rem;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    /* text-shadow: 2px 9px 8px rgba(0,0,0,0.17); */
+  }
+  
+  .eventsmaindiv {
+    min-height: 100vh;
+    width: 100%;
+    /* background-color: black; */
+    /* border: 2px solid red !important; */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-image: url(/b1.jpg);
+    background-repeat: no-repeat;
+    /* background-size: cover; */
+    /* background-position: center; */
+    /* backdrop-filter: blur(100px); */
+  }
+  .eventcardcontainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* border: 2px solid var(--foreground-color); */
+    width: 95%;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+  }
+  .heading {
+    color: white;
+    margin: 8px;
+    padding: 0;
+    font-weight: bold;
+    font-size: 4rem;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+  }
+  
+  .text-gradient {
+    background: linear-gradient(to right, #e2cf15 0%, #c6d131 50%, #2b5534 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* card */
+  
+  .card.disabled {
+    opacity: 0.5; /* Make the card look faded */
+    pointer-events: none; /* Disables mouse interactions */
+    user-select: none; /* Prevent text selection */
+    background-color: rgb(138, 137, 137);
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Add this to push the button to the bottom */
+    max-width: 320px;
+    min-height: 500px; /* Adjust this value to fit the content of your tallest card */
+    border-radius: 1.5rem;
+    background-color: #497352;
+    padding: 1.5rem;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.3);
+    margin-bottom: 3%;
+  }
+  
+  .text-gradient1 {
+    background: linear-gradient(
+      to right,
+      #ffffff 0%,
+      #ffffffbd 50%,
+      #ffffff96 70%,
+      #ffffff00 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .pricetop {
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    line-height: 1;
+    font-weight: 600;
+  }
+  
+  .price {
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+  }
+  
+  .lists {
+    /* border: 2px solid white; */
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    grid-row-gap: 0.75rem;
+    row-gap: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .list {
+    display: flex;
+    align-items: center;
+  }
+  
+  .list svg {
+    height: 1rem; /* Standardize the size of SVGs */
+    width: 1rem;  /* Standardize the size of SVGs */
+    min-width: 1rem; /* This ensures the width stays consistent even if the SVG doesn't fill the space */
+  }
+  
+  .list span {
+    margin-left: 1rem;
+  }
+  
+  .action {
+    margin-top: 2rem;
+    width: 100%;
+    border: 2px solid rgba(255, 255, 255, 1);
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 1);
+    padding: 0.625rem 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 1);
+    outline: none;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .action:hover {
+    color: rgba(255, 255, 255, 1);
+    background-color: transparent;
+  }
+  
+  /* subscribe btn */
+  
+  button {
+    margin-top: 5%;
+    width: 270px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #2b5534;
+    text-shadow: none;
+    background: transparent;
+    cursor: pointer;
+    box-shadow: transparent;
+    border: 1px solid #ffffff80;
+    transition: 0.5s ease;
+    user-select: none;
+    border: 1px solid #2b5534;
+  }
+  
+  #btn:hover,
+  :focus {
+    color: #ffffff;
+    background: #2b5534;
+    border: 1px solid #2b5534;
+    /* text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff; */
+    box-shadow: 0 0 5px #2b5534, 0 0 10px #2b5534, 0 0 10px #2b5534,
+      0 0 20px #2b5534;
+  }
+  
+  /* subscribe btn */
+  
+  @media (max-width: 1000px) {
+    .eventcardcontainer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 2%;
+    }
+  }
+  
+  @media (max-width: 965px) {
+    .eventsmaindiv {
+      height: 150vh;
+    }
+  }
+  @media (max-width: 635px) {
+    .eventsmaindiv {
+      height: 200vh;
+    }
+  }
+  @media (max-width: 890px) {
+    .insidesubscribe {
+      flex-direction: column;
+      padding-top: 4%;
+    }
+  
+    .subscribeleft {
+      width: 80%;
+      /* justify-content: center;
+      align-items: center; */
+    }
+  
+    .heading1 {
+      font-size: 2rem;
+    }
+    .heading {
+      font-size: 2.4rem;
+      margin-top: 8%;
+      margin-bottom: 8%;
+    }
+  }
+  
