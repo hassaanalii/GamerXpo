@@ -12,6 +12,8 @@ const event = async ({ params }) => {
     const response = await apiService.get(`/api/user/${username}`);
     const getAuthenticatedUser = await apiService.get(`/api/getuser`)
     const myEvent = await apiService.get(`/api/getevent/${params.id}`);
+    console.log("heheh")
+    console.log(myEvent)
 
     const role = response.role;
     const authenticatedUserId = getAuthenticatedUser.userId

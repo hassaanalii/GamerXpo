@@ -80,7 +80,7 @@ const EventDetails = ({ event, role, username, authenticatedUserId }) => {
         }
     }
 
-    const editEvent = () =>{
+    const editEvent = () => {
         setModalOpen(true);
     }
 
@@ -122,6 +122,23 @@ const EventDetails = ({ event, role, username, authenticatedUserId }) => {
                 }
                 <EditEvent event={event} isOpen={isModalOpen} close={() => setModalOpen(false)} />
 
+                {event.sponsorships && event.sponsorships.length > 0 && (
+                    <div className="flex flex-col gap-6 bg-gray-100 border-2 border-gray-200 rounded-md transition duration-500 hover:scale-105 cursor-pointer px-[60px] py-5  mt-2">
+                        <p className="text-black font-poppins font-semibold text-[18px]">Sponsors:</p>
+                        {event.sponsorships.map(sponsor => (
+                            <div key={sponsor.id} className="flex flex-row items-center gap-8">
+                                <Image
+                                    src={`http://localhost:8000${sponsor.logo}`}
+                                    alt={`${sponsor.name} logo`}
+                                    height={50}
+                                    width={50}
+                                    className="rounded-full object-cover"
+                                />
+                                <p className="text-gray-800 font-semibold font-poppins text-[13px]">{sponsor.name} ({sponsor.package})</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <div className="px-[60px] py-5 rounded-md border-2 border-gray-200 bg-gray-100 transition duration-500 hover:scale-105 cursor-pointer">
                     <div className="flex flex-col">
                         <div className="flex flex-row items-center justify-between">
@@ -149,10 +166,10 @@ const EventDetails = ({ event, role, username, authenticatedUserId }) => {
                             className="rounded-md object-cover"
                         />
                     </div>
-                    <div className="px-5 py-5 rounded-md border-2 border-gray-200 bg-gray-100 transition duration-500 hover:scale-105 cursor-pointer flex items-center justify-center">
+                    <div className="px-3 py-5 rounded-md border-2 border-gray-200 bg-gray-100 transition duration-500 hover:scale-105 cursor-pointer flex items-center justify-center">
                         <div className="flex flex-col items-center justify-center gap-5">
                             <p className="text-[15px] font-poppins ">{event.description}</p>
-                            <div className="flex flex-row items-center justify-center gap-7">
+                            <div className="flex flex-row items-center justify-center gap-1">
                                 <div className="flex flex-row items-center gap-2 justify-center bg-green-800 text-yellow-400 font-bold px-4 py-2 rounded-lg text-[12px] font-poppins">
                                     <span className="text-white">DATE:</span>
                                     <p>
@@ -171,6 +188,7 @@ const EventDetails = ({ event, role, username, authenticatedUserId }) => {
                         </div>
                     </div>
                 </div>
+                
 
             </div>
         </div>

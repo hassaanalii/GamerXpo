@@ -89,6 +89,7 @@ const GamerEventsCard = ({ event, role }) => {
                         </p>
                     </div>
                 </div>
+                
             </div>
         </Link>
     );

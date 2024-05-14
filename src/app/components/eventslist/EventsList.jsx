@@ -8,12 +8,15 @@ const EventsList = async(props) => {
 
     if (props.role === 'Lead'){
         response = await apiService.get(`/api/user/${props.username}/leadevents`);
+        console.log("lead")
         console.log(response);
     }else if(props.role === 'Developer'){
+        console.log("dev")
         response = await apiService.get(`/api/user/${props.username}/devevents`);
     }else if(props.role === 'Gamer'){
+        console.log("gam")
         response = await apiService.get(`/api/getevents`);
-        console.log("nene")
+    
        
     }
     
