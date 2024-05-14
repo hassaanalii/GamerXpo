@@ -1,12 +1,14 @@
 "use client"
+import { useRouter } from "next/navigation";
 import StyledButton from "../styledbuttons/StyledButton";
 
 const MarketplaceSectionLanding = () =>{
+    const router = useRouter()
     const onExploreClick = () =>{
-        console.log("onExploreClick");
+        router.push("/xpoarena")
     }
     const onReserveClick = () =>{
-        console.log("onReserveClick");
+        router.push("/xpoarena")
     }
     return (
         <div id="marketplace" className="flex flex-col py-16 items-center justify-center bg-cover gap-10 " 
