@@ -18,7 +18,7 @@ const LandingPage = () => {
         <EventSectionLanding />
         <MarketplaceSectionLanding />
         <FeaturesSectionLanding />
-        {/* <ArenaSectionLanding /> */}
+       
         <TeamSectionLanding />
       </div>
       <FooterLanding />

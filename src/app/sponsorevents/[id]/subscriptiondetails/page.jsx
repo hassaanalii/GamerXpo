@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import "./style.css";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import apiService from "@/app/services/apiService";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -63,7 +63,7 @@ const SubscriptionDetails = ({ params }) => {
                 theme: "dark",
             });
             setTimeout(() => {
-                router.push(`/sponsorevents/${parseInt(params.id)}`);
+                window.location.href = 'http://localhost:3000/';
             }, 3000);
 
             const responseData = await response.json();

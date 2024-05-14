@@ -2,7 +2,7 @@ import ProfileCard from "../profilecard/ProfileCard";
 
 const TeamSectionLanding = () => {
     return (
-        <div id="team" className="flex flex-col gap-5 items-center justify-center py-36 px-12">
+        <div id="team" className="flex flex-col gap-5 items-center justify-center py-20 px-12">
             <p className="font-extracolombo text-white text-[50px] leading-none">OUR TEAM</p>
             <div className="flex flex-row items-center justify-center gap-5">
                 <ProfileCard
